@@ -1,0 +1,37 @@
+Terminologi foto hapus
+    - Dir foto hapus dimasukan kedalam array di kumpulkan.
+    - ketika di simpan maka eksekusi hapus.
+
+
+Tiap tiap summernote editor punya folder tersendiri
+    - untuk menghapus file yang tidak dibutuhkan
+
+// di summernote
+, onMediaDelete: function (target) {
+                deleteFile(target[0].alt, $(this));
+            }
+
+function deleteFile(name, id) {
+    $.LoadingOverlay("show");
+    $.ajax({
+        url: "<?= base_url()?>about/ideto/deleteImage",
+        data: {
+            name: name
+        },
+        type: "post",
+        success: function (data) {
+            const path = data.url.path_upload;
+            if (id.prop("id") == "profile-deskripsi") {
+                profile_image.delete(path);
+            } else {
+                sejarah_image.delete(path);
+            }
+        },
+        error: function (data) {
+            alert(data.message);
+        },
+        complete: function () {
+            $.LoadingOverlay("hide");
+        }
+    });
+}
