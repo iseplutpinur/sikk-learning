@@ -33,7 +33,6 @@ Siswa:
 
 SIKK-Learning
 
-
 ================= sudah
 ALTER TABLE `sekolah`
 ADD `created_at`

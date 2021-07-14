@@ -94,7 +94,7 @@ class Kelas extends Render_Controller
             redirect('login', 'refresh');
         }
 
-        $this->load->model("sekolah/DaftarSekolahModel", 'model');
+        $this->load->model("sekolah/KelashModel", 'model');
         $this->default_template = 'templates/dashboard';
         $this->load->library('plugin');
         $this->load->helper('url');

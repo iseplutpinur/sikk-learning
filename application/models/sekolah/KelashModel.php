@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class KategoriModel extends Render_Model
+class KelashModel extends Render_Model
 {
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null)
     {
         // select tabel
         $this->db->select("*");
-        $this->db->from("kategori");
+        $this->db->from("sekolah");
 
         // order by
         if ($order['order'] != null) {
@@ -27,11 +27,11 @@ class KategoriModel extends Render_Model
 
         // pencarian
         if ($cari != null) {
-            $this->db->where("(nama LIKE '%$cari%' or tanggal LIKE '%$cari%' or created_at LIKE '%$cari%' or updated_at LIKE '%$cari%')");
+            $this->db->where("(a.nama LIKE '%$cari%' or a.alamat LIKE '%$cari%' or no_telpon LIKE '%$cari%' or created_at LIKE '%$cari%' or updated_at LIKE '%$cari%')");
         }
 
         // pagination
-        if ($show == null && $start == null) {
+        if ($show != null && $start != null) {
             $this->db->limit($show, $start);
         }
 
@@ -39,28 +39,32 @@ class KategoriModel extends Render_Model
         return $result;
     }
 
-    public function getKategori($id)
+    public function getSekolah($id)
     {
-        $result = $this->db->get_where("kategori", ['id' => $id])->row_array();
+        $result = $this->db->get_where("sekolah", ['id' => $id])->row_array();
         return $result;
     }
 
-    public function insert($nama, $tanggal)
+    public function insert($nama, $alamat, $no_telepon, $status)
     {
-        $result = $this->db->insert("kategori", [
+        $result = $this->db->insert("sekolah", [
             'nama' => $nama,
-            'tanggal' => $tanggal,
+            'alamat' => $alamat,
+            'no_telpon' => $no_telepon,
+            'status' => $status,
         ]);
 
         return $result;
     }
 
-    public function update($id, $nama, $tanggal)
+    public function update($id, $nama, $alamat, $no_telepon, $status)
     {
         $this->db->where('id', $id);
-        $result = $this->db->update('kategori', [
+        $result = $this->db->update('sekolah', [
             'nama' => $nama,
-            'tanggal' => $tanggal,
+            'alamat' => $alamat,
+            'no_telpon' => $no_telepon,
+            'status' => $status,
             'updated_at' => Date("Y-m-d H:i:s", time())
         ]);
         return $result;
@@ -68,7 +72,7 @@ class KategoriModel extends Render_Model
 
     public function delete($id)
     {
-        $result = $this->db->delete('kategori', ['id' => $id]);
+        $result = $this->db->delete('sekolah', ['id' => $id]);
         return $result;
     }
 }
