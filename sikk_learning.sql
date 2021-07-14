@@ -3,19 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2021 at 02:12 PM
+-- Generation Time: Jul 14, 2021 at 03:17 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `sikk_learning`
@@ -87,8 +81,10 @@ CREATE TABLE `level` (
 --
 
 INSERT INTO `level` (`lev_id`, `lev_nama`, `lev_keterangan`, `lev_status`, `created_at`) VALUES
-(1, 'Administrator', '-', 'Aktif', '2020-06-18 09:40:31'),
-(9, 'Review', '-', 'Aktif', '2021-07-09 02:55:18');
+(1, 'Administrator', 'Super Administrator', 'Aktif', '2020-06-18 09:40:31'),
+(3, 'GuruAdmin', 'Guru administrator di masing masing sekolah', 'Aktif', '2021-07-14 12:28:52'),
+(4, 'Guru', 'Guru sekolah biasa', 'Aktif', '2021-07-14 12:29:03'),
+(5, 'Siswa', 'Siswa sekolah', 'Aktif', '2021-07-14 12:29:19');
 
 -- --------------------------------------------------------
 
@@ -113,29 +109,22 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`menu_id`, `menu_menu_id`, `menu_nama`, `menu_keterangan`, `menu_index`, `menu_icon`, `menu_url`, `menu_status`, `created_at`) VALUES
-(1, 0, 'Dashboard', '-', 1, 'fa fa-suitcase', 'dashboard', 'Aktif', '2020-06-18 09:40:07'),
-(2, 0, 'Pengaturan', '-', 10, 'fa fa-cogs', '#', 'Aktif', '2020-06-18 09:40:07'),
-(3, 2, 'Hak Akses', '-', 1, 'far fa-circle', 'pengaturan/hakAkses', 'Aktif', '2020-06-18 09:40:07'),
-(4, 2, 'Menu', '-', 2, 'far fa-circle', 'pengaturan/menu', 'Aktif', '2020-06-18 09:40:07'),
-(5, 2, 'Level', '-', 3, 'far fa-circle', 'pengaturan/level', 'Aktif', '2020-06-18 09:40:07'),
-(6, 2, 'Pengguna', '-', 4, 'far fa-circle', 'pengaturan/pengguna', 'Aktif', '2020-06-18 09:40:07'),
-(64, 0, 'Ganti Password', 'Ganti password', 99, 'fa fa-key', 'pengaturan/password', 'Aktif', '2021-06-28 15:34:14'),
-(69, 0, 'About', '-', 3, 'fas fa-address-card', '#', 'Aktif', '2021-07-08 13:38:35'),
-(70, 69, 'Konten Ideto', '-', 1, ' far fa-circle', 'about/ideto', 'Aktif', '2021-07-08 13:42:47'),
-(71, 69, 'Konten Penata Laksana', '-', 2, 'far fa-circle', 'about/penataLaksana', 'Aktif', '2021-07-08 13:44:03'),
-(72, 69, 'Konten Penyerahan', '-', 4, 'far fa-circle', 'about/penyerahan', 'Aktif', '2021-07-08 13:45:10'),
-(73, 69, 'Konten Kebijakan', '-', 3, 'far fa-circle', 'about/kebijakan', 'Aktif', '2021-07-08 13:46:11'),
-(74, 69, 'Konten Lain-Lain', '-', 5, 'far fa-circle', 'about/lainLain', 'Aktif', '2021-07-08 13:46:36'),
-(75, 0, 'Home', '-', 2, 'fa fa-home', '#', 'Aktif', '2021-07-09 02:20:41'),
-(76, 75, 'Konten Home', '-', 1, 'far fa-circle', 'home/konten', 'Aktif', '2021-07-09 02:22:08'),
-(77, 0, 'Artikel', '-', 4, 'fa fa-book', '#', 'Aktif', '2021-07-09 02:32:30'),
-(78, 77, 'Konten Artikel', '-', 1, 'fa fa-circle', 'artikel/konten', 'Aktif', '2021-07-09 02:33:14'),
-(79, 0, 'Arsip', '-', 5, 'fa fa-archive', '#', 'Aktif', '2021-07-09 02:34:24'),
-(80, 79, 'Konten Arsip', '-', 1, 'fa fa-circle', 'arsip/konten', 'Aktif', '2021-07-09 02:34:42'),
-(81, 0, 'Informasi', '-', 6, 'fa fa-info', '#', 'Aktif', '2021-07-09 02:47:40'),
-(82, 81, 'Konten Informasi', '-', 1, 'fa fa-circle', 'informasi/konten', 'Aktif', '2021-07-09 02:48:14'),
-(83, 81, 'List Informasi', '-', 2, 'fa fa-circle', 'informasi/listInformasi', 'Aktif', '2021-07-09 02:53:19'),
-(84, 81, 'Kategori', '-', 3, 'far fa-circle', 'informasi/kategori', 'Aktif', '2021-07-12 09:02:37');
+(1, 0, 'Dashboard', '-', 1, 'fa fa-suitcase', 'dashboard', 'Aktif', '2020-06-18 02:40:07'),
+(2, 0, 'Pengaturan', '-', 10, 'fa fa-cogs', '#', 'Aktif', '2020-06-18 02:40:07'),
+(3, 2, 'Hak Akses', '-', 1, 'far fa-circle', 'pengaturan/hakAkses', 'Aktif', '2020-06-18 02:40:07'),
+(4, 2, 'Menu', '-', 2, 'far fa-circle', 'pengaturan/menu', 'Aktif', '2020-06-18 02:40:07'),
+(5, 2, 'Level', '-', 3, 'far fa-circle', 'pengaturan/level', 'Aktif', '2020-06-18 02:40:07'),
+(6, 2, 'Pengguna', '-', 4, 'far fa-circle', 'pengaturan/pengguna', 'Aktif', '2020-06-18 02:40:07'),
+(7, 0, 'Ganti Password', 'Ganti password', 99, 'fa fa-key', 'pengaturan/password', 'Aktif', '2021-06-28 08:34:14'),
+(24, 0, 'Daftar Project', '-', 2, 'fas fa-clipboard-list', 'daftarProject', 'Aktif', '2021-07-14 12:46:15'),
+(25, 0, 'Monitoring dan Penilaian', '-', 3, 'fas fa-desktop', 'monitoringDanPenilaian', 'Aktif', '2021-07-14 12:51:47'),
+(26, 0, 'Siswa', '-', 4, 'fas fa-users', 'siswa', 'Aktif', '2021-07-14 12:53:01'),
+(27, 0, 'Profile', '-', 5, 'fas fa-user', '#', 'Aktif', '2021-07-14 12:53:59'),
+(28, 27, 'Sekolah', '-', 1, 'far fa-circle', 'profile/sekolah', 'Aktif', '2021-07-14 12:54:49'),
+(29, 27, 'Kelas', '-', 2, 'far fa-circle', 'profile/kelas', 'Aktif', '2021-07-14 12:55:31'),
+(30, 27, 'Guru', '-', 3, 'far fa-circle', 'profile/guru', 'Aktif', '2021-07-14 12:56:20'),
+(31, 27, 'Pribadi', '-', 4, 'far fa-circle', 'profile/pribadi', 'Aktif', '2021-07-14 12:57:02'),
+(32, 0, 'Evaluasi', '-', 5, 'fas fa-tasks', 'evaluasi', 'Aktif', '2021-07-14 12:58:50');
 
 -- --------------------------------------------------------
 
@@ -177,29 +166,49 @@ CREATE TABLE `role_aplikasi` (
 --
 
 INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_at`) VALUES
-(97, 1, 1, '2021-07-07 23:00:32'),
-(98, 3, 1, '2021-07-07 23:00:44'),
-(99, 4, 1, '2021-07-07 23:00:51'),
-(100, 5, 1, '2021-07-07 23:00:57'),
-(101, 6, 1, '2021-07-07 23:01:00'),
-(102, 64, 1, '2021-07-07 23:01:04'),
-(103, 2, 1, '2021-07-07 23:01:26'),
-(104, 69, 1, '2021-07-08 13:38:44'),
-(105, 70, 1, '2021-07-08 13:48:17'),
-(106, 71, 1, '2021-07-08 13:48:24'),
-(107, 72, 1, '2021-07-08 13:48:31'),
-(109, 73, 1, '2021-07-08 13:49:21'),
-(110, 74, 1, '2021-07-08 13:49:32'),
-(111, 75, 1, '2021-07-09 02:20:49'),
-(112, 76, 1, '2021-07-09 02:22:17'),
-(113, 77, 1, '2021-07-09 02:33:27'),
-(114, 78, 1, '2021-07-09 02:33:33'),
-(115, 79, 1, '2021-07-09 02:34:51'),
-(116, 80, 1, '2021-07-09 02:34:58'),
-(117, 81, 1, '2021-07-09 02:48:25'),
-(118, 82, 1, '2021-07-09 02:48:33'),
-(119, 83, 1, '2021-07-09 02:53:31'),
-(120, 84, 1, '2021-07-12 09:03:05');
+(1, 1, 1, '2021-07-14 12:27:04'),
+(2, 3, 1, '2021-07-14 12:27:11'),
+(3, 4, 1, '2021-07-14 12:27:17'),
+(4, 5, 1, '2021-07-14 12:27:25'),
+(5, 6, 1, '2021-07-14 12:27:31'),
+(6, 7, 1, '2021-07-14 12:27:37'),
+(7, 2, 1, '2021-07-14 12:27:48'),
+(8, 24, 1, '2021-07-14 13:00:21'),
+(9, 25, 1, '2021-07-14 13:00:29'),
+(10, 26, 1, '2021-07-14 13:00:40'),
+(11, 27, 1, '2021-07-14 13:00:46'),
+(12, 28, 1, '2021-07-14 13:00:53'),
+(13, 29, 1, '2021-07-14 13:01:00'),
+(14, 30, 1, '2021-07-14 13:01:08'),
+(15, 31, 1, '2021-07-14 13:01:15'),
+(16, 1, 3, '2021-07-14 13:08:09'),
+(17, 7, 3, '2021-07-14 13:08:17'),
+(18, 24, 3, '2021-07-14 13:08:23'),
+(19, 25, 3, '2021-07-14 13:08:33'),
+(20, 26, 3, '2021-07-14 13:08:45'),
+(21, 27, 3, '2021-07-14 13:08:56'),
+(22, 28, 3, '2021-07-14 13:09:03'),
+(23, 29, 3, '2021-07-14 13:09:11'),
+(24, 30, 4, '2021-07-14 13:09:19'),
+(25, 31, 4, '2021-07-14 13:09:27'),
+(26, 30, 3, '2021-07-14 13:09:51'),
+(27, 31, 3, '2021-07-14 13:10:11'),
+(28, 1, 4, '2021-07-14 13:11:37'),
+(29, 7, 4, '2021-07-14 13:11:46'),
+(30, 25, 4, '2021-07-14 13:11:57'),
+(31, 26, 4, '2021-07-14 13:12:03'),
+(32, 27, 4, '2021-07-14 13:12:10'),
+(34, 28, 4, '2021-07-14 13:13:10'),
+(35, 29, 4, '2021-07-14 13:13:19'),
+(36, 1, 5, '2021-07-14 13:13:49'),
+(37, 7, 5, '2021-07-14 13:13:56'),
+(38, 24, 5, '2021-07-14 13:14:11'),
+(39, 27, 5, '2021-07-14 13:14:24'),
+(40, 32, 5, '2021-07-14 13:14:57'),
+(41, 28, 5, '2021-07-14 13:15:15'),
+(42, 29, 5, '2021-07-14 13:15:22'),
+(43, 30, 5, '2021-07-14 13:15:32'),
+(44, 31, 5, '2021-07-14 13:15:43');
 
 -- --------------------------------------------------------
 
@@ -220,8 +229,9 @@ CREATE TABLE `role_users` (
 
 INSERT INTO `role_users` (`role_id`, `role_user_id`, `role_lev_id`, `created_at`) VALUES
 (1, 1, 1, '2020-06-18 09:39:26'),
-(338, 336, 1, '2021-07-07 23:38:14'),
-(339, 337, 1, '2021-07-07 23:38:57');
+(340, 2, 3, '2021-07-14 12:39:01'),
+(341, 3, 4, '2021-07-14 12:39:33'),
+(342, 4, 5, '2021-07-14 12:40:33');
 
 -- --------------------------------------------------------
 
@@ -282,7 +292,7 @@ CREATE TABLE `users` (
   `user_phone` varchar(15) NOT NULL,
   `user_status` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -291,8 +301,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `user_nama`, `user_password`, `user_email`, `user_phone`, `user_status`, `created_at`, `updated_at`) VALUES
 (1, 'Admin Pusat', '$2y$10$gp.46.UzygRVbGZTyzDZ6eZrMQ1q4jBhQtQSsWafE7vO3e50CfOqu', 'administrator@gmail.com', '08123123', 'Aktif', '2020-06-18 09:39:08', '2020-06-18 09:39:08'),
-(336, 'sdafsdf', '$2y$10$PV2NsX9xL8bnbWBEA5rvnOb4SLO6HLwH8038BGHBFLZJchISA/oTi', '123', '1123', 'Aktif', '2021-07-07 23:38:14', '0000-00-00 00:00:00'),
-(337, '123456', '$2y$10$mTU6yyDkqF4onkdbHFgtm.Cc/6700J.F0U1ki8.QwbxQOPXRrbfjC', 'iseplutpi@gmail.com', '1111', 'Aktif', '2021-07-07 23:38:57', '0000-00-00 00:00:00');
+(2, 'GuruAdmin', '$2y$10$cuM8OFkRf3vsGWaBmmUz5.ZJ.AXZlF.Q9PAi3dcVv52shhyvlpsbG', '123456', '0123456', 'Aktif', '2021-07-14 12:39:01', NULL),
+(3, 'Guru', '$2y$10$RbKHEt2IdzsVR08IsVwgUufZWXpByOKyT7e.ye6RyTLJ6KdFZ1svG', '123457', '123456', 'Aktif', '2021-07-14 12:39:33', NULL),
+(4, 'Isep Lutpi Nur', '$2y$10$xr7gB/izXR.fE8xQ/nTpOej73GaISeKpPPBJW7vM6nQpJJRQwy8My', '123458', '085798132505', 'Aktif', '2021-07-14 12:40:33', NULL);
 
 --
 -- Indexes for dumped tables
@@ -390,13 +401,13 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `level`
 --
 ALTER TABLE `level`
-  MODIFY `lev_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `lev_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
@@ -408,13 +419,13 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `role_aplikasi`
 --
 ALTER TABLE `role_aplikasi`
-  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `role_users`
 --
 ALTER TABLE `role_users`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=340;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=343;
 
 --
 -- AUTO_INCREMENT for table `sekolah`
@@ -432,9 +443,5 @@ ALTER TABLE `siswa_kelas`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=338;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

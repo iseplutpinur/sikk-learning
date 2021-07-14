@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login | IDETO.co.id</title>
+  <title>Login | SIKK - Learning</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -39,14 +39,14 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="" class="h1"><b>IDETO</b>.co.id</a>
+        <a href="" class="h1"><b>SIKK</b> - Learning</a>
       </div>
       <div class="card-body">
         <p class="login-box-msg">Memanusiakan Manusia</p>
 
         <form action="" method="post" id="form-login">
           <div class="form-group">
-            <input type="email" name="email" class="form-control" id="email" placeholder="Enter email">
+            <input type="text" name="email" class="form-control" id="email" placeholder="Enter email">
           </div>
           <div class="form-group">
             <input type="password" name="password" class="form-control" id="password" placeholder="Password">

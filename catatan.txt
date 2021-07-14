@@ -1,37 +1,34 @@
-Terminologi foto hapus
-    - Dir foto hapus dimasukan kedalam array di kumpulkan.
-    - ketika di simpan maka eksekusi hapus.
+Admin Guru:
+1. Dashboard
+2. Daftar Project
+3. Monitoring dan Penilaian
+4. Siswa
+5. Profil
+ 5.1 Sekolah
+ 5.2 Kelas
+ 5.3 Guru
+ 5.4 Pribadi
+
+Guru:
+1. Dashboard
+2. Daftar Project
+3. Monitoring dan Penilaian
+4. Siswa
+5. Profil
+ 5.1 Sekolah (liat)
+ 5.2 Kelas (liat)
+ 5.3 Guru (liat)
+ 5.4 Pribadi (crud)
+
+Siswa:
+1. Dashboard
+2. Daftar Project
+3. Evaluasi
+4. Profil
+ 4.1 Sekolah (liat)
+ 4.2 Kelas (liat)
+ 4.3 Guru (liat)
+ 4.4 Pribadi (crud)
 
 
-Tiap tiap summernote editor punya folder tersendiri
-    - untuk menghapus file yang tidak dibutuhkan
-
-// di summernote
-, onMediaDelete: function (target) {
-                deleteFile(target[0].alt, $(this));
-            }
-
-function deleteFile(name, id) {
-    $.LoadingOverlay("show");
-    $.ajax({
-        url: "<?= base_url()?>about/ideto/deleteImage",
-        data: {
-            name: name
-        },
-        type: "post",
-        success: function (data) {
-            const path = data.url.path_upload;
-            if (id.prop("id") == "profile-deskripsi") {
-                profile_image.delete(path);
-            } else {
-                sejarah_image.delete(path);
-            }
-        },
-        error: function (data) {
-            alert(data.message);
-        },
-        complete: function () {
-            $.LoadingOverlay("hide");
-        }
-    });
-}
+SIKK-Learning
