@@ -32,3 +32,10 @@ Siswa:
 
 
 SIKK-Learning
+
+
+================= sudah
+ALTER TABLE `sekolah`
+ADD `created_at`
+TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `tanggal`,
+ADD `updated_at` TIMESTAMP NULL DEFAULT NULL AFTER `created_at`;
