@@ -39,11 +39,10 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="" class="h1"><b>SIKK</b> - Learning</a>
+        <img src="./assets/favicon/android-chrome-256x256.png" class="rounded mx-auto d-block" style="max-width: 100px;" alt="Logo SIKK">
+        <span class="h5">Sekolah Indonesia Kota Kinabalu<br>Learning Management System</span>
       </div>
       <div class="card-body">
-        <p class="login-box-msg">Memanusiakan Manusia</p>
-
         <form action="" method="post" id="form-login">
           <div class="form-group">
             <input type="text" name="email" class="form-control" id="email" placeholder="Enter email">
@@ -79,6 +78,7 @@
     </div>
     <!-- /.card -->
   </div>
+  <small id="usernameHelp" class="form-text text-muted">© 2021 Developed by <a href="https://infinit.id/">CV. Adikarya Infinit</a></small>
   <!-- /.login-box -->
 
   <!-- jQuery -->
