@@ -91,7 +91,7 @@ class Siswa extends Render_Controller
         // Cek session
         $this->sesion->cek_session();
         if ($this->session->userdata('data')['level'] != 'Administrator') {
-            redirect('login', 'refresh');
+            redirect('my404', 'refresh');
         }
 
         $this->load->model("sekolah/DaftarSekolahModel", 'model');

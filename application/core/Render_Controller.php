@@ -14,6 +14,7 @@ class Render_Controller extends CI_Controller
 	protected $page_nav;
 	protected $app_name;
 	protected $copyright;
+	protected $breadcrumb_show = true;
 	protected $breadcrumb_1;
 	protected $breadcrumb_1_url;
 	protected $breadcrumb_2;
@@ -54,6 +55,8 @@ class Render_Controller extends CI_Controller
 
 
 			// Breadcrumb
+			'breadcrumb_show' 	=> $this->breadcrumb_show,
+			'breadcrumb_1' 		=> $this->breadcrumb_1,
 			'breadcrumb_1' 		=> $this->breadcrumb_1,
 			'breadcrumb_2' 		=> $this->breadcrumb_2,
 			'breadcrumb_3' 		=> $this->breadcrumb_3,

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2021 at 03:17 PM
+-- Generation Time: Jul 15, 2021 at 02:04 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -59,8 +59,36 @@ CREATE TABLE `kelas` (
   `id_sekolah` int(11) DEFAULT NULL,
   `nama` varchar(50) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kelas`
+--
+
+INSERT INTO `kelas` (`id`, `id_sekolah`, `nama`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'I', 1, '2021-07-14 20:47:21', NULL),
+(2, 1, 'II', 1, '2021-07-14 20:47:21', NULL),
+(3, 1, 'III', 1, '2021-07-14 20:47:21', NULL),
+(4, 1, 'IV', 1, '2021-07-14 20:47:21', NULL),
+(5, 1, 'V', 1, '2021-07-14 20:47:21', NULL),
+(6, 1, 'VI', 1, '2021-07-14 20:47:21', NULL),
+(7, 2, 'I', 1, '2021-07-14 20:48:25', NULL),
+(8, 2, 'II', 1, '2021-07-14 20:48:25', NULL),
+(9, 2, 'III', 1, '2021-07-14 20:48:25', NULL),
+(10, 2, 'IV', 1, '2021-07-14 20:48:25', NULL),
+(11, 2, 'V', 1, '2021-07-14 20:48:25', NULL),
+(12, 2, 'VI', 1, '2021-07-14 20:48:25', NULL),
+(13, 3, 'I', 1, '2021-07-14 20:48:42', NULL),
+(14, 3, 'II', 1, '2021-07-14 20:48:42', NULL),
+(15, 3, 'III', 1, '2021-07-14 20:48:42', NULL),
+(16, 3, 'IV', 1, '2021-07-14 20:48:42', NULL),
+(17, 3, 'V', 1, '2021-07-14 20:48:42', NULL),
+(18, 3, 'VI', 1, '2021-07-14 20:48:42', NULL),
+(19, 4, 'I', 1, '2021-07-14 20:49:06', NULL),
+(20, 4, 'II', 1, '2021-07-14 20:49:06', NULL),
+(21, 4, 'III', 1, '2021-07-14 20:49:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -124,7 +152,11 @@ INSERT INTO `menu` (`menu_id`, `menu_menu_id`, `menu_nama`, `menu_keterangan`, `
 (29, 27, 'Kelas', '-', 2, 'far fa-circle', 'profile/kelas', 'Aktif', '2021-07-14 12:55:31'),
 (30, 27, 'Guru', '-', 3, 'far fa-circle', 'profile/guru', 'Aktif', '2021-07-14 12:56:20'),
 (31, 27, 'Pribadi', '-', 4, 'far fa-circle', 'profile/pribadi', 'Aktif', '2021-07-14 12:57:02'),
-(32, 0, 'Evaluasi', '-', 5, 'fas fa-tasks', 'evaluasi', 'Aktif', '2021-07-14 12:58:50');
+(32, 0, 'Evaluasi', '-', 5, 'fas fa-tasks', 'evaluasi', 'Aktif', '2021-07-14 12:58:50'),
+(33, 0, 'Sekolah', 'Menu CRUD Sekolah Khusus Admin Pusat', 3, 'fas fa-home', '#', 'Aktif', '2021-07-14 13:34:23'),
+(34, 33, 'Daftar Sekolah', '-', 1, 'far fa-circle', 'sekolah/daftarSekolah', 'Aktif', '2021-07-14 14:32:13'),
+(35, 33, 'Kelas ', '-', 2, 'far fa-circle', 'sekolah/kelas', 'Aktif', '2021-07-14 14:32:42'),
+(36, 33, 'Siswa ', '-', 3, 'far fa-circle', 'sekolah/siswa', 'Aktif', '2021-07-14 14:33:10');
 
 -- --------------------------------------------------------
 
@@ -177,7 +209,6 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (9, 25, 1, '2021-07-14 13:00:29'),
 (10, 26, 1, '2021-07-14 13:00:40'),
 (11, 27, 1, '2021-07-14 13:00:46'),
-(12, 28, 1, '2021-07-14 13:00:53'),
 (13, 29, 1, '2021-07-14 13:01:00'),
 (14, 30, 1, '2021-07-14 13:01:08'),
 (15, 31, 1, '2021-07-14 13:01:15'),
@@ -208,7 +239,11 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (41, 28, 5, '2021-07-14 13:15:15'),
 (42, 29, 5, '2021-07-14 13:15:22'),
 (43, 30, 5, '2021-07-14 13:15:32'),
-(44, 31, 5, '2021-07-14 13:15:43');
+(44, 31, 5, '2021-07-14 13:15:43'),
+(45, 33, 1, '2021-07-14 13:34:39'),
+(46, 34, 1, '2021-07-14 14:33:31'),
+(47, 35, 1, '2021-07-14 14:33:38'),
+(48, 36, 1, '2021-07-14 14:33:49');
 
 -- --------------------------------------------------------
 
@@ -244,9 +279,20 @@ CREATE TABLE `sekolah` (
   `nama` varchar(100) DEFAULT NULL,
   `alamat` text DEFAULT NULL,
   `no_telpon` varchar(20) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL
+  `status` int(1) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sekolah`
+--
+
+INSERT INTO `sekolah` (`id`, `nama`, `alamat`, `no_telpon`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'SD PLEBENGAN', 'PLEBENGAN', '085798132505', 1, '2021-07-14 14:40:07', NULL),
+(2, 'SD 3 PANGGANG', 'PANGGANG', '628-5340x3918', 1, '2021-07-14 14:40:40', NULL),
+(3, 'SD BANTUL MANUNGGAL', 'BANTUL MANUNGGAL', '085798132505', 1, '2021-07-14 14:41:16', NULL),
+(4, 'SDN BANDUNG', 'BANDUNG', '(983)628-5340x3918', 0, '2021-07-14 14:41:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -395,7 +441,7 @@ ALTER TABLE `guru_kelas`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -407,7 +453,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
@@ -419,7 +465,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `role_aplikasi`
 --
 ALTER TABLE `role_aplikasi`
-  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `role_users`
@@ -431,7 +477,7 @@ ALTER TABLE `role_users`
 -- AUTO_INCREMENT for table `sekolah`
 --
 ALTER TABLE `sekolah`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `siswa_kelas`

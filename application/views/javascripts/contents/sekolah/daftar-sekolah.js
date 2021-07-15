@@ -17,11 +17,7 @@ $(function () {
                 { "data": "nama" },
                 { "data": "alamat" },
                 { "data": "no_telpon" },
-                {
-                    "data": "status", render(data, type, full, meta) {
-                        return data == 0 ? 'Tidak Aktif' : 'Aktif';
-                    }
-                },
+                { "data": "status_str" },
                 {
                     "data": "id", render(data, type, full, meta) {
                         return `<div class="pull-right">

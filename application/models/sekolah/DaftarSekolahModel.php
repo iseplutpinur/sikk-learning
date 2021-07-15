@@ -3,10 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class DaftarSekolahModel extends Render_Model
 {
+    // dipakai Administrator |
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null)
     {
         // select tabel
-        $this->db->select("*");
+        $this->db->select("*, IF(sekolah.status = '0' , 'Tidak Aktif', IF(sekolah.status = '1' , 'Aktif', 'Tidak Diketahui')) as status_str");
         $this->db->from("sekolah");
 
         // order by
@@ -27,7 +28,7 @@ class DaftarSekolahModel extends Render_Model
 
         // pencarian
         if ($cari != null) {
-            $this->db->where("(nama LIKE '%$cari%' or alamat LIKE '%$cari%' or no_telpon LIKE '%$cari%' or created_at LIKE '%$cari%' or updated_at LIKE '%$cari%')");
+            $this->db->where("(nama LIKE '%$cari%' or alamat LIKE '%$cari%' or no_telpon LIKE '%$cari%' or created_at LIKE '%$cari%' or updated_at LIKE '%$cari%' or IF(sekolah.status = '0' , 'Tidak Aktif', IF(sekolah.status = '1' , 'Aktif', 'Tidak Diketahui')) LIKE '%$cari%')");
         }
 
         // pagination
@@ -39,12 +40,14 @@ class DaftarSekolahModel extends Render_Model
         return $result;
     }
 
+    // dipakai Administrator |
     public function getSekolah($id)
     {
         $result = $this->db->get_where("sekolah", ['id' => $id])->row_array();
         return $result;
     }
 
+    // dipakai Administrator |
     public function insert($nama, $alamat, $no_telepon, $status)
     {
         $result = $this->db->insert("sekolah", [
@@ -57,6 +60,7 @@ class DaftarSekolahModel extends Render_Model
         return $result;
     }
 
+    // dipakai Administrator |
     public function update($id, $nama, $alamat, $no_telepon, $status)
     {
         $this->db->where('id', $id);
@@ -70,6 +74,7 @@ class DaftarSekolahModel extends Render_Model
         return $result;
     }
 
+    // dipakai Administrator |
     public function delete($id)
     {
         $result = $this->db->delete('sekolah', ['id' => $id]);

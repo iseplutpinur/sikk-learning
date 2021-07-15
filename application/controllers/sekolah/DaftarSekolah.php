@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class DaftarSekolah extends Render_Controller
 {
 
+    // dipakai Administrator |
     public function index()
     {
         // Page Settings
@@ -24,7 +25,7 @@ class DaftarSekolah extends Render_Controller
         $this->render();
     }
 
-    // Ajax Data
+    // dipakai Administrator |
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -46,6 +47,7 @@ class DaftarSekolah extends Render_Controller
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
+    // dipakai Administrator |
     public function getSekolah()
     {
         $id = $this->input->get("id");
@@ -54,6 +56,7 @@ class DaftarSekolah extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
+    // dipakai Administrator |
     public function insert()
     {
         $nama = $this->input->post("nama");
@@ -65,6 +68,7 @@ class DaftarSekolah extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
+    // dipakai Administrator |
     public function update()
     {
         $id = $this->input->post("id");
@@ -77,6 +81,7 @@ class DaftarSekolah extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
+    // dipakai Administrator |
     public function delete()
     {
         $id = $this->input->post("id");
@@ -91,7 +96,7 @@ class DaftarSekolah extends Render_Controller
         // Cek session
         $this->sesion->cek_session();
         if ($this->session->userdata('data')['level'] != 'Administrator') {
-            redirect('login', 'refresh');
+            redirect('my404', 'refresh');
         }
 
         $this->load->model("sekolah/DaftarSekolahModel", 'model');

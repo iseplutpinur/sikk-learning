@@ -4,27 +4,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Kelas extends Render_Controller
 {
 
+    // dipakai Administrator |
     public function index()
     {
         // Page Settings
         $this->title = 'Kelas';
+        $this->title_show = false;
         $this->navigation = ['Sekolah', 'Kelas '];
-        $this->plugins = ['datatables'];
+        $this->plugins = ['datatables', 'select2'];
 
         // Breadcrumb setting
-        $this->breadcrumb_1 = 'Dashboard';
-        $this->breadcrumb_1_url = base_url();
-        $this->breadcrumb_2 = 'Kelas';
-        $this->breadcrumb_2_url = '#';
+        $this->breadcrumb_show = false;
+
+        $this->data['level'] = $this->level;
+        $this->data['sekolah'] = $this->model->getAllSekolah();
 
         // content
-        $this->content      = 'sekolah/daftar-sekolah';
+        $this->content      = 'sekolah/kelas';
 
         // Send data to view
         $this->render();
     }
 
-    // Ajax Data
+    // dipakai Administrator |
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -34,22 +36,27 @@ class Kelas extends Render_Controller
         $length = $this->input->post('length');
         $cari = $this->input->post('search');
 
+
         if (isset($cari['value'])) {
             $_cari = $cari['value'];
         } else {
             $_cari = null;
         }
 
-        $data = $this->model->getAllData($draw, $length, $start, $_cari, $order)->result_array();
-        $count = $this->model->getAllData(null, null, null, $_cari, $order, null)->num_rows();
+        // cek filter
+        $filter = $this->input->post("filter");
+
+        $data = $this->model->getAllData($draw, $length, $start, $_cari, $order, $filter)->result_array();
+        $count = $this->model->getAllData(null, null,    null,   $_cari, $order, $filter)->num_rows();
 
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    public function getSekolah()
+    // dipakai Administrator |
+    public function getKelas()
     {
         $id = $this->input->get("id");
-        $result = $this->model->getSekolah($id);
+        $result = $this->model->getKelas($id);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
@@ -57,10 +64,10 @@ class Kelas extends Render_Controller
     public function insert()
     {
         $nama = $this->input->post("nama");
-        $alamat = $this->input->post("alamat");
-        $no_telepon = $this->input->post("no_telepon");
+        $sekolah = $this->input->post("sekolah");
         $status = $this->input->post("status");
-        $result = $this->model->insert($nama, $alamat, $no_telepon, $status);
+
+        $result = $this->model->insert($nama, $sekolah, $status);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
@@ -69,10 +76,10 @@ class Kelas extends Render_Controller
     {
         $id = $this->input->post("id");
         $nama = $this->input->post("nama");
-        $alamat = $this->input->post("alamat");
-        $no_telepon = $this->input->post("no_telepon");
+        $sekolah = $this->input->post("sekolah");
         $status = $this->input->post("status");
-        $result = $this->model->update($id, $nama, $alamat, $no_telepon, $status);
+
+        $result = $this->model->update($id, $nama, $sekolah, $status);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
@@ -90,11 +97,12 @@ class Kelas extends Render_Controller
         parent::__construct();
         // Cek session
         $this->sesion->cek_session();
-        if ($this->session->userdata('data')['level'] != 'Administrator') {
-            redirect('login', 'refresh');
+        $this->level = $this->session->userdata('data')['level'];
+        if ($this->level != 'Administrator' && $this->level != 'GuruAdmin') {
+            redirect('my404', 'refresh');
         }
 
-        $this->load->model("sekolah/KelashModel", 'model');
+        $this->load->model("sekolah/KelasModel", 'model');
         $this->default_template = 'templates/dashboard';
         $this->load->library('plugin');
         $this->load->helper('url');

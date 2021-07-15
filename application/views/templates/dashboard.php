@@ -29,8 +29,6 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 	<!-- Font Awesome Icons -->
 	<link rel="stylesheet" href="<?= base_url('assets/template/') ?>plugins/fontawesome-free/css/all.min.css">
-	<!-- Theme style -->
-	<link rel="stylesheet" href="<?= base_url('assets/template/') ?>dist/css/adminlte.min.css">
 	<!-- SweetAlert2 -->
 	<link rel="stylesheet" href="<?= base_url('assets/template/') ?>plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 
@@ -41,6 +39,8 @@
 		<?php endforeach; ?>
 		<!-- END PAGE LEVEL PLUGINS -->
 	<?php endif; ?>
+	<!-- Theme style -->
+	<link rel="stylesheet" href="<?= base_url('assets/template/') ?>dist/css/adminlte.min.css">
 
 	<style>
 		.nowrap {
@@ -168,48 +168,51 @@
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<div class="content-header">
-				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<h1 class="m-0" style="font-size: 1.5rem;"><?= $title_show ? $title : '' ?></h1>
-						</div><!-- /.col -->
-						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<?php if ($breadcrumb_1 !== null) : ?>
-									<?php if ($breadcrumb_2 == null) : ?>
-										<li class="breadcrumb-item active"><?= $breadcrumb_1 ?></li>
-									<?php else : ?>
-										<li class="breadcrumb-item"><a href="<?= $breadcrumb_1_url ?>"><?= $breadcrumb_1 ?></a></li>
-									<?php endif; ?>
-								<?php endif; ?>
-								<?php if ($breadcrumb_2 !== null) : ?>
-									<?php if ($breadcrumb_3 == null) : ?>
-										<li class="breadcrumb-item active"><?= $breadcrumb_2 ?></li>
-									<?php else : ?>
-										<li class="breadcrumb-item"><a href="<?= $breadcrumb_2_url ?>"><?= $breadcrumb_2 ?></a></li>
-									<?php endif; ?>
-								<?php endif; ?>
-								<?php if ($breadcrumb_3 !== null) : ?>
-									<?php if ($breadcrumb_4 == null) : ?>
-										<li class="breadcrumb-item active"><?= $breadcrumb_3 ?></li>
-									<?php else : ?>
-										<li class="breadcrumb-item"><a href="<?= $breadcrumb_3_url ?>"><?= $breadcrumb_3 ?></a></li>
-									<?php endif; ?>
-								<?php endif; ?>
-								<?php if ($breadcrumb_4 !== null) : ?>
-									<li class="breadcrumb-item active"><?= $breadcrumb_4 ?></li>
-								<?php endif; ?>
-							</ol>
-						</div><!-- /.col -->
-					</div><!-- /.row -->
-				</div><!-- /.container-fluid -->
-			</div>
-			<!-- /.content-header -->
+			<?php if ($breadcrumb_show || $title_show) : ?>
+				<!-- Content Header (Page header) -->
+				<div class="content-header">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-sm-6">
+								<h1 class="m-0" style="font-size: 1.5rem;"><?= $title_show ? $title : '' ?></h1>
+							</div><!-- /.col -->
+							<?php if ($breadcrumb_show) : ?>
+								<div class="col-sm-6">
+									<ol class="breadcrumb float-sm-right">
+										<?php if ($breadcrumb_1 !== null) : ?>
+											<?php if ($breadcrumb_2 == null) : ?>
+												<li class="breadcrumb-item active"><?= $breadcrumb_1 ?></li>
+											<?php else : ?>
+												<li class="breadcrumb-item"><a href="<?= $breadcrumb_1_url ?>"><?= $breadcrumb_1 ?></a></li>
+											<?php endif; ?>
+										<?php endif; ?>
+										<?php if ($breadcrumb_2 !== null) : ?>
+											<?php if ($breadcrumb_3 == null) : ?>
+												<li class="breadcrumb-item active"><?= $breadcrumb_2 ?></li>
+											<?php else : ?>
+												<li class="breadcrumb-item"><a href="<?= $breadcrumb_2_url ?>"><?= $breadcrumb_2 ?></a></li>
+											<?php endif; ?>
+										<?php endif; ?>
+										<?php if ($breadcrumb_3 !== null) : ?>
+											<?php if ($breadcrumb_4 == null) : ?>
+												<li class="breadcrumb-item active"><?= $breadcrumb_3 ?></li>
+											<?php else : ?>
+												<li class="breadcrumb-item"><a href="<?= $breadcrumb_3_url ?>"><?= $breadcrumb_3 ?></a></li>
+											<?php endif; ?>
+										<?php endif; ?>
+										<?php if ($breadcrumb_4 !== null) : ?>
+											<li class="breadcrumb-item active"><?= $breadcrumb_4 ?></li>
+										<?php endif; ?>
+									</ol>
+								</div><!-- /.col -->
+							<?php endif ?>
+						</div><!-- /.row -->
+					</div><!-- /.container-fluid -->
+				</div>
+			<?php endif ?>
 
 			<!-- Main content -->
-			<div class="content">
+			<div class="content mt-2">
 				<div class="container-fluid">
 					<?php if (file_exists(VIEWPATH . "templates/contents/{$content}.php")) : ?>
 						<?php $this->load->view("templates/contents/{$content}.php"); ?>

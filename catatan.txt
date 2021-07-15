@@ -38,3 +38,13 @@ ALTER TABLE `sekolah`
 ADD `created_at`
 TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `tanggal`,
 ADD `updated_at` TIMESTAMP NULL DEFAULT NULL AFTER `created_at`;
+
+
+================== Kelas Konsep
+1. List Sekolah
+    - Nama Sekolah
+    - Alamat sekolah
+    - Status Sekolah
+    - Jumlah Kelas
+    - Aksi
+        - Detail
