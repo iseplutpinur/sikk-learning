@@ -1665,11 +1665,11 @@
 
       if (offset !== false) {
         if (max === heights.controlSidebar) {
-          $contentSelector.css(this._config.panelAutoHeightMode, max + offset - 1);
+          $contentSelector.css(this._config.panelAutoHeightMode, max + offset - 10);
         } else if (max === heights.window) {
-          $contentSelector.css(this._config.panelAutoHeightMode, max + offset - heights.header - heights.footer - 1);
+          $contentSelector.css(this._config.panelAutoHeightMode, max + offset - heights.header - heights.footer - 10);
         } else {
-          $contentSelector.css(this._config.panelAutoHeightMode, max + offset - heights.header - 1);
+          $contentSelector.css(this._config.panelAutoHeightMode, max + offset - heights.header - 10);
         }
 
         if (this._isFooterFixed()) {

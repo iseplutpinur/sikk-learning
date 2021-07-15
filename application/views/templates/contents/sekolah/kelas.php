@@ -1,40 +1,32 @@
 <div class="card card-info card-outline" id="filter">
     <div class="card-header">
         <div class="container-fluid">
-            <div class="d-flex justify-content-end align-items-center w-100">
-                <h3 class="card-title">Filter Kelas: </h3>
-                <div class="row d-flex justify-content-end ml-1">
-                    <div class="col-sm-4 mb-1">
-                        <div class="form-group m-0">
-                            <select class="form-control" id="filter-sekolah" name="filter-sekolah" style="width: 100%;">
-                                <option value="" selected>Semua Kelas</option>
-                                <?php foreach ($sekolah as $s) {
-                                    echo '<option value="' . $s['id'] . '">' . $s['nama'] . '</option>';
-                                } ?>
-                            </select>
-                        </div>
-                    </div>
+            <div class="d-flex justify-content-end  align-items-star w-100 flex-md-row flex-column">
+                <h3 class="card-title align-self-center">Filter Kelas: </h3>
 
-                    <div class="col-sm-2 mb-1">
-                        <div class="form-group m-0">
-                            <select class="form-control" id="filter-aktif" name="filter-aktif">
-                                <option value="">Status</option>
-                                <option value="1">Aktif</option>
-                                <option value="0">Tidak Aktif</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="form-group  mb-lg-0 ml-lg-2">
+                    <select class="form-control" id="filter-sekolah" name="filter-sekolah" style="width: 100%;">
+                        <option value="" selected>Semua Sekolah</option>
+                        <?php foreach ($sekolah as $s) {
+                            echo '<option value="' . $s['id'] . '">' . $s['nama'] . '</option>';
+                        } ?>
+                    </select>
+                </div>
 
-                    <div class="col-sm-3 mb-1">
-                        <div class="form-group m-0">
-                            <input type="text" class="form-control" id="filter-key" name="filter-key" placeholder="Kata Kunci" required />
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mb-1">
-                        <div>
-                            <button type="button" class="btn btn-info btn  no-wrap" id="btn-filter" style="width: 100%;"><i class="fas fa-search"></i></i> Cari</button>
-                        </div>
-                    </div>
+                <div class="form-group  mb-lg-0 ml-lg-2">
+                    <select class="form-control" id="filter-aktif" name="filter-aktif">
+                        <option value="">Status</option>
+                        <option value="1">Aktif</option>
+                        <option value="0">Tidak Aktif</option>
+                    </select>
+                </div>
+
+                <div class="form-group  mb-lg-0 ml-lg-2">
+                    <input type="text" class="form-control" id="filter-key" name="filter-key" placeholder="Kata Kunci" required />
+                </div>
+
+                <div class=" ml-lg-2">
+                    <button type="button" class="btn btn-info btn" id="btn-filter" style="min-width: 72px;"><i class="fas fa-search"></i></i> Cari</button>
                 </div>
             </div>
         </div>

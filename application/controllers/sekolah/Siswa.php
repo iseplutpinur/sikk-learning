@@ -64,8 +64,8 @@ class Siswa extends Render_Controller
     // dipakai Administrator |
     public function getSiswa()
     {
-        $id = $this->input->get("id_siswa");
-        $result = $this->model->getSiswa($id);
+        $nisn = $this->input->get("nisn");
+        $result = $this->model->getSiswa($nisn);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }

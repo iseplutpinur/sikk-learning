@@ -31,7 +31,28 @@ class SiswaModel extends Render_Model
             $order = $order['order'][0]['column'];
             $columns = $columns[$order];
             $order_colum = $columns['data'];
-            $order_colum = $order_colum == 'nama' ? 'a.' . $order_colum : $order_colum;
+
+            switch ($order_colum) {
+                case 'nisn':
+                    $order_colum = 'a.nisn';
+                    break;
+                case 'nama':
+                    $order_colum = 'a.nama';
+                    break;
+                case 'nama_sekolah':
+                    $order_colum = 'e.nama';
+                    break;
+                case 'nama_kelas':
+                    $order_colum = 'd.nama';
+                    break;
+                case 'jenis_kelamin':
+                    $order_colum = 'a.jenis_kelamin';
+                    break;
+                case 'alamat':
+                    $order_colum = 'a.alamat';
+                    break;
+            }
+
             $this->db->order_by($order_colum, $dir);
         }
 
@@ -47,7 +68,12 @@ class SiswaModel extends Render_Model
 
             // by sekolah
             if ($filter['id_sekolah'] != '') {
-                $this->db->where('b.id', $filter['id_sekolah']);
+                $this->db->where('e.id', $filter['id_sekolah']);
+            }
+
+            // by kelas
+            if ($filter['id_kelas'] != '') {
+                $this->db->where('d.id', $filter['id_kelas']);
             }
 
             // by status
@@ -59,11 +85,13 @@ class SiswaModel extends Render_Model
         // pencarian
         if ($cari != null) {
             $this->db->where("(
-                a.id_sekolah LIKE '%$cari%' or
+                a.nisn LIKE '%$cari%' or
                 a.nama LIKE '%$cari%' or
-                b.nama LIKE '%$cari%' or
-                (select count(*) from siswa_kelas c where c.id_kelas = a.id) LIKE '%$cari%' or
-                IF(a.status = '0' , 'Tidak Aktif', IF(a.status = '1' , 'Aktif', 'Tidak Diketahui')) LIKE '%$cari%')");
+                e.nama LIKE '%$cari%' or
+                d.nama LIKE '%$cari%' or
+                a.alamat LIKE '%$cari%' or
+                a.jenis_kelamin LIKE '%$cari%'
+                )");
         }
 
         // pagination
@@ -106,7 +134,7 @@ class SiswaModel extends Render_Model
     }
 
     // dipakai Administrator |
-    public function getSiswa($id)
+    public function getSiswa($nisn)
     {
         $result =  $this->db->select("
             a.nisn as id,
@@ -118,13 +146,17 @@ class SiswaModel extends Render_Model
             a.status,
             e.id as id_sekolah,
             d.id as id_kelas,
-            b.user_phone")
+            e.nama as nama_sekolah,
+            d.nama as nama_kelas,
+            b.user_phone,
+            a.created_at,
+            b.updated_at")
             ->from('siswa a')
             ->join('users b', 'b.user_id = a.id_user', 'left')
             ->join('siswa_kelas c', 'a.nisn = c.nisn', 'left')
             ->join('kelas d', 'c.id_kelas = d.id', 'left')
             ->join('sekolah e', 'e.id = d.id_sekolah', 'left')
-            ->where('a.nisn', $id)
+            ->where('a.nisn', $nisn)
             ->get()
             ->row_array();
         return $result;
