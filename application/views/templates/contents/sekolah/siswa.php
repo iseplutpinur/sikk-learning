@@ -68,7 +68,7 @@
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <form id="form">
             <div class="modal-content">
                 <div class="modal-header">
@@ -80,42 +80,98 @@
                 <div class="modal-body">
                     <input type="hidden" name="id" id="id">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="sekolah">Sekolah</label>
-                                <select class="form-control" id="sekolah" name="sekolah" style="width: 100%;">
-                                    <?php foreach ($sekolah as $s) {
-                                        echo '<option value="' . $s['id'] . '">' . $s['nama'] . '</option>';
-                                    } ?>
-                                </select>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sekolah">Sekolah</label>
+                                        <select class="form-control" id="sekolah" name="sekolah" style="width: 100%;">
+                                            <?php foreach ($sekolah as $s) {
+                                                echo '<option value="' . $s['id'] . '">' . $s['nama'] . '</option>';
+                                            } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="kelas">Kelas</label>
+                                        <select class="form-control" id="kelas" name="kelas" style="width: 100%;">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="nisn">NISN</label>
+                                        <input type="text" class="form-control" id="nisn" name="nisn" placeholder="NISN Siswa" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="nama">Nama</label>
+                                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Siswa" required />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="kelas">kelas</label>
-                                <select class="form-control" id="kelas" name="kelas" style="width: 100%;">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="text" class="form-control" id="password" name="password" placeholder="Masukan Password" value="123456" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="no_telpon">Nomor Telepon</label>
+                                        <input type="text" class="form-control" id="no_telpon" name="no_telpon" placeholder="Nomor Telepon" value="" required />
+                                    </div>
+                                </div>
+                            </div>
 
-                                </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="tanggal_lahir">Tanggal Lahir</label>
+                                        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" placeholder="Tanggal Lahir" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="jenis_kelamin">Jenis Kelamin</label>
+                                        <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
+                                            <option value="Laki-Laki">Laki-Laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="1">Aktif</option>
+                                            <option value="0">Tidak Aktif</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="nama">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Siswa" required />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select class="form-control" id="status" name="status">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Tidak Aktif</option>
-                                </select>
+                                <label for="alamat">Alamat</label>
+                                <textarea name="alamat" id="alamat" rows="3" class="form-control" placeholder="Alamat Siswa" required></textarea>
                             </div>
                         </div>
                     </div>

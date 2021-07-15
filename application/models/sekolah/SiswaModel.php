@@ -93,11 +93,52 @@ class SiswaModel extends Render_Model
     }
 
     // dipakai Administrator |
-    public function insert($nama, $sekolah, $status)
+    public function getSiswa($id)
     {
-        $result = $this->db->insert("kelas", [
-            'id_sekolah' => $sekolah,
+        $result =  $this->db->select("
+            a.nisn as id,
+            a.nisn,
+            a.nama,
+            a.jenis_kelamin,
+            a.alamat,
+            a.tanggal_lahir,
+            a.status,
+            e.id as id_sekolah,
+            d.id as id_kelas,
+            b.user_phone")
+            ->from('siswa a')
+            ->join('users b', 'b.user_id = a.id_user', 'left')
+            ->join('siswa_kelas c', 'a.nisn = c.nisn', 'left')
+            ->join('kelas d', 'c.id_kelas = d.id', 'left')
+            ->join('sekolah e', 'e.id = d.id_sekolah', 'left')
+            ->where('a.nisn', $id)
+            ->get()
+            ->row_array();
+        return $result;
+    }
+
+    // dipakai Administrator |
+    public function insertSiswa($nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
+    {
+        $result = $this->db->insert("siswa", [
+            'nisn' => $nisn,
+            'id_user' => $id_user,
             'nama' => $nama,
+            'tanggal_lahir' => $tanggal_lahir,
+            'jenis_kelamin' => $jenis_kelamin,
+            'alamat' => $alamat,
+            'status' => $status,
+        ]);
+
+        return $result;
+    }
+
+    // dipakai Administrator |
+    public function insertSiswaKelas($nisn, $id_kelas, $status)
+    {
+        $result = $this->db->insert("siswa_kelas", [
+            'nisn' => $nisn,
+            'id_kelas' => $id_kelas,
             'status' => $status,
         ]);
 
@@ -121,6 +162,26 @@ class SiswaModel extends Render_Model
     public function delete($id)
     {
         $result = $this->db->delete('kelas', ['id' => $id]);
+        return $result;
+    }
+
+    // dipakai Administrator |
+    public function cekNisn($nisn)
+    {
+        $result = $this->db->select("nisn")
+            ->from('siswa')
+            ->where('nisn', $nisn)
+            ->get()
+            ->num_rows();
+
+        // cek di tabel user siapa tahu ada email yang samaa (username)
+        if ($result == 0) {
+            $result = $this->db->select("user_id")
+                ->from('users')
+                ->where('user_email', $nisn)
+                ->get()
+                ->num_rows();
+        }
         return $result;
     }
 }

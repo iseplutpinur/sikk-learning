@@ -51,28 +51,6 @@ $(function () {
     }
     dynamic();
 
-    // get kelas by id_sekolah
-    function setKelas(id_sekolah, id_kelas = false) {
-        $.ajax({
-            method: 'get',
-            url: '<?= base_url() ?>sekolah/siswa/getKelas',
-            data: {
-                id_sekolah: id_sekolah
-            },
-        }).done((data) => {
-            $("#kelas").empty();
-            $("#kelas").select2({
-                data: data.data,
-                dropdownParent: $("#myModal")
-            })
-            if (id_kelas) {
-                $('#sekolah').val(id_kelas).trigger('change');
-            }
-        }).fail(($xhr) => {
-            console.log($xhr);
-        })
-    }
-
     // init select 2
     $('#sekolah').select2({
         dropdownParent: $("#myModal")
@@ -89,25 +67,65 @@ $(function () {
 
     // btn ubah di klik
     $("#btn-tambah").click(() => {
-        $("#myModalLabel").text("Tambah Kelas");
-        $('#id').val("");
-        $('#nama').val("");
-        $('#status').val("1");
+        $("#myModalLabel").text("Tambah Siswa");
+        $('#id').val('');
+        $('#nisn').val('');
+        $('#nama').val('');
+        $('#password').val('123456');
+        $('#tanggal_lahir').val('');
+        $('#alamat').val('');
+        $('#no_telepon').val('');
         setKelas($('#sekolah').select2('data')[0].id);
     });
 
     // tambah dan ubah
     $("#form").submit(function (ev) {
         ev.preventDefault();
+        // validasi password
+        if ($("#id").val() == "") {
+
+            if ($("#password").val().length < 6) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Password kurang dari 6 karakter'
+                })
+                $("#password").focus();
+                return;
+            }
+        }
+
+        if ($('#sekolah').select2('data')[0].id == '') {
+            Toast.fire({
+                icon: 'error',
+                title: 'Sekolah harus di pilih'
+            })
+            return;
+        }
+
+        if ($('#kelas').select2('data')[0].id == '') {
+            Toast.fire({
+                icon: 'error',
+                title: 'Kelas harus di pilih'
+            })
+            return;
+        }
+
+        // return;
         $.LoadingOverlay("show");
         $.ajax({
             method: 'post',
-            url: '<?= base_url() ?>sekolah/kelas/' + ($("#id").val() == "" ? 'insert' : 'update'),
+            url: '<?= base_url() ?>sekolah/siswa/' + ($("#id").val() == "" ? 'insert' : 'update'),
             data: {
-                id: $("#id").val(),
-                nama: $("#nama").val(),
-                status: $("#status").val(),
-                sekolah: $('#sekolah').select2('data')[0].id,
+                id: $('#id').val(),
+                nisn: $('#nisn').val(),
+                nama: $('#nama').val(),
+                status: $('#status').val(),
+                tanggal_lahir: $('#tanggal_lahir').val(),
+                jenis_kelamin: $('#jenis_kelamin').val(),
+                alamat: $('#alamat').val(),
+                password: $('#password').val(),
+                no_telpon: $('#no_telpon').val(),
+                id_kelas: $('#kelas').select2('data')[0].id
             },
         }).done((data) => {
             Toast.fire({
@@ -160,6 +178,28 @@ $(function () {
         const kata_kunci = $("#filter-key").val();
         dynamic(id_sekolah, status, kata_kunci);
     });
+
+    // cek nisn
+    $("#nisn").change(function () {
+        $.ajax({
+            method: 'get',
+            url: '<?= base_url() ?>sekolah/siswa/cekNisn',
+            data: {
+                nisn: this.value
+            },
+        }).done((data) => {
+            if (data.data > 0) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'NISN Sudah Terdaftar'
+                })
+                this.value = '';
+                this.focus();
+            }
+        }).fail(($xhr) => {
+            console.log($xhr);
+        })
+    });
 })
 
 // Click Hapus
@@ -176,18 +216,24 @@ const Ubah = (id) => {
     $.LoadingOverlay("show");
     $.ajax({
         method: 'get',
-        url: '<?= base_url() ?>sekolah/kelas/getKelas',
+        url: '<?= base_url() ?>sekolah/siswa/getSiswa',
         data: {
-            id: id
+            id_siswa: id
         }
     }).done((data) => {
         if (data.data) {
             data = data.data;
-            $("#myModalLabel").text("Ubah Kelas");
+            $("#myModalLabel").text("Ubah Siswa");
             $('#id').val(data.id);
+            $('#nisn').val(data.nisn);
             $('#nama').val(data.nama);
             $('#status').val(data.status);
-            $('#sekolah').val(data.id_sekolah).trigger('change');
+            $('#tanggal_lahir').val(data.tanggal_lahir);
+            $('#jenis_kelamin').val(data.jenis_kelamin);
+            $('#alamat').val(data.alamat);
+            $('#no_telpon').val(data.user_phone);
+            $('#password').val('');
+            setKelas(data.id_sekolah, data.id_kelas);
             $('#myModal').modal('toggle')
         } else {
             Toast.fire({
@@ -202,5 +248,29 @@ const Ubah = (id) => {
         })
     }).always(() => {
         $.LoadingOverlay("hide");
+    })
+}
+
+// get kelas by id_sekolah
+function setKelas(id_sekolah, id_kelas = false) {
+    $('#sekolah').val(id_sekolah).trigger('change');
+    $.ajax({
+        method: 'get',
+        url: '<?= base_url() ?>sekolah/siswa/getKelas',
+        data: {
+            id_sekolah: id_sekolah
+        },
+    }).done((data) => {
+        $("#kelas").empty();
+        $("#kelas").select2({
+            data: data.data,
+            dropdownParent: $("#myModal")
+        })
+
+        if (id_kelas) {
+            $('#kelas').val(id_kelas).trigger('change');
+        }
+    }).fail(($xhr) => {
+        console.log($xhr);
     })
 }

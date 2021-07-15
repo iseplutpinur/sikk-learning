@@ -62,15 +62,59 @@ class Siswa extends Render_Controller
     }
 
     // dipakai Administrator |
-    public function insert()
+    public function getSiswa()
     {
-        $nama = $this->input->post("nama");
-        $sekolah = $this->input->post("sekolah");
-        $status = $this->input->post("status");
-
-        $result = $this->model->insert($nama, $sekolah, $status);
+        $id = $this->input->get("id_siswa");
+        $result = $this->model->getSiswa($id);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
+    }
+
+    // dipakai Administrator |
+    public function insert()
+    {
+        // load model pengguna untuk insert
+        $this->load->model('pengaturan/penggunaModel', 'pengguna');
+
+        // Mulai transaksi
+        $this->db->trans_start();
+        // insert user
+        // level siswa 5 di databasee
+        $status = $this->input->post("status");
+        $level = 5;
+        $nama = $this->input->post("nama");
+        $no_telpon = $this->input->post("no_telpon");
+        $username = $this->input->post("nisn");
+        $password = $this->input->post("password");
+        $user = $this->pengguna->insert($level, $nama, $no_telpon, $username, $this->b_password->bcrypt_hash($password), $status == 0 ? 'Tidak Aktif' : 'Aktif');
+
+        // insert siswa
+        $id_user = $user['id'];
+        $tanggal_lahir = $this->input->post("tanggal_lahir");
+        $nisn = $this->input->post("nisn");
+        $jenis_kelamin = $this->input->post("jenis_kelamin");
+        $alamat = $this->input->post("alamat");
+        $siswa = $this->model->insertSiswa($nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status);
+
+        // insert siswa_kelas
+        $id_kelas = $this->input->post("id_kelas");
+        $siswa_kelas = $this->model->insertSiswaKelas($nisn, $id_kelas, $status);
+
+        // simpan transaksi
+        $this->db->trans_complete();
+        $result = $user && $siswa && $siswa_kelas;
+
+        // kirim output
+        $code = $result ? 200 : 500;
+        $this->output_json(["data" => $result], $code);
+    }
+
+    // dipakai Administrator |
+    public function cekNisn()
+    {
+        $nisn = $this->input->get("nisn");
+        $result = $this->model->cekNisn($nisn);
+        $this->output_json(["data" => $result]);
     }
 
     // dipakai Administrator |
