@@ -61,6 +61,7 @@ class Kelas extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
+    // dipakai Administrator |
     public function insert()
     {
         $nama = $this->input->post("nama");
@@ -72,6 +73,7 @@ class Kelas extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
+    // dipakai Administrator |
     public function update()
     {
         $id = $this->input->post("id");
@@ -84,6 +86,7 @@ class Kelas extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
+    // dipakai Administrator |
     public function delete()
     {
         $id = $this->input->post("id");
