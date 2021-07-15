@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2021 at 02:04 AM
+-- Generation Time: Jul 15, 2021 at 02:18 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -31,7 +31,8 @@ CREATE TABLE `guru` (
   `alamat` text DEFAULT NULL,
   `no_hp` varchar(20) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -45,7 +46,8 @@ CREATE TABLE `guru_kelas` (
   `nip` varchar(20) DEFAULT NULL,
   `id_kelas` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -307,7 +309,8 @@ CREATE TABLE `siswa` (
   `tanggal_lahir` date DEFAULT NULL,
   `jenis_kelamin` varchar(15) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -321,7 +324,8 @@ CREATE TABLE `siswa_kelas` (
   `nisn` varchar(20) DEFAULT NULL,
   `id_kelas` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
