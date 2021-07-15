@@ -43,10 +43,6 @@ $(document).ready(function () {
         $table.row('[data-id=' + id + ']').remove().draw()
     }
 
-
-
-
-
     // Ulang password
     $('#upassword').on('change', () => {
         let password = $('#password').val()
@@ -81,7 +77,14 @@ $(document).ready(function () {
         let status = $('#status').val()
 
         if (id == 0) {
-
+            if ($('#password').val() == '') {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Password tidak harus di isi.'
+                })
+                $('#password').focus()
+                return;
+            }
             // Insert
             $.LoadingOverlay("show");
             window.apiClient.pengaturanPengguna.insert(level, nama, telepon, username, password, status)

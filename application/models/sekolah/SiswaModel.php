@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class SiswaModel extends Render_Model
 {
+    // get data ========================================================================================================
     // dipakai Administrator |
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
@@ -93,6 +94,18 @@ class SiswaModel extends Render_Model
     }
 
     // dipakai Administrator |
+    public function getUsers($nisn)
+    {
+        $result = $this->db->select('a.id_user, b.id as id_siswa_kelas')
+            ->from('siswa a')
+            ->join('siswa_kelas b', 'a.nisn = b.nisn', 'left')
+            ->where('a.nisn', $nisn)
+            ->get()
+            ->row_array();
+        return  $result;
+    }
+
+    // dipakai Administrator |
     public function getSiswa($id)
     {
         $result =  $this->db->select("
@@ -117,6 +130,7 @@ class SiswaModel extends Render_Model
         return $result;
     }
 
+    // insert ==========================================================================================================
     // dipakai Administrator |
     public function insertSiswa($nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
     {
@@ -145,26 +159,54 @@ class SiswaModel extends Render_Model
         return $result;
     }
 
+    // update ==========================================================================================================
     // dipakai Administrator |
-    public function update($id, $nama, $sekolah, $status)
+    public function updateSiswa($id, $nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
+    {
+        $this->db->where('nisn', $id);
+        $result = $this->db->update("siswa", [
+            'nisn' => $nisn,
+            'id_user' => $id_user,
+            'nama' => $nama,
+            'tanggal_lahir' => $tanggal_lahir,
+            'jenis_kelamin' => $jenis_kelamin,
+            'alamat' => $alamat,
+            'status' => $status,
+            'updated_at' => Date("Y-m-d H:i:s", time())
+        ]);
+
+        return $result;
+    }
+
+    // dipakai Administrator |
+    public function updateSiswaKelas($id, $nisn, $id_kelas, $status)
     {
         $this->db->where('id', $id);
-        $result = $this->db->update('kelas', [
-            'id_sekolah' => $sekolah,
-            'nama' => $nama,
+        $result = $this->db->update('siswa_kelas', [
+            'nisn' => $nisn,
+            'id_kelas' => $id_kelas,
             'status' => $status,
             'updated_at' => Date("Y-m-d H:i:s", time())
         ]);
         return $result;
     }
 
+    // delete ==========================================================================================================
     // dipakai Administrator |
-    public function delete($id)
+    public function deleteSiswa($id)
     {
-        $result = $this->db->delete('kelas', ['id' => $id]);
+        $result = $this->db->delete('siswa', ['nisn' => $id]);
         return $result;
     }
 
+    // dipakai Administrator |
+    public function deleteSiswaKelas($id)
+    {
+        $result = $this->db->delete('siswa_kelas', ['id' => $id]);
+        return $result;
+    }
+
+    // cehecking =======================================================================================================
     // dipakai Administrator |
     public function cekNisn($nisn)
     {

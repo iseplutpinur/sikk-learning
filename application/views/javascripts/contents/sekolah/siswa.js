@@ -150,7 +150,7 @@ $(function () {
         $.LoadingOverlay("show");
         $.ajax({
             method: 'post',
-            url: '<?= base_url() ?>sekolah/kelas/delete',
+            url: '<?= base_url() ?>sekolah/siswa/delete',
             data: {
                 id: id
             }

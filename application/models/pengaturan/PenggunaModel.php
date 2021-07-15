@@ -1,15 +1,16 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class PenggunaModel extends Render_Model {
+class PenggunaModel extends Render_Model
+{
 
 
 	public function getAllData()
 	{
 		$exe 						= $this->db->select('*')
-												->join('level c', 'c.lev_id = a.role_lev_id', 'left')
-												->join('users b', 'b.user_id = a.role_user_id', 'left')
-												->get('role_users a');
+			->join('level c', 'c.lev_id = a.role_lev_id', 'left')
+			->join('users b', 'b.user_id = a.role_user_id', 'left')
+			->get('role_users a');
 
 		return $exe->result_array();
 	}
@@ -18,9 +19,9 @@ class PenggunaModel extends Render_Model {
 	public function getDataDetail($id)
 	{
 		$exe 						= $this->db->select('*')
-												->join('users b', 'b.user_id = a.role_user_id', 'left')
-												->where('a.role_user_id', $id)
-												->get('role_users a');
+			->join('users b', 'b.user_id = a.role_user_id', 'left')
+			->where('a.role_user_id', $id)
+			->get('role_users a');
 
 		return $exe->row_array();
 	}
@@ -38,7 +39,7 @@ class PenggunaModel extends Render_Model {
 	{
 		$data['user_nama'] 			= $nama;
 		$data['user_email'] 		= $username;
-		$data['user_password'] 		= $password;
+		$data['user_password'] 		= $this->b_password->bcrypt_hash($password);
 		$data['user_phone'] 		= $telepon;
 		$data['user_status'] 		= $status;
 
@@ -63,9 +64,12 @@ class PenggunaModel extends Render_Model {
 	{
 		$data['user_nama'] 			= $nama;
 		$data['user_email'] 		= $username;
-		$data['user_password'] 		= $password;
 		$data['user_phone'] 		= $telepon;
 		$data['user_status'] 		= $status;
+		$data['updated_at'] 		= Date("Y-m-d H:i:s", time());
+		if ($password != '') {
+			$data['user_password'] 		= $this->b_password->bcrypt_hash($password);
+		}
 
 		// Update users
 		$execute 					= $this->db->where('user_id', $id);
@@ -81,7 +85,7 @@ class PenggunaModel extends Render_Model {
 		$exe['id'] 					= $id;
 		$exe['level'] 				= $this->_cek('level', 'lev_id', $level, 'lev_nama');
 
-		return $exe;		
+		return $exe;
 	}
 
 
@@ -90,15 +94,13 @@ class PenggunaModel extends Render_Model {
 		// Delete users
 		$exe 						= $this->db->where('user_id', $id);
 		$exe 						= $this->db->delete('users');
-		
+
 		// Delete role users
 		$exe2 						= $this->db->where('role_user_id', $id);
 		$exe2 						= $this->db->delete('role_users');
 
 		return $exe;
 	}
-
-
 }
 
 /* End of file PenggunaModel.php */

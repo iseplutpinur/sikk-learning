@@ -110,22 +110,42 @@ class Siswa extends Render_Controller
     }
 
     // dipakai Administrator |
-    public function cekNisn()
-    {
-        $nisn = $this->input->get("nisn");
-        $result = $this->model->cekNisn($nisn);
-        $this->output_json(["data" => $result]);
-    }
-
-    // dipakai Administrator |
     public function update()
     {
-        $id = $this->input->post("id");
-        $nama = $this->input->post("nama");
-        $sekolah = $this->input->post("sekolah");
-        $status = $this->input->post("status");
+        // load model pengguna untuk update
+        $this->load->model('pengaturan/penggunaModel', 'pengguna');
 
-        $result = $this->model->update($id, $nama, $sekolah, $status);
+        // Mulai transaksi
+        $this->db->trans_start();
+        // insert user
+        // level siswa 5 di databasee
+        $id = $this->input->post("id");
+        $status = $this->input->post("status");
+        $level = 5;
+        $nama = $this->input->post("nama");
+        $no_telpon = $this->input->post("no_telpon");
+        $username = $this->input->post("nisn");
+        $password = $this->input->post("password");
+        $user_detail = $this->model->getUsers($id);
+
+        $user = $this->pengguna->update($user_detail['id_user'], $level, $nama, $no_telpon, $username, $password, $status == 0 ? 'Tidak Aktif' : 'Aktif');
+
+        // insert siswa
+        $tanggal_lahir = $this->input->post("tanggal_lahir");
+        $nisn = $this->input->post("nisn");
+        $jenis_kelamin = $this->input->post("jenis_kelamin");
+        $alamat = $this->input->post("alamat");
+        $siswa = $this->model->updateSiswa($id, $nisn, $user_detail['id_user'], $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status);
+
+        // insert siswa_kelas
+        $id_kelas = $this->input->post("id_kelas");
+        $siswa_kelas = $this->model->updateSiswaKelas($user_detail['id_siswa_kelas'], $nisn, $id_kelas, $status);
+
+        // simpan transaksi
+        $this->db->trans_complete();
+        $result = $user && $siswa && $siswa_kelas;
+
+        // kirim output
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
@@ -133,11 +153,37 @@ class Siswa extends Render_Controller
     // dipakai Administrator |
     public function delete()
     {
+        // load model pengguna untuk update
+        $this->load->model('pengaturan/penggunaModel', 'pengguna');
         $id = $this->input->post("id");
-        $result = $this->model->delete($id);
+        $user_detail = $this->model->getUsers($id);
+
+        // Mulai transaksi
+        $this->db->trans_start();
+        // delete user
+        $user = $this->pengguna->delete($user_detail['id_user']);
+
+        // delete siswa
+        $siswa = $this->model->deleteSiswa($id);
+
+        // delete siswa kelas
+        $siswa_kelas = $this->model->deleteSiswaKelas($user_detail['id_siswa_kelas']);
+
+        // simpan transaksi
+        $this->db->trans_complete();
+        $result = $user && $siswa && $siswa_kelas;
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
+
+    // dipakai Administrator |
+    public function cekNisn()
+    {
+        $nisn = $this->input->get("nisn");
+        $result = $this->model->cekNisn($nisn);
+        $this->output_json(["data" => $result]);
+    }
+
 
     function __construct()
     {

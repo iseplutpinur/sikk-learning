@@ -97,13 +97,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tanggal">Password</label>
-                                <input type="password" id="password" class="form-control" name="password" placeholder="Password" required />
+                                <input type="password" id="password" class="form-control" name="password" placeholder="Password" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tanggal">Ulangi Password</label>
-                                <input type="password" id="upassword" class="form-control" name="upassword" placeholder="Ulangi Password" required />
+                                <input type="password" id="upassword" class="form-control" name="upassword" placeholder="Ulangi Password" />
                             </div>
                         </div>
                     </div>

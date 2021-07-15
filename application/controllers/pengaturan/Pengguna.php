@@ -58,7 +58,6 @@ class Pengguna extends Render_Controller
 		$username 					= $this->input->post('username');
 		$status 					= $this->input->post('status');
 		$password 					= $this->input->post('password');
-		$password 					= $this->b_password->bcrypt_hash($password);
 
 		$exe 						= $this->pengguna->insert($level, $nama, $telepon, $username, $password, $status);
 
@@ -85,7 +84,6 @@ class Pengguna extends Render_Controller
 		$username 					= $this->input->post('username');
 		$status 					= $this->input->post('status');
 		$password 					= $this->input->post('password');
-		$password 					= $this->b_password->bcrypt_hash($password);
 
 		$exe 						= $this->pengguna->update($id, $level, $nama, $telepon, $username, $password, $status);
 
