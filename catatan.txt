@@ -33,12 +33,36 @@ Siswa:
 
 SIKK-Learning
 
-================= sudah
+================= tambah colom database
 ALTER TABLE `sekolah`
 ADD `created_at`
 TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `tanggal`,
 ADD `updated_at` TIMESTAMP NULL DEFAULT NULL AFTER `created_at`;
 
+// get value on change selec2
+// $('#filter-sekolah').on('select2:select', function (e) {
+//     console.log($(this).select2('data')[0].id);
+// });
+
+// set value select2 example
+// $('#sekolah').val(1).trigger('change');
+
+// set value select 2 from array
+var data = [
+    {
+        id: 0,
+        text: 'enhancement'
+    },
+    {
+        id: 1,
+        text: 'bug'
+    }
+];
+$("#sekolah").empty();
+$("#sekolah").select2({
+  data: data,
+  dropdownParent: $("#myModal")
+})
 
 ================== Kelas Konsep
 1. List Sekolah

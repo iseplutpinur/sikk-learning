@@ -1,7 +1,7 @@
 {
-    "name": "IDETO.co.id",
-    "short_name": "IDETO",
-    "description": "Website jurnal terbuka",
+    "name": "SIKK - Learning",
+    "short_name": "SIKK L",
+    "description": "Website learning Sekolah Indonesia Kota Kinabalu",
     "start_url": "../../index.php",
     "display": "standalone",
     "background_color": "#ffffff",

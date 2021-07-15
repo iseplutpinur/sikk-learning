@@ -10,7 +10,7 @@ class Siswa extends Render_Controller
         // Page Settings
         $this->title = 'Kelas';
         $this->title_show = false;
-        $this->navigation = ['Sekolah', 'Kelas '];
+        $this->navigation = ['Sekolah', 'Siswa '];
         $this->plugins = ['datatables', 'select2'];
 
         // Breadcrumb setting
@@ -20,7 +20,7 @@ class Siswa extends Render_Controller
         $this->data['sekolah'] = $this->model->getAllSekolah();
 
         // content
-        $this->content      = 'sekolah/kelas';
+        $this->content      = 'sekolah/siswa';
 
         // Send data to view
         $this->render();
@@ -55,7 +55,7 @@ class Siswa extends Render_Controller
     // dipakai Administrator |
     public function getKelas()
     {
-        $id = $this->input->get("id");
+        $id = $this->input->get("id_sekolah");
         $result = $this->model->getKelas($id);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
@@ -105,7 +105,7 @@ class Siswa extends Render_Controller
             redirect('my404', 'refresh');
         }
 
-        $this->load->model("sekolah/KelasModel", 'model');
+        $this->load->model("sekolah/siswaModel", 'model');
         $this->default_template = 'templates/dashboard';
         $this->load->library('plugin');
         $this->load->helper('url');

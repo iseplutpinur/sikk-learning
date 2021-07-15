@@ -15,7 +15,7 @@ $(function () {
         table_html.dataTable().fnDestroy()
         table_html.DataTable({
             "ajax": {
-                "url": "<?= base_url()?>sekolah/kelas/ajax_data/",
+                "url": "<?= base_url()?>sekolah/siswa/ajax_data/",
                 "data": data,
                 "type": 'POST'
             },
@@ -25,13 +25,18 @@ $(function () {
             "lengthChange": true,
             "autoWidth": false,
             "columns": [
+                { "data": "nisn" },
                 { "data": "nama_sekolah" },
+                { "data": "nama_kelas" },
                 { "data": "nama" },
-                { "data": "jml_murid" },
-                { "data": "status_str" },
+                { "data": "jenis_kelamin" },
+                { "data": "alamat" },
                 {
                     "data": "id", render(data, type, full, meta) {
                         return `<div class="pull-right">
+									<button class="btn btn-info btn-xs" onclick="Info(${data})">
+										<i class="fa fa-info"></i> Detail
+									</button>
 									<button class="btn btn-primary btn-xs" onclick="Ubah(${data})">
 										<i class="fa fa-edit"></i> Ubah
 									</button>
@@ -46,13 +51,41 @@ $(function () {
     }
     dynamic();
 
+    // get kelas by id_sekolah
+    function setKelas(id_sekolah, id_kelas = false) {
+        $.ajax({
+            method: 'get',
+            url: '<?= base_url() ?>sekolah/siswa/getKelas',
+            data: {
+                id_sekolah: id_sekolah
+            },
+        }).done((data) => {
+            $("#kelas").empty();
+            $("#kelas").select2({
+                data: data.data,
+                dropdownParent: $("#myModal")
+            })
+            if (id_kelas) {
+                $('#sekolah').val(id_kelas).trigger('change');
+            }
+        }).fail(($xhr) => {
+            console.log($xhr);
+        })
+    }
+
     // init select 2
     $('#sekolah').select2({
         dropdownParent: $("#myModal")
     })
+
     $('#filter-sekolah').select2({
         dropdownParent: $("#filter")
     })
+
+    // sekolah tambah diubah
+    $('#sekolah').on('select2:select', function (e) {
+        setKelas($(this).select2('data')[0].id);
+    });
 
     // btn ubah di klik
     $("#btn-tambah").click(() => {
@@ -60,6 +93,7 @@ $(function () {
         $('#id').val("");
         $('#nama').val("");
         $('#status').val("1");
+        setKelas($('#sekolah').select2('data')[0].id);
     });
 
     // tambah dan ubah

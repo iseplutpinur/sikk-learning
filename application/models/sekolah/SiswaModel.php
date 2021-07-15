@@ -7,16 +7,21 @@ class SiswaModel extends Render_Model
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
         // select tabel
-        $this->db->select("a.id,
-        a.id_sekolah,
+        $this->db->select("
+        a.nisn as id,
+        a.nisn,
         a.nama,
-        b.nama as nama_sekolah,
-        (select count(*) from siswa_kelas c where c.id_kelas = a.id) as jml_murid,
-        a.status,
-        IF(a.status = '0' , 'Tidak Aktif', IF(a.status = '1' , 'Aktif', 'Tidak Diketahui')) as status_str");
+        a.jenis_kelamin,
+        a.alamat,
+        e.nama as nama_sekolah,
+        d.nama as nama_kelas");
 
-        $this->db->from('kelas a');
-        $this->db->join('sekolah b', 'a.id_sekolah = b.id');
+        $this->db->from('siswa a');
+        $this->db->join('users b', 'b.user_id = a.id_user', 'left');
+        $this->db->join('siswa_kelas c', 'a.nisn = c.nisn', 'left');
+        $this->db->join('kelas d', 'c.id_kelas = d.id', 'left');
+        $this->db->join('sekolah e', 'e.id = d.id_sekolah', 'left');
+
 
         // order by
         if ($order['order'] != null) {
@@ -79,7 +84,11 @@ class SiswaModel extends Render_Model
     // dipakai Administrator |
     public function getKelas($id)
     {
-        $result = $this->db->get_where("kelas", ['id' => $id])->row_array();
+        $result = $this->db->select('id, nama as text')
+            ->from('kelas')
+            ->where('id_sekolah', $id)
+            ->get()
+            ->result_array();
         return $result;
     }
 
