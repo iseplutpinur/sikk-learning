@@ -15,6 +15,7 @@ $(document).ready(function () {
             data.keterangan,
             data.status,
             '<div>'
+            + '<a href="<?= base_url() ?>pengaturan/hakakseslevel/' + data.id + '" class="btn btn-info btn-sm mr-1"><i class="fa fa-key"></i> Hak Akses</a>'
             + '<button class="btn btn-primary btn-sm mr-1" onclick="Ubah(' + data.id + ')"><i class="fa fa-edit"></i> Ubah</button>'
             + '<button class="btn btn-danger btn-sm" onclick="Hapus(' + data.id + ')"><i class="fa fa-trash"></i> Hapus</button>'
             + '</div>'

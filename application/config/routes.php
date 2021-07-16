@@ -55,6 +55,7 @@ $route['translate_uri_dashes'] = TRUE;
 
 $route['javascripts/(:any).js'] = 'loader/javascripts/$1';
 $route['stylesheets/(:any).css'] = 'loader/stylesheets/$1';
+$route['pengaturan/hakakseslevel/(:num)'] = 'pengaturan/hakAksesLevel/index/$1';
 
 // tambahan
 $route['javascripts/contents/(:any).js'] = 'loader/javascripts_contents/$1';

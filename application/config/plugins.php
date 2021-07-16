@@ -59,3 +59,9 @@ $config['summernote'] = [
 		'assets/plugins/summernote/summernote-bs4.js'
 	]
 ];
+
+$config['masonry'] = [
+	'scripts' => [
+		'assets/plugins/masonry/masonry.pkgd.min.js'
+	]
+];

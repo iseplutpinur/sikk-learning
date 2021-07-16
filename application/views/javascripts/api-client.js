@@ -76,6 +76,28 @@ $(() => {
 					}
 				})
 			},
+			deleteHakAkses(level, menu) {
+				return $.ajax({
+					method: 'post',
+					url: '<?= base_url() ?>pengaturan/HakAksesLevel/delete',
+					data:
+					{
+						level: level,
+						menu: menu
+					}
+				})
+			},
+			insertHakAkses(level, menu) {
+				return $.ajax({
+					method: 'post',
+					url: '<?= base_url() ?>pengaturan/HakAksesLevel/insert',
+					data:
+					{
+						level: level,
+						menu: menu
+					}
+				})
+			}
 
 		},
 		pengaturanMenu:

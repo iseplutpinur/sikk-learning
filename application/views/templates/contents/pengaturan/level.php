@@ -24,6 +24,7 @@
                         <td><?= $q['lev_status'] ?></td>
                         <td>
                             <div>
+                                <a href="<?= base_url() ?>pengaturan/hakakseslevel/<?= $q['lev_id'] ?>" class="btn btn-info btn-sm mr-1"><i class="fa fa-key"></i> Hak Akses</a>
                                 <button class="btn btn-primary btn-sm" onclick="Ubah(<?= $q['lev_id'] ?>)">
                                     <i class="fa fa-edit"></i> Ubah
                                 </button>

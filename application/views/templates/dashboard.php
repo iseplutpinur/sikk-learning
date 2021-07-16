@@ -144,7 +144,7 @@
 				<div class="user-panel d-flex">
 					<div class="info">
 						<a href="#" class="d-block"><?= $this->session->userdata('data')['nama'] ?></a>
-						<small class="form-text text-muted">Administrator</small>
+						<small class="form-text text-muted"><?= $this->session->userdata('data')['level'] ?></small>
 					</div>
 				</div>
 
