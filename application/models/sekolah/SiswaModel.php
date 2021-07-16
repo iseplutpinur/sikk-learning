@@ -4,9 +4,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class SiswaModel extends Render_Model
 {
     // get data ========================================================================================================
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
+
+        // jika level Guru Administrator
+        $id_sekolah = '';
+        if ($this->level == 'Guru Administrator') {
+            // get sekolah guru itu
+            $id_sekolah = $this->db->select('id_sekolah')
+                ->from('guru')
+                ->where('id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
+        }
+
+        // jika level Guru
+        $id_kelas = '';
+        if ($this->level == 'Guru') {
+            // get kelas guru itu
+            $id_kelas = $this->db->select('b.id_kelas')
+                ->from('guru a')
+                ->join('guru_kelas b', 'a.nip = b.nip')
+                ->where('a.id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
+        }
+
+
         // select tabel
         $this->db->select("
         a.nisn as id,
@@ -23,6 +50,15 @@ class SiswaModel extends Render_Model
         $this->db->join('kelas d', 'c.id_kelas = d.id', 'left');
         $this->db->join('sekolah e', 'e.id = d.id_sekolah', 'left');
 
+        // Jika level Guru Administrator
+        if ($this->level == 'Guru Administrator') {
+            $this->db->where('e.id', $id_sekolah);
+        }
+
+        // Jika level Guru
+        if ($this->level == 'Guru') {
+            $this->db->where('d.id', $id_kelas);
+        }
 
         // order by
         if ($order['order'] != null) {
@@ -104,22 +140,51 @@ class SiswaModel extends Render_Model
         return $result;
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function getAllSekolah()
     {
-        $result = $this->db->select("id, nama")->from('sekolah')->get()->result_array();
-        return $result;
+        // jika level Guru Administrator atau guru
+        $id_sekolah = '';
+        if ($this->level == 'Guru Administrator' || $this->level == 'Guru') {
+            $id_sekolah = $this->db->select('id_sekolah')
+                ->from('guru')
+                ->where('id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
+        }
+
+        $result = $this->db->select("id, nama")->from('sekolah');
+        if ($this->level == 'Guru Administrator' || $this->level == 'Guru') {
+            $result->where('id', $id_sekolah);
+        }
+        $get = $result->get()->result_array();
+        return $get;
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function getKelas($id)
     {
-        $result = $this->db->select('id, nama as text')
-            ->from('kelas')
-            ->where('id_sekolah', $id)
-            ->get()
+        $id_kelas = '';
+        if ($this->level == 'Guru') {
+            $id_kelas = $this->db->select('b.id_kelas')
+                ->from('guru a')
+                ->join('guru_kelas b', 'a.nip = b.nip')
+                ->where('a.id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
+        }
+
+        $result = $this->db->select('id, nama as text')->from('kelas');
+        if ($this->level == 'Guru') {
+            $result->where('id', $id_kelas);
+        }
+        $result->where('id_sekolah', $id);
+
+        $exe = $result->get()
             ->result_array();
-        return $result;
+        return $exe;
     }
 
     // dipakai Administrator |
@@ -258,5 +323,12 @@ class SiswaModel extends Render_Model
                 ->num_rows();
         }
         return $result;
+    }
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->level = $this->session->userdata('data')['level'];
+        $this->id_user = $this->session->userdata('data')['id'];
     }
 }

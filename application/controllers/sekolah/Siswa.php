@@ -4,18 +4,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Siswa extends Render_Controller
 {
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function index()
     {
         // Page Settings
         $this->title = 'Kelas';
         $this->title_show = false;
-        $this->navigation = ['Sekolah', 'Siswa '];
+        $this->navigation = ['Siswa '];
         $this->plugins = ['datatables', 'select2'];
 
         // Breadcrumb setting
         $this->breadcrumb_show = false;
 
+        // data send
         $this->data['level'] = $this->level;
         $this->data['sekolah'] = $this->model->getAllSekolah();
 
@@ -191,7 +192,7 @@ class Siswa extends Render_Controller
         // Cek session
         $this->sesion->cek_session();
         $this->level = $this->session->userdata('data')['level'];
-        if ($this->level != 'Administrator' && $this->level != 'GuruAdmin') {
+        if ($this->level != 'Administrator' && $this->level != 'Guru Administrator' && $this->level != 'Guru') {
             redirect('my404', 'refresh');
         }
 

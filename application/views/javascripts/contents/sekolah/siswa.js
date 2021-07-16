@@ -13,6 +13,9 @@ $(function () {
             }
         }
         const table_html = $('#dt_basic');
+        const column = [];
+        if (level == 'Administrator') column.push({ "data": "nama_sekolah" });
+        if (level == 'Administrator' || level == 'Guru Administrator') column.push({ "data": "nama_kelas" });
         table_html.dataTable().fnDestroy()
         table_html.DataTable({
             "ajax": {
@@ -27,21 +30,20 @@ $(function () {
             "autoWidth": false,
             "columns": [
                 { "data": "nisn" },
-                { "data": "nama_sekolah" },
-                { "data": "nama_kelas" },
+                ...column,
                 { "data": "nama" },
                 { "data": "jenis_kelamin" },
                 { "data": "alamat" },
                 {
                     "data": "id", render(data, type, full, meta) {
                         return `<div class="pull-right">
-									<button class="btn btn-info btn-xs" onclick="Info(${data})">
+									<button class="btn btn-info btn-xs" onclick="Info('${data}')">
 										<i class="fa fa-info"></i> Detail
 									</button>
-									<button class="btn btn-primary btn-xs" onclick="Ubah(${data})">
+									<button class="btn btn-primary btn-xs" onclick="Ubah('${data}')">
 										<i class="fa fa-edit"></i> Ubah
 									</button>
-									<button class="btn btn-danger btn-xs" onclick="Hapus(${data})">
+									<button class="btn btn-danger btn-xs" onclick="Hapus('${data}')">
 										<i class="fa fa-trash"></i> Hapus
 									</button>
 								</div>`
@@ -83,6 +85,26 @@ $(function () {
             })
         }
     });
+
+    // initial filter kelas
+    {
+        if (level == 'Guru Administrator') {
+            const id = $('#filter-sekolah').select2('data')[0].id;
+            const text = $('#filter-sekolah').select2('data')[0].text;
+            setKelas(id, false, { id: 'filter-kelas', parent: 'filter' });
+            $("#table-title").html(`List Siswa <b>${text}<b>`);
+        }
+    }
+
+    // initial filter kelas
+    {
+        if (level == 'Guru') {
+            const id = $('#filter-sekolah').select2('data')[0].id;
+            const text = $('#filter-sekolah').select2('data')[0].text;
+            setKelas(id, false, { id: 'filter-kelas', parent: 'filter' });
+            $("#table-title").html(`List Siswa <b>${text}<b>`);
+        }
+    }
 
     // btn ubah di klik
     $("#btn-tambah").click(() => {

@@ -1,20 +1,36 @@
+<?php
+$level = $this->session->userdata('data')['level'];
+$label = '';
+$setFilterSekolah = '';
+$setFilterKelas = '';
+
+if ($level == 'Guru Administrator' || $level == 'Guru') {
+    $setFilterSekolah = 'style="display:none"';
+}
+if ($level == 'Guru') {
+    $setFilterKelas = 'style="display:none"';
+}
+?>
 <div class="card card-info card-outline" id="filter">
     <div class="card-header">
         <div class="container-fluid">
             <div class="d-flex justify-content-end  align-items-star w-100 flex-md-row flex-column">
                 <h3 class="card-title align-self-center">Filter Siswa: </h3>
-                <div class="form-group  mb-lg-0 ml-lg-2">
-                    <select class="form-control" id="filter-sekolah" name="filter-sekolah" style="min-width: 100px;">
-                        <option value="" selected>Semua Sekolah</option>
+                <div class="form-group  mb-lg-0 ml-lg-2" <?= $setFilterSekolah ?>>
+                    <select class="form-control" id="filter-sekolah" name="filter-sekolah" style="min-width: 100px; width:100%">
+                        <?php if ($level == 'Administrator') : ?>
+                            <option value="" selected>Semua Sekolah</option>
+                        <?php endif ?>
                         <?php foreach ($sekolah as $s) {
                             echo '<option value="' . $s['id'] . '">' . $s['nama'] . '</option>';
                         } ?>
                     </select>
                 </div>
-
-                <div class="form-group  mb-lg-0 ml-lg-2">
-                    <select class="form-control" id="filter-kelas" name="filter-kelas" style="min-width: 100px;">
-                        <option value="" selected>Semua Kelas</option>
+                <div class="form-group  mb-lg-0 ml-lg-2" <?= $setFilterKelas ?>>
+                    <select class="form-control" id="filter-kelas" name="filter-kelas" style="min-width: 100px; width:100%">
+                        <?php if ($level == 'Guru Administrator' || $level == 'Administrator') : ?>
+                            <option value="" selected>Semua Kelas</option>
+                        <?php endif ?>
                     </select>
                 </div>
 
@@ -41,7 +57,7 @@
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between w-100">
-            <h3 class="card-title">List Siswa</h3>
+            <h3 class="card-title" id="table-title">List Siswa</h3>
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" id="btn-tambah"><i class="fa fa-plus"></i> Tambah</button>
         </div>
     </div>
@@ -51,8 +67,15 @@
             <thead>
                 <tr>
                     <th>NISN</th>
-                    <th>Sekolah</th>
-                    <th>Kelas</th>
+
+                    <?php if ($level == 'Administrator') : ?>
+                        <th>Sekolah</th>
+                    <?php endif ?>
+
+                    <?php if ($level == 'Administrator' || $level == 'Guru Administrator') : ?>
+                        <th>Kelas</th>
+                    <?php endif ?>
+
                     <th>Nama Siswa</th>
                     <th>Jenis Kelamin</th>
                     <th>Alamat</th>
@@ -239,3 +262,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<script>
+    const level = '<?= $level ?>';
+</script>
