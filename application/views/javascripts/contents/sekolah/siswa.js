@@ -92,7 +92,7 @@ $(function () {
     {
         if (level == 'Guru Administrator') {
             const id = $('#filter-sekolah').select2('data')[0].id;
-            setKelas(id, false, { id: 'filter-kelas', parent: 'filter' });
+            setKelas(id, false, { id: 'filter-kelas', parent: 'filter', pre: 'Semua Kelas' });
         }
     }
 

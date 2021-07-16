@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Siswa extends Render_Controller
 {
 
-    // dipakai Administrator | Guru Administrator
+    // dipakai Administrator | Guru Administrator | Guru
     public function index()
     {
         // Page Settings
@@ -27,7 +27,7 @@ class Siswa extends Render_Controller
         $this->render();
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -53,7 +53,7 @@ class Siswa extends Render_Controller
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function getKelas()
     {
         $id = $this->input->get("id_sekolah");
@@ -62,7 +62,7 @@ class Siswa extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function getSiswa()
     {
         $nisn = $this->input->get("nisn");
@@ -71,7 +71,7 @@ class Siswa extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function insert()
     {
         // load model pengguna untuk insert
@@ -110,7 +110,7 @@ class Siswa extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function update()
     {
         // load model pengguna untuk update
@@ -151,7 +151,7 @@ class Siswa extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function delete()
     {
         // load model pengguna untuk update
@@ -177,7 +177,7 @@ class Siswa extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator | Guru
     public function cekNisn()
     {
         $nisn = $this->input->get("nisn");
