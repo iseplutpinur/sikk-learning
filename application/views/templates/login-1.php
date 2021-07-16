@@ -45,24 +45,20 @@
       <div class="card-body">
         <form action="" method="post" id="form-login">
           <div class="form-group">
-            <input type="text" name="email" class="form-control" id="email" placeholder="Enter email">
+            <input type="text" name="email" class="form-control" id="email" placeholder="NISN/NIP/Username">
           </div>
           <div class="form-group">
             <input type="password" name="password" class="form-control" id="password" placeholder="Password">
           </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="icheck-primary">
-                <input type="checkbox" id="password-visibility">
-                <label for="password-visibility">
-                  Lihat password
-                </label>
-              </div>
+          <div class="d-flex justify-content-between">
+            <div class="icheck-primary">
+              <input type="checkbox" id="password-visibility">
+              <label for="password-visibility">
+                Lihat password
+              </label>
             </div>
-            <div class="col-md-6">
-              <div class="icheck-primary">
-                <a href="<?= base_url() ?>lupaPassword" style="text-align: right; float: right;">Lupa Password</a>
-              </div>
+            <div class="icheck-primary">
+              <a href="<?= base_url() ?>lupaPassword" style="text-align: right; float: right;">Lupa Password</a>
             </div>
           </div>
         </form>

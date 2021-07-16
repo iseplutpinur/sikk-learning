@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $config['datatables'] = [
 	'scripts' => [
 		'assets/plugins/datatables/jquery.dataTables.min.js',
+		'assets/plugins/datatables/jquery.dataTables.min.js',
 		'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
 		'assets/plugins/datatables-responsive/js/dataTables.responsive.min.js',
 		'assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
