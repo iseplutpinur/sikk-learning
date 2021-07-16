@@ -128,7 +128,7 @@ class Menu extends Render_Controller
 		parent::__construct();
 		$this->sesion->cek_session();
 		if ($this->session->userdata('data')['level'] != 'Administrator') {
-			redirect('login', 'refresh');
+			redirect('my404', 'refresh');
 		}
 		$this->load->model('pengaturan/menuModel', 'menu');
 		$this->default_template = 'templates/dashboard';

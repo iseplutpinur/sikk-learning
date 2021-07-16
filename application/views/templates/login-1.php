@@ -74,7 +74,7 @@
     </div>
     <!-- /.card -->
   </div>
-  <small id="usernameHelp" class="form-text text-muted">© 2021 Developed by <a href="https://infinit.id/">CV. Adikarya Infinit</a></small>
+  <small class="form-text text-muted">© 2021 Developed by <a href="https://infinit.id/">CV. Adikarya Infinit</a></small>
   <!-- /.login-box -->
 
   <!-- jQuery -->
