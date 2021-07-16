@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class SiswaModel extends Render_Model
+class GuruModel extends Render_Model
 {
     // get data ========================================================================================================
     // dipakai Administrator |
@@ -9,19 +9,22 @@ class SiswaModel extends Render_Model
     {
         // select tabel
         $this->db->select("
-        a.nisn as id,
-        a.nisn,
+        a.nip as id,
+        a.nip,
         a.nama,
         a.jenis_kelamin,
         a.alamat,
         e.nama as nama_sekolah,
+        g.lev_nama as level_str,
         d.nama as nama_kelas");
 
-        $this->db->from('siswa a');
+        $this->db->from('guru a');
         $this->db->join('users b', 'b.user_id = a.id_user', 'left');
-        $this->db->join('siswa_kelas c', 'a.nisn = c.nisn', 'left');
+        $this->db->join('guru_kelas c', 'a.nip = c.nip', 'left');
         $this->db->join('kelas d', 'c.id_kelas = d.id', 'left');
         $this->db->join('sekolah e', 'e.id = d.id_sekolah', 'left');
+        $this->db->join('role_users f', 'a.id_user = f.role_user_id', 'left');
+        $this->db->join('level g', 'g.lev_id = f.role_lev_id', 'left');
 
 
         // order by
@@ -33,8 +36,8 @@ class SiswaModel extends Render_Model
             $order_colum = $columns['data'];
 
             switch ($order_colum) {
-                case 'nisn':
-                    $order_colum = 'a.nisn';
+                case 'nip':
+                    $order_colum = 'a.nip';
                     break;
                 case 'nama':
                     $order_colum = 'a.nama';
@@ -44,6 +47,9 @@ class SiswaModel extends Render_Model
                     break;
                 case 'nama_kelas':
                     $order_colum = 'd.nama';
+                    break;
+                case 'level_str':
+                    $order_colum = 'g.lev_nama';
                     break;
                 case 'jenis_kelamin':
                     $order_colum = 'a.jenis_kelamin';
@@ -85,12 +91,13 @@ class SiswaModel extends Render_Model
         // pencarian
         if ($cari != null) {
             $this->db->where("(
-                a.nisn LIKE '%$cari%' or
+                a.nip LIKE '%$cari%' or
                 a.nama LIKE '%$cari%' or
                 a.jenis_kelamin LIKE '%$cari%' or
                 e.nama LIKE '%$cari%' or
                 d.nama LIKE '%$cari%' or
                 a.alamat LIKE '%$cari%' or
+                g.lev_nama LIKE '%$cari%' or
                 a.jenis_kelamin LIKE '%$cari%'
                 )");
         }
@@ -123,23 +130,23 @@ class SiswaModel extends Render_Model
     }
 
     // dipakai Administrator |
-    public function getUsers($nisn)
+    public function getUsers($nip)
     {
-        $result = $this->db->select('a.id_user, b.id as id_siswa_kelas')
-            ->from('siswa a')
-            ->join('siswa_kelas b', 'a.nisn = b.nisn', 'left')
-            ->where('a.nisn', $nisn)
+        $result = $this->db->select('a.id_user, b.id as id_guru_kelas')
+            ->from('guru a')
+            ->join('guru_kelas b', 'a.nip = b.nip', 'left')
+            ->where('a.nip', $nip)
             ->get()
             ->row_array();
         return  $result;
     }
 
     // dipakai Administrator |
-    public function getSiswa($nisn)
+    public function getGuru($nip)
     {
         $result =  $this->db->select("
-            a.nisn as id,
-            a.nisn,
+            a.nip as id,
+            a.nip,
             a.nama,
             a.jenis_kelamin,
             a.alamat,
@@ -150,14 +157,17 @@ class SiswaModel extends Render_Model
             e.nama as nama_sekolah,
             d.nama as nama_kelas,
             b.user_phone,
-            a.created_at,
+            f.role_lev_id as level,
+            g.lev_nama as level_str,
             b.updated_at")
-            ->from('siswa a')
+            ->from('guru a')
             ->join('users b', 'b.user_id = a.id_user', 'left')
-            ->join('siswa_kelas c', 'a.nisn = c.nisn', 'left')
+            ->join('guru_kelas c', 'a.nip = c.nip', 'left')
             ->join('kelas d', 'c.id_kelas = d.id', 'left')
             ->join('sekolah e', 'e.id = d.id_sekolah', 'left')
-            ->where('a.nisn', $nisn)
+            ->join('role_users f', 'a.id_user = f.role_user_id', 'left')
+            ->join('level g', 'g.lev_id = f.role_lev_id', 'left')
+            ->where('a.nip', $nip)
             ->get()
             ->row_array();
         return $result;
@@ -165,14 +175,16 @@ class SiswaModel extends Render_Model
 
     // insert ==========================================================================================================
     // dipakai Administrator |
-    public function insertSiswa($nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
+    public function insertGuru($nip, $id_user, $id_sekolah, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $no_telpon, $status)
     {
-        $result = $this->db->insert("siswa", [
-            'nisn' => $nisn,
+        $result = $this->db->insert("guru", [
+            'nip' => $nip,
             'id_user' => $id_user,
+            'id_sekolah' => $id_sekolah,
             'nama' => $nama,
             'tanggal_lahir' => $tanggal_lahir,
             'jenis_kelamin' => $jenis_kelamin,
+            'no_hp' => $no_telpon,
             'alamat' => $alamat,
             'status' => $status,
         ]);
@@ -181,10 +193,10 @@ class SiswaModel extends Render_Model
     }
 
     // dipakai Administrator |
-    public function insertSiswaKelas($nisn, $id_kelas, $status)
+    public function insertGuruKelas($nip, $id_kelas, $status)
     {
-        $result = $this->db->insert("siswa_kelas", [
-            'nisn' => $nisn,
+        $result = $this->db->insert("guru_kelas", [
+            'nip' => $nip,
             'id_kelas' => $id_kelas,
             'status' => $status,
         ]);
@@ -194,15 +206,17 @@ class SiswaModel extends Render_Model
 
     // update ==========================================================================================================
     // dipakai Administrator |
-    public function updateSiswa($id, $nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
+    public function updateGuru($id, $nip, $id_user, $id_sekolah, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $no_telpon, $status)
     {
-        $this->db->where('nisn', $id);
-        $result = $this->db->update("siswa", [
-            'nisn' => $nisn,
+        $this->db->where('nip', $id);
+        $result = $this->db->update("guru", [
+            'nip' => $nip,
             'id_user' => $id_user,
+            'id_sekolah' => $id_sekolah,
             'nama' => $nama,
             'tanggal_lahir' => $tanggal_lahir,
             'jenis_kelamin' => $jenis_kelamin,
+            'no_hp' => $no_telpon,
             'alamat' => $alamat,
             'status' => $status,
             'updated_at' => Date("Y-m-d H:i:s", time())
@@ -212,11 +226,11 @@ class SiswaModel extends Render_Model
     }
 
     // dipakai Administrator |
-    public function updateSiswaKelas($id, $nisn, $id_kelas, $status)
+    public function updateGuruKelas($id, $nip, $id_kelas, $status)
     {
         $this->db->where('id', $id);
-        $result = $this->db->update('siswa_kelas', [
-            'nisn' => $nisn,
+        $result = $this->db->update('guru_kelas', [
+            'nip' => $nip,
             'id_kelas' => $id_kelas,
             'status' => $status,
             'updated_at' => Date("Y-m-d H:i:s", time())
@@ -226,26 +240,26 @@ class SiswaModel extends Render_Model
 
     // delete ==========================================================================================================
     // dipakai Administrator |
-    public function deleteSiswa($id)
+    public function deleteGuru($id)
     {
-        $result = $this->db->delete('siswa', ['nisn' => $id]);
+        $result = $this->db->delete('guru', ['nip' => $id]);
         return $result;
     }
 
     // dipakai Administrator |
-    public function deleteSiswaKelas($id)
+    public function deleteguruKelas($id)
     {
-        $result = $this->db->delete('siswa_kelas', ['id' => $id]);
+        $result = $this->db->delete('guru_kelas', ['id' => $id]);
         return $result;
     }
 
     // cehecking =======================================================================================================
     // dipakai Administrator |
-    public function cekNisn($nisn)
+    public function cekNip($nip)
     {
-        $result = $this->db->select("nisn")
-            ->from('siswa')
-            ->where('nisn', $nisn)
+        $result = $this->db->select("nip")
+            ->from('guru')
+            ->where('nip', $nip)
             ->get()
             ->num_rows();
 
@@ -253,7 +267,7 @@ class SiswaModel extends Render_Model
         if ($result == 0) {
             $result = $this->db->select("user_id")
                 ->from('users')
-                ->where('user_email', $nisn)
+                ->where('user_email', $nip)
                 ->get()
                 ->num_rows();
         }

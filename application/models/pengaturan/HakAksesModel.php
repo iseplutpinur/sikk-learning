@@ -1,23 +1,23 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class HakAksesModel extends Render_Model {
+class HakAksesModel extends Render_Model
+{
 
 
 	public function getAllData($id = null)
 	{
 		$where 			= array();
 
-		if($id != null)
-		{
+		if ($id != null) {
 			$where 		= array('a.rola_id' => $id);
 		}
 
 		$exe 			= $this->db->select(' a.*, b.*, c.menu_id as parent_id, c.menu_nama as parent, d.lev_nama ')
-									->join('menu b', 'b.menu_id = a.rola_menu_id')
-									->join('menu c', 'c.menu_id = b.menu_menu_id','left')
-									->join('level d', 'd.lev_id = a.rola_lev_id')
-									->get_where('role_aplikasi a', $where);
+			->join('menu b', 'b.menu_id = a.rola_menu_id')
+			->join('menu c', 'c.menu_id = b.menu_menu_id', 'left')
+			->join('level d', 'd.lev_id = a.rola_lev_id')
+			->get_where('role_aplikasi a', $where);
 
 		return $exe->result_array();
 	}
@@ -49,12 +49,9 @@ class HakAksesModel extends Render_Model {
 
 	public function insert($level, $menu, $sub_menu = null)
 	{
-		if($sub_menu != null)
-		{
+		if ($sub_menu != null) {
 			$data['rola_menu_id'] 	= $sub_menu;
-		}
-		else
-		{
+		} else {
 			$data['rola_menu_id'] 	= $menu;
 		}
 
@@ -72,12 +69,9 @@ class HakAksesModel extends Render_Model {
 
 	public function update($id, $level, $menu, $sub_menu)
 	{
-		if($sub_menu != null)
-		{
+		if ($sub_menu != null) {
 			$data['rola_menu_id'] 	= $sub_menu;
-		}
-		else
-		{
+		} else {
 			$data['rola_menu_id'] 	= $menu;
 		}
 
@@ -101,8 +95,6 @@ class HakAksesModel extends Render_Model {
 
 		return $exe;
 	}
-
-
 }
 
 /* End of file HakAksesModel.php */
