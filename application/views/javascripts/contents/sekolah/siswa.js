@@ -86,13 +86,13 @@ $(function () {
         }
     });
 
+
+
     // initial filter kelas
     {
         if (level == 'Guru Administrator') {
             const id = $('#filter-sekolah').select2('data')[0].id;
-            const text = $('#filter-sekolah').select2('data')[0].text;
             setKelas(id, false, { id: 'filter-kelas', parent: 'filter' });
-            $("#table-title").html(`List Siswa <b>${text}<b>`);
         }
     }
 
@@ -100,9 +100,7 @@ $(function () {
     {
         if (level == 'Guru') {
             const id = $('#filter-sekolah').select2('data')[0].id;
-            const text = $('#filter-sekolah').select2('data')[0].text;
             setKelas(id, false, { id: 'filter-kelas', parent: 'filter' });
-            $("#table-title").html(`List Siswa <b>${text}<b>`);
         }
     }
 
@@ -219,6 +217,7 @@ $(function () {
         const status = $("#filter-aktif").val();
         const kata_kunci = $("#filter-key").val();
         dynamic(id_sekolah, id_kelas, status, kata_kunci);
+        setTitle();
     });
 
     // cek nisn
@@ -315,6 +314,10 @@ function setKelas(id_sekolah, id_kelas = false, kelas = { id: 'kelas', parent: '
         if (id_kelas) {
             $('#kelas').val(id_kelas).trigger('change');
         }
+
+        if (level == 'Guru Administrator' || level == 'Guru') {
+            setTitle();
+        }
     }).fail(($xhr) => {
         console.log($xhr);
     })
@@ -357,4 +360,19 @@ function Info(id) {
     }).always(() => {
         $.LoadingOverlay("hide");
     })
+}
+
+function setTitle() {
+    const sekolah = $('#filter-sekolah').select2('data');
+    const kelas_title = $('#filter-kelas').select2('data');
+    let detail = '';
+    if (sekolah) {
+        let text = sekolah[0].text;
+        detail += text != 'Semua Sekolah' ? ` <b>${sekolah[0].text}</b>` : '';
+    }
+    if (kelas_title) {
+        let text = kelas_title[0].text;
+        detail += text != 'Semua Kelas' ? ` Kelas <b>${kelas_title[0].text}</b>` : '';
+    }
+    $("#table-title").html(`List Siswa ${detail}`);
 }
