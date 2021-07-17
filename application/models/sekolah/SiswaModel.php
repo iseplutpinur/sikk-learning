@@ -230,7 +230,7 @@ class SiswaModel extends Render_Model
     }
 
     // insert ==========================================================================================================
-    // dipakai Administrator | Guru Administrator | Guru
+    // dipakai Administrator | Guru Administrator | Guru | Registrasi
     public function insertSiswa($nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
     {
         $result = $this->db->insert("siswa", [
@@ -246,7 +246,7 @@ class SiswaModel extends Render_Model
         return $result;
     }
 
-    // dipakai Administrator | Guru Administrator | Guru
+    // dipakai Administrator | Guru Administrator | Guru | Registrasi
     public function insertSiswaKelas($nisn, $id_kelas, $status)
     {
         $result = $this->db->insert("siswa_kelas", [

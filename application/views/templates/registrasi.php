@@ -47,7 +47,7 @@
 <body class="hold-transition register-page  my-5">
     <div class="register-box">
         <div class="register-logo" style="line-height:.5">
-            <img src="./assets/favicon/android-chrome-256x256.png" class="rounded mx-auto d-block" style="max-width: 100px;" alt="Logo SIKK">
+            <img src="<?= base_url() ?>assets/favicon/android-chrome-256x256.png" class="rounded mx-auto d-block" style="max-width: 100px;" alt="Logo SIKK">
             <span class="h5">Sekolah Indonesia Kota Kinabalu<br>Learning Management System</span>
         </div>
 

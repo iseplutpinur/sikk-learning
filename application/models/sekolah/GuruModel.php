@@ -186,7 +186,7 @@ class GuruModel extends Render_Model
     }
 
     // insert ==========================================================================================================
-    // dipakai Administrator |
+    // dipakai Administrator | Registrasi
     public function insertGuru($nip, $id_user, $id_sekolah, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $no_telpon, $status)
     {
         $result = $this->db->insert("guru", [
@@ -204,7 +204,7 @@ class GuruModel extends Render_Model
         return $result;
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Registrasi
     public function insertGuruKelas($nip, $id_kelas, $status)
     {
         $result = $this->db->insert("guru_kelas", [

@@ -21,6 +21,10 @@ class Registrasi extends Render_Controller
     // Digunakan Registrasi
     public function guru()
     {
+        // page attribut
+        $this->title = 'Registrasi Guru';
+        $this->plugins = ['icheck', 'select2'];
+
         // content
         $this->content      = 'registrasi/guru';
 
@@ -38,7 +42,6 @@ class Registrasi extends Render_Controller
         // Mulai transaksi
         $this->db->trans_start();
         // insert user
-        // level siswa 5 di databasee
         $status = 2;
         $level = 5;
         $nama = $this->input->post("nama");
@@ -62,6 +65,46 @@ class Registrasi extends Render_Controller
         // simpan transaksi
         $this->db->trans_complete();
         $result = $user && $siswa && $siswa_kelas;
+
+        // kirim output
+        $code = $result ? 200 : 500;
+        $this->output_json(["data" => $result], $code);
+    }
+
+    // Digunakan Registrasi
+    public function insert_guru()
+    {
+        // load model pengguna untuk insert
+        $this->load->model('pengaturan/penggunaModel', 'pengguna');
+        $this->load->model("sekolah/guruModel", 'model');
+
+        // Mulai transaksi
+        $this->db->trans_start();
+        // insert user
+        $status = 2;
+        $level = 4;
+        $nama = $this->input->post("nama");
+        $no_telpon = $this->input->post("no_telpon");
+        $username = $this->input->post("nip");
+        $password = $this->input->post("password");
+        $user = $this->pengguna->insert($level, $nama, $no_telpon, $username, $password, $status);
+
+        // insert guru
+        $id_user = $user['id'];
+        $tanggal_lahir = $this->input->post("tanggal_lahir");
+        $nip = $this->input->post("nip");
+        $jenis_kelamin = $this->input->post("jenis_kelamin");
+        $alamat = $this->input->post("alamat");
+        $id_sekolah = $this->input->post("id_sekolah");
+        $guru = $this->model->insertGuru($nip, $id_user, $id_sekolah, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $no_telpon, $status);
+
+        // insert guru_kelas
+        $id_kelas = $this->input->post("id_kelas");
+        $guru_kelas = $this->model->insertGuruKelas($nip, $id_kelas, $status);
+
+        // simpan transaksi
+        $this->db->trans_complete();
+        $result = $user && $guru && $guru_kelas;
 
         // kirim output
         $code = $result ? 200 : 500;

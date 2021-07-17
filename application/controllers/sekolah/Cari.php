@@ -46,6 +46,15 @@ class Cari extends Render_Controller
         $result = $this->model->cekNisn($nisn);
         $this->output_json(["data" => $result]);
     }
+
+    // dipakai Registrasi |
+    public function cekNip()
+    {
+        $this->load->model("sekolah/sekolahModel", 'model');
+        $nip = $this->input->get("nip");
+        $result = $this->model->cekNip($nip);
+        $this->output_json(["data" => $result]);
+    }
 }
 
 /* End of file Pengguna.php */
