@@ -25,7 +25,7 @@
                         <td><?= $q['user_email'] ?></td>
                         <td><?= $q['user_nama'] ?></td>
                         <td><?= $q['user_phone'] ?></td>
-                        <td><?= $q['user_status'] ?></td>
+                        <td><?= $q['user_status'] == '1' ? 'Aktif' : ($q['user_status'] == '2' ? 'Pending' : 'Tidak Aktif') ?></td>
                         <td>
                             <div>
                                 <button class="btn btn-primary btn-sm" onclick="Ubah(<?= $q['user_id'] ?>)">
@@ -114,8 +114,8 @@
                                 <label for="nama"> Status</label>
                                 <select class="form-control" required id="status">
                                     <option value="">--Pilih Status--</option>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Tidak Aktif">Tidak Aktif</option>
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Tidak Aktif</option>
                                 </select>
                             </div>
                         </div>

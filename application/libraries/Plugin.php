@@ -11,7 +11,6 @@ class Plugin
 
 	public function load_plugins($plugins)
 	{
-
 		$plugin_styles = array();
 		$plugin_scripts = array();
 

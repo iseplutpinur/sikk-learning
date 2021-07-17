@@ -80,4 +80,25 @@ class DaftarSekolahModel extends Render_Model
         $result = $this->db->delete('sekolah', ['id' => $id]);
         return $result;
     }
+
+    // dipakai Guru Administrator | Guru
+    public function getIdSekolahByIdUser($id)
+    {
+        $id_sekolah = $this->db->select('id_sekolah')
+            ->from('guru')
+            ->where('id_user', $id)
+            ->get()
+            ->row_array();
+        $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
+        return $id_sekolah;
+    }
+
+    // dipakai Registrasi
+    public function cari($key)
+    {
+        $this->db->select('a.id as id, a.nama as text');
+        $this->db->from('sekolah a');
+        $this->db->where("nama LIKE '%$key%' or alamat LIKE '%$key%' or no_telpon LIKE '%$key%'");
+        return $this->db->get()->result_array();
+    }
 }

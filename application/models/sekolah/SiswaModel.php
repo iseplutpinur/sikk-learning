@@ -328,7 +328,7 @@ class SiswaModel extends Render_Model
     function __construct()
     {
         parent::__construct();
-        $this->level = $this->session->userdata('data')['level'];
-        $this->id_user = $this->session->userdata('data')['id'];
+        $this->level = $this->session->userdata('data') ? $this->session->userdata('data')['level'] : '';
+        $this->id_user = $this->session->userdata('data') ? $this->session->userdata('data')['id'] : '';
     }
 }

@@ -1,30 +1,65 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class DaftarSekolah extends Render_Controller
+class Data extends Render_Controller
 {
 
-    // Dipakai Guru Administrator
+    // Dipakai Guru |
     public function index()
     {
         // Page Settings
-        $this->title = 'Daftar Sekolah';
-        $this->navigation = ['Sekolah', 'Daftar Sekolah'];
+        $this->title = 'Tambah Project';
+        $this->navigation = ['Tambah Project'];
         $this->plugins = ['datatables'];
 
         // Breadcrumb setting
         $this->breadcrumb_1 = 'Dashboard';
         $this->breadcrumb_1_url = base_url();
-        $this->breadcrumb_2 = 'Daftar Sekolah';
+        $this->breadcrumb_2 = 'Daftar Project';
         $this->breadcrumb_2_url = '#';
+        $this->breadcrumb_3 = 'Data Project';
+        $this->breadcrumb_3_url = '#';
 
         // content
-        $this->content      = 'sekolah/daftar-sekolah';
-
+        if ($this->level == 'Guru') {
+            $this->data['id_sekolah'] = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+            $this->data['id_kelas'] = $this->kelas->getIdKelasByIdUser($this->id_user);
+            $this->content = 'project/guru/data';
+        }
         // Send data to view
         $this->render();
     }
 
+    // Dipakai Guru |
+    public function tambah()
+    {
+        // Page Settings
+        $this->title = 'Tambah Project';
+        $this->title_show = false;
+        $this->navigation = ['Tambah Project'];
+        $this->plugins = ['summernote'];
+
+        // Breadcrumb setting
+        $this->breadcrumb_1 = 'Dashboard';
+        $this->breadcrumb_1_url = base_url();
+        $this->breadcrumb_2 = 'Daftar Project';
+        $this->breadcrumb_2_url = '#';
+        $this->breadcrumb_3 = 'Data Project';
+        $this->breadcrumb_3_url = base_url('project/data');
+        $this->breadcrumb_4 = 'Tambah Project';
+        $this->breadcrumb_4_url = '#';
+
+        // content
+        if ($this->level == 'Guru') {
+            $this->data['id_sekolah'] = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+            $this->data['id_kelas'] = $this->kelas->getIdKelasByIdUser($this->id_user);
+            $this->data['nip_guru'] = $this->guru->getNipGuruByIdUser($this->id_user);
+            $this->data['id_project'] = $this->model->tambahProject($this->data['id_sekolah'], $this->data['id_kelas'], $this->data['nip_guru']);
+            $this->content = 'project/guru/tambah';
+        }
+        // Send data to view
+        $this->render();
+    }
 
     public function ajax_data()
     {
@@ -95,11 +130,20 @@ class DaftarSekolah extends Render_Controller
         parent::__construct();
         // Cek session
         $this->sesion->cek_session();
-        if ($this->session->userdata('data')['level'] != 'Administrator') {
+        $this->level = $this->session->userdata('data') ? $this->session->userdata('data')['level'] : '';
+        $this->id_user = $this->session->userdata('data') ? $this->session->userdata('data')['id'] : '';
+
+        // cek level
+        if ($this->level != 'Guru') {
             redirect('my404', 'refresh');
         }
+        if ($this->level == 'Guru' ||  $this->level == 'Guru Administrator') {
+            $this->load->model("sekolah/DaftarSekolahModel", 'sekolah');
+            $this->load->model("sekolah/KelasModel", 'kelas');
+            $this->load->model("sekolah/GuruModel", 'guru');
+        }
 
-        $this->load->model("sekolah/DaftarSekolahModel", 'model');
+        $this->load->model("project/DataModel", 'model');
         $this->default_template = 'templates/dashboard';
         $this->load->library('plugin');
         $this->load->helper('url');

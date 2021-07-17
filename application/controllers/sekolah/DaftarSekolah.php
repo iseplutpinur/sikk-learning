@@ -90,6 +90,22 @@ class DaftarSekolah extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
+    // dipakai Registrasi |
+    public function cari()
+    {
+        $key = $this->input->post('q');
+        // jika inputan ada
+        if ($key) {
+            $this->output_json([
+                "results" => $this->model->cari($key)
+            ]);
+        } else {
+            $this->output_json([
+                "results" => []
+            ]);
+        }
+    }
+
     function __construct()
     {
         parent::__construct();

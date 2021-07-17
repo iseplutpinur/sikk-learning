@@ -114,4 +114,17 @@ class KelasModel extends Render_Model
         $result = $this->db->delete('kelas', ['id' => $id]);
         return $result;
     }
+
+    // dipakai Guru Administrator | Guru
+    public function getIdKelasByIdUser($id)
+    {
+        $id_kelas = $this->db->select('b.id_kelas')
+            ->from('guru a')
+            ->join('guru_kelas b', 'a.nip = b.nip')
+            ->where('a.id_user', $id)
+            ->get()
+            ->row_array();
+        $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
+        return $id_kelas;
+    }
 }

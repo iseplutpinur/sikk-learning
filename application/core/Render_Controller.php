@@ -96,7 +96,6 @@ class Render_Controller extends CI_Controller
 		if (empty($this->plugins)) return;
 
 		$result 				= $this->plugin->load_plugins($this->plugins);
-
 		$this->plugin_styles 	= $result['styles'];
 		$this->plugin_scripts 	= $result['scripts'];
 	}

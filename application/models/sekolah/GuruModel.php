@@ -173,6 +173,18 @@ class GuruModel extends Render_Model
         return $result;
     }
 
+    // dipakai Guru Administrator | Guru
+    public function getNipGuruByIdUser($id)
+    {
+        $nip = $this->db->select('nip')
+            ->from('guru')
+            ->where('id_user', $id)
+            ->get()
+            ->row_array();
+        $nip = $nip != null ? $nip['nip'] : null;
+        return $nip;
+    }
+
     // insert ==========================================================================================================
     // dipakai Administrator |
     public function insertGuru($nip, $id_user, $id_sekolah, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $no_telpon, $status)

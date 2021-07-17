@@ -87,7 +87,7 @@ class Siswa extends Render_Controller
         $no_telpon = $this->input->post("no_telpon");
         $username = $this->input->post("nisn");
         $password = $this->input->post("password");
-        $user = $this->pengguna->insert($level, $nama, $no_telpon, $username, $this->b_password->bcrypt_hash($password), $status == 0 ? 'Tidak Aktif' : 'Aktif');
+        $user = $this->pengguna->insert($level, $nama, $no_telpon, $username, $password, $status);
 
         // insert siswa
         $id_user = $user['id'];
@@ -129,7 +129,7 @@ class Siswa extends Render_Controller
         $password = $this->input->post("password");
         $user_detail = $this->model->getUsers($id);
 
-        $user = $this->pengguna->update($user_detail['id_user'], $level, $nama, $no_telpon, $username, $password, $status == 0 ? 'Tidak Aktif' : 'Aktif');
+        $user = $this->pengguna->update($user_detail['id_user'], $level, $nama, $no_telpon, $username, $password, $status);
 
         // insert siswa
         $tanggal_lahir = $this->input->post("tanggal_lahir");

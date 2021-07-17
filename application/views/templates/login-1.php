@@ -58,7 +58,7 @@
               </label>
             </div>
             <div class="icheck-primary">
-              <a href="<?= base_url() ?>lupaPassword" style="text-align: right; float: right;">Lupa Password</a>
+              <a href="./registrasi" style="text-align: right; float: right;">Registrasi</a>
             </div>
           </div>
         </form>

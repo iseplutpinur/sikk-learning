@@ -15,7 +15,7 @@ $(document).ready(function () {
             data.username,
             data.nama,
             data.telepon,
-            data.status,
+            data.status == 0 ? 'Tidak Aktif' : (data.status == 1 ? 'Aktif' : (data.status == 2 ? 'Pending' : '')),
             '<div>'
             + '<button class="btn btn-primary btn-sm mr-1" onclick="Ubah(' + data.id + ')"><i class="fa fa-edit"></i> Ubah</button>'
             + '<button class="btn btn-danger btn-sm" onclick="Hapus(' + data.id + ')"><i class="fa fa-trash"></i> Hapus</button>'
@@ -35,7 +35,7 @@ $(document).ready(function () {
         $table.cell(row, 1).data(data.username)
         $table.cell(row, 2).data(data.nama)
         $table.cell(row, 3).data(data.telepon)
-        $table.cell(row, 4).data(data.status)
+        $table.cell(row, 4).data(data.status == 0 ? 'Tidak Aktif' : (data.status == 1 ? 'Aktif' : (data.status == 2 ? 'Pending' : '')))
     }
 
     // Delete Row

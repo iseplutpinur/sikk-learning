@@ -36,13 +36,13 @@ $(function () {
                 {
                     "data": "id", render(data, type, full, meta) {
                         return `<div class="pull-right">
-									<button class="btn btn-info btn-xs" onclick="Info(${data})">
+									<button class="btn btn-info btn-xs" onclick="Info('${data}')">
 										<i class="fa fa-info"></i> Detail
 									</button>
-									<button class="btn btn-primary btn-xs" onclick="Ubah(${data})">
+									<button class="btn btn-primary btn-xs" onclick="Ubah('${data}')">
 										<i class="fa fa-edit"></i> Ubah
 									</button>
-									<button class="btn btn-danger btn-xs" onclick="Hapus(${data})">
+									<button class="btn btn-danger btn-xs" onclick="Hapus('${data}')">
 										<i class="fa fa-trash"></i> Hapus
 									</button>
 								</div>`
