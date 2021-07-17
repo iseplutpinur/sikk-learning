@@ -32,7 +32,7 @@ class LoginModel extends Render_Model
 
 	public function query($where)
 	{
-		return $this->db->select('user_id,user_nama,user_password,user_email,c.lev_nama,c.lev_id')->join('role_users b', 'b.role_user_id = a.user_id')->join('level c', 'c.lev_id = b.role_lev_id')->get_where('users a', $where);
+		return $this->db->select('user_id,user_nama,user_password,user_email,c.lev_nama,c.lev_id, a.user_status')->join('role_users b', 'b.role_user_id = a.user_id')->join('level c', 'c.lev_id = b.role_lev_id')->get_where('users a', $where);
 	}
 }
 

@@ -39,6 +39,7 @@ if ($level == 'Guru') {
                         <option value="">Status</option>
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
+                        <option value="2">Menunggu Konfirmasi</option>
                     </select>
                 </div>
 
@@ -79,6 +80,7 @@ if ($level == 'Guru') {
                     <th>Nama Siswa</th>
                     <th>Jenis Kelamin</th>
                     <th>Alamat</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -181,6 +183,7 @@ if ($level == 'Guru') {
                                         <select class="form-control" id="status" name="status">
                                             <option value="1">Aktif</option>
                                             <option value="0">Tidak Aktif</option>
+                                            <option value="2">Konfirmasi</option>
                                         </select>
                                     </div>
                                 </div>
@@ -253,8 +256,14 @@ if ($level == 'Guru') {
                     <h5 class="card-title">Tanggal Diubah:</h5>
                     <p class="card-text" id="detail-updated_at"></p>
                 </div>
+                <form action="" id="form-konfirmasi">
+                    <input type="hidden" id="id-konfirmasi">
+                </form>
             </div>
             <div class="modal-footer">
+                <button type="submit" form="form-konfirmasi" class="btn btn-primary" id="btn-konfirmasi">
+                    Konfirmasi
+                </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">
                     Close
                 </button>
@@ -262,6 +271,7 @@ if ($level == 'Guru') {
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <script>
     const level = '<?= $level ?>';
 </script>

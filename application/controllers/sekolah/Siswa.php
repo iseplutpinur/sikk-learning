@@ -185,6 +185,14 @@ class Siswa extends Render_Controller
         $this->output_json(["data" => $result]);
     }
 
+    // dipakai Administrator | Guru Administrator | Guru
+    public function konfirmasiSiswa()
+    {
+        $nisn = $this->input->post("nisn");
+        $result = $this->model->konfirmasiSiswa($nisn);
+        $this->output_json(["data" => $result]);
+    }
+
 
     function __construct()
     {

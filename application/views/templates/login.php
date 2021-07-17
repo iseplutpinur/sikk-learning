@@ -89,9 +89,11 @@
   <script>
     const base_url = '<?= base_url() ?>';
   </script>
-  <script src="<?= base_url('assets/template/') ?>dist/js/adminlteLogin.min.js"></script>
   <script src="<?= base_url('assets/plugins/') ?>jquery-validation/jquery.validate.min.js"></script>
   <script src="<?= base_url('assets/plugins/') ?>jquery-validation/additional-methods.min.js"></script>
+  <?php if (file_exists(VIEWPATH . "javascripts/contents/{$content}.js")) : ?>
+    <script src="<?= $this->plugin->build_url("javascripts/contents/{$content}.js") ?>" type="text/javascript"></script>
+  <?php endif; ?>
 </body>
 
 </html>

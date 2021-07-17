@@ -41,6 +41,7 @@ class SiswaModel extends Render_Model
         a.nama,
         a.jenis_kelamin,
         a.alamat,
+        a.status,
         e.nama as nama_sekolah,
         d.nama as nama_kelas");
 
@@ -287,6 +288,34 @@ class SiswaModel extends Render_Model
             'updated_at' => Date("Y-m-d H:i:s", time())
         ]);
         return $result;
+    }
+
+    public function konfirmasiSiswa($nisn)
+    {
+        // Mulai transaksi
+        $this->db->trans_start();
+        $this->db->where('nisn', $nisn);
+        $siswa = $this->db->update('siswa', [
+            'status' => 1,
+            'updated_at' => Date("Y-m-d H:i:s", time())
+        ]);
+
+        $this->db->where('nisn', $nisn);
+        $siswa_kelas = $this->db->update('siswa_kelas', [
+            'status' => 1,
+            'updated_at' => Date("Y-m-d H:i:s", time())
+        ]);
+
+        $this->db->where('user_email', $nisn);
+        $users = $this->db->update('users', [
+            'user_status' => 1,
+            'updated_at' => Date("Y-m-d H:i:s", time())
+        ]);
+
+        // simpan transaksi
+        $this->db->trans_complete();
+
+        return $siswa && $siswa_kelas && $users;
     }
 
     // delete ==========================================================================================================

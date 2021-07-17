@@ -35,11 +35,31 @@ $(function () {
                 { "data": "jenis_kelamin" },
                 { "data": "alamat" },
                 {
+                    "data": "status", render(data, type, full, meta) {
+                        return data == '1' ? "Aktif" : (data == 2 ? 'Menunggu Dikofirmasi' : 'Tidak Aktif');
+                    }
+                },
+                {
                     "data": "id", render(data, type, full, meta) {
+                        let btn_konfirmasi = '';
+                        if (full.status == '2') {
+                            btn_konfirmasi = `
+                                <button class="btn btn-secondary btn-xs" onclick="Konfirmasi('${data}')">
+                                    <i class="fa fa-check"></i> Konfirmasi
+                                </button>
+                            `;
+                        }
+
+                        if (full.status != '2') {
+                            btn_konfirmasi = `
+                                <button class="btn btn-info btn-xs" onclick="Info('${data}')">
+                                    <i class="fa fa-info"></i> Detail
+                                </button>
+                            `;
+                        }
+
                         return `<div class="pull-right">
-									<button class="btn btn-info btn-xs" onclick="Info('${data}')">
-										<i class="fa fa-info"></i> Detail
-									</button>
+                                    ${btn_konfirmasi}
 									<button class="btn btn-primary btn-xs" onclick="Ubah('${data}')">
 										<i class="fa fa-edit"></i> Ubah
 									</button>
@@ -241,6 +261,32 @@ $(function () {
             console.log($xhr);
         })
     });
+
+    $("#form-konfirmasi").submit(function (e) {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        $.ajax({
+            method: 'post',
+            url: '<?= base_url() ?>sekolah/siswa/konfirmasiSiswa',
+            data: {
+                nisn: $("#id-konfirmasi").val()
+            }
+        }).done((data) => {
+            Toast.fire({
+                icon: 'success',
+                title: 'Berhasil Dikonfirmasi'
+            })
+            dynamic();
+        }).fail(($xhr) => {
+            Toast.fire({
+                icon: 'error',
+                title: 'Gagal mendapatkan data.'
+            })
+        }).always(() => {
+            $.LoadingOverlay("hide");
+            $('#modalInfo').modal('toggle');
+        })
+    })
 })
 
 // Click Hapus
@@ -334,7 +380,9 @@ function Info(id) {
     }).done((data) => {
         if (data.data) {
             data = data.data;
-            $('#modalInfo').modal('toggle')
+            $("#btn-konfirmasi").attr("style", 'display:none');
+            $('#modalInfo').modal('toggle');
+            $('#modalInfoLabel').html('Detail Siswa');
             $("#detail-alamat").html(data.alamat);
             $("#detail-created_at").html(data.created_at);
             $("#detail-jenis_kelamin").html(data.jenis_kelamin);
@@ -375,4 +423,46 @@ function setTitle() {
         detail += text != 'Semua Kelas' ? ` Kelas <b>${kelas_title[0].text}</b>` : '';
     }
     $("#table-title").html(`List Siswa ${detail}`);
+}
+
+function Konfirmasi(id) {
+    $.LoadingOverlay("show");
+    $.ajax({
+        method: 'get',
+        url: '<?= base_url() ?>sekolah/siswa/getSiswa',
+        data: {
+            nisn: id
+        }
+    }).done((data) => {
+        if (data.data) {
+            data = data.data;
+            $("#btn-konfirmasi").removeAttr("style");
+            $("#id-konfirmasi").val(id);
+            $('#modalInfo').modal('toggle');
+            $('#modalInfoLabel').html('Konfirmasi Siswa');
+            $("#detail-alamat").html(data.alamat);
+            $("#detail-created_at").html(data.created_at);
+            $("#detail-jenis_kelamin").html(data.jenis_kelamin);
+            $("#detail-nama").html(data.nama);
+            $("#detail-nama_kelas").html(data.nama_kelas);
+            $("#detail-nama_sekolah").html(data.nama_sekolah);
+            $("#detail-nisn").html(data.nisn);
+            $("#detail-tanggal_lahir").html(data.tanggal_lahir);
+            $("#detail-updated_at").html(data.updated_at == null ? '<i>Belum Pernah diubah</i>' : data.updated_at);
+            $("#detail-user_phone").html(data.user_phone);
+            $("#detail-status").html(data.status == 2 ? "Menunggu dikonfirmasi" : (data.status == 0 ? "Tidak Aktif" : (data.status == 1 ? "Aktif" : '')));
+        } else {
+            Toast.fire({
+                icon: 'error',
+                title: 'Gagal mendapatkan data.'
+            })
+        }
+    }).fail(($xhr) => {
+        Toast.fire({
+            icon: 'error',
+            title: 'Gagal mendapatkan data.'
+        })
+    }).always(() => {
+        $.LoadingOverlay("hide");
+    })
 }

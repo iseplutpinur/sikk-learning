@@ -133,6 +133,15 @@ $(() => {
                 })
                 setTimeout(() => $("#toastsContainerTopRight").remove(), 10000);
             }
+            $('#nisn').val('');
+            $('#nama').val('');
+            $('#tanggal_lahir').val('');
+            $('#alamat').val('');
+            $('#password').val('');
+            $('#password1').val('');
+            $('#no_telpon').val('');
+            $('#sekolah').empty();
+            $('#kelas').empty();
             $.LoadingOverlay("hide");
         }).fail(($xhr) => {
             console.log($xhr);
