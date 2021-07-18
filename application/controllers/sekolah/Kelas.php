@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Kelas extends Render_Controller
 {
-
     // dipakai Administrator | Guru Administrator |
     public function index()
     {
@@ -26,7 +25,7 @@ class Kelas extends Render_Controller
         $this->render();
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -52,7 +51,7 @@ class Kelas extends Render_Controller
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function getKelas()
     {
         $id = $this->input->get("id");
@@ -61,7 +60,7 @@ class Kelas extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function insert()
     {
         $nama = $this->input->post("nama");
@@ -73,7 +72,7 @@ class Kelas extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function update()
     {
         $id = $this->input->post("id");
@@ -86,7 +85,7 @@ class Kelas extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function delete()
     {
         $id = $this->input->post("id");

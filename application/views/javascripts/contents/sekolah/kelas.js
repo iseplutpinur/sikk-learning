@@ -2,6 +2,8 @@ $(function () {
     // data table
     function dynamic(id_sekolah, status, kata_kunci) {
         let data = null;
+        const column = [];
+        if (level == 'Administrator') column.push({ "data": "nama_sekolah" });
         if (id_sekolah || status || kata_kunci) {
             data = {
                 filter: {
@@ -25,7 +27,7 @@ $(function () {
             "lengthChange": true,
             "autoWidth": false,
             "columns": [
-                { "data": "nama_sekolah" },
+                ...column,
                 { "data": "nama" },
                 { "data": "jml_murid" },
                 { "data": "status_str" },
@@ -119,13 +121,16 @@ $(function () {
         })
     })
 
-    // filter
+    // filter sekolah diubah
     $("#btn-filter").click(() => {
         const id_sekolah = $('#filter-sekolah').select2('data')[0].id;
         const status = $("#filter-aktif").val();
         const kata_kunci = $("#filter-key").val();
         dynamic(id_sekolah, status, kata_kunci);
+        setTitle();
     });
+
+    setTitle();
 })
 
 // Click Hapus
@@ -169,4 +174,15 @@ const Ubah = (id) => {
     }).always(() => {
         $.LoadingOverlay("hide");
     })
+
+}
+
+function setTitle() {
+    const sekolah = $('#filter-sekolah').select2('data');
+    let detail = '';
+    if (sekolah) {
+        let text = sekolah[0].text;
+        detail += text != 'Semua Sekolah' ? ` <b>${sekolah[0].text}</b>` : '';
+    }
+    $("#table-title").html(`List Kelas ${detail}`);
 }
