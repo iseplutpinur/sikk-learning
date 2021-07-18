@@ -1,11 +1,23 @@
+<?php
+$level = $this->session->userdata('data')['level'];
+$label = '';
+$setFilterSekolah = '';
+$setFilterKelas = '';
+
+if ($level == 'Guru Administrator' || $level == 'Guru') {
+    $setFilterSekolah = 'style="display:none"';
+}
+?>
 <div class="card card-info card-outline" id="filter">
     <div class="card-header">
         <div class="container-fluid">
             <div class="d-flex justify-content-end  align-items-star w-100 flex-md-row flex-column">
                 <h3 class="card-title align-self-center">Filter Guru: </h3>
-                <div class="form-group  mb-lg-0 ml-lg-2">
+                <div class="form-group  mb-lg-0 ml-lg-2" <?= $setFilterSekolah ?>>
                     <select class="form-control" id="filter-sekolah" name="filter-sekolah" style="min-width: 100px;">
-                        <option value="" selected>Semua Sekolah</option>
+                        <?php if ($level == 'Administrator') : ?>
+                            <option value="" selected>Semua Sekolah</option>
+                        <?php endif ?>
                         <?php foreach ($sekolah as $s) {
                             echo '<option value="' . $s['id'] . '">' . $s['nama'] . '</option>';
                         } ?>
@@ -23,6 +35,7 @@
                         <option value="">Status</option>
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
+                        <option value="2">Konfirmasi</option>
                     </select>
                 </div>
 
@@ -41,7 +54,7 @@
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between w-100">
-            <h3 class="card-title">List Guru</h3>
+            <h3 class="card-title" id="table-title">List Guru</h3>
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" id="btn-tambah"><i class="fa fa-plus"></i> Tambah</button>
         </div>
     </div>
@@ -51,12 +64,15 @@
             <thead>
                 <tr>
                     <th>NIP</th>
-                    <th>Sekolah</th>
+                    <?php if ($level == 'Administrator') : ?>
+                        <th>Sekolah</th>
+                    <?php endif ?>
                     <th>Kelas</th>
                     <th>Sebagai</th>
                     <th>Nama guru</th>
                     <th>Jenis Kelamin</th>
                     <th>Alamat</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -181,6 +197,7 @@
                                         <select class="form-control" id="status" name="status">
                                             <option value="1">Aktif</option>
                                             <option value="0">Tidak Aktif</option>
+                                            <option value="2">Konfirmasi</option>
                                         </select>
                                     </div>
                                 </div>
@@ -248,8 +265,14 @@
                     <h5 class="card-title">Tanggal Diubah:</h5>
                     <p class="card-text" id="detail-updated_at"></p>
                 </div>
+                <form action="" id="form-konfirmasi">
+                    <input type="hidden" id="id-konfirmasi">
+                </form>
             </div>
             <div class="modal-footer">
+                <button type="submit" form="form-konfirmasi" class="btn btn-primary" id="btn-konfirmasi">
+                    Konfirmasi
+                </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">
                     Close
                 </button>
@@ -257,3 +280,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<script>
+    const level = '<?= $level ?>';
+</script>

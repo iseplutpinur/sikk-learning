@@ -8,7 +8,7 @@ class SiswaModel extends Render_Model
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
 
-        // jika level Guru Administrator
+        // jika level Guru Administrator get sekolah
         $id_sekolah = '';
         if ($this->level == 'Guru Administrator') {
             // get sekolah guru itu
@@ -20,7 +20,7 @@ class SiswaModel extends Render_Model
             $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
         }
 
-        // jika level Guru
+        // jika level Guru get kelas
         $id_kelas = '';
         if ($this->level == 'Guru') {
             // get kelas guru itu
@@ -51,12 +51,12 @@ class SiswaModel extends Render_Model
         $this->db->join('kelas d', 'c.id_kelas = d.id', 'left');
         $this->db->join('sekolah e', 'e.id = d.id_sekolah', 'left');
 
-        // Jika level Guru Administrator
+        // Jika level Guru Administrator by sekolah
         if ($this->level == 'Guru Administrator') {
             $this->db->where('e.id', $id_sekolah);
         }
 
-        // Jika level Guru
+        // Jika level Guru by kelas
         if ($this->level == 'Guru') {
             $this->db->where('d.id', $id_kelas);
         }

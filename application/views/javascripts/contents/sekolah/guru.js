@@ -2,6 +2,8 @@ $(function () {
     // data table
     function dynamic(id_sekolah, id_kelas, status, kata_kunci) {
         let data = null;
+        const column = [];
+        if (level == 'Administrator') column.push({ "data": "nama_sekolah" });
         if (id_sekolah || status || kata_kunci || id_kelas) {
             data = {
                 filter: {
@@ -27,18 +29,38 @@ $(function () {
             "autoWidth": false,
             "columns": [
                 { "data": "nip" },
-                { "data": "nama_sekolah" },
+                ...column,
                 { "data": "nama_kelas" },
                 { "data": "level_str" },
                 { "data": "nama" },
                 { "data": "jenis_kelamin" },
                 { "data": "alamat" },
                 {
+                    "data": "status", render(data, type, full, meta) {
+                        return data == '1' ? "Aktif" : (data == 2 ? 'Menunggu Dikofirmasi' : 'Tidak Aktif');
+                    }
+                },
+                {
                     "data": "id", render(data, type, full, meta) {
+                        let btn_konfirmasi = '';
+                        if (full.status == '2') {
+                            btn_konfirmasi = `
+                                <button class="btn btn-secondary btn-xs" onclick="Konfirmasi('${data}')">
+                                    <i class="fa fa-check"></i> Konfirmasi
+                                </button>
+                            `;
+                        }
+
+                        if (full.status != '2') {
+                            btn_konfirmasi = `
+                                <button class="btn btn-info btn-xs" onclick="Info('${data}')">
+                                    <i class="fa fa-info"></i> Detail
+                                </button>
+                            `;
+                        }
+
                         return `<div class="pull-right">
-									<button class="btn btn-info btn-xs" onclick="Info('${data}')">
-										<i class="fa fa-info"></i> Detail
-									</button>
+                                    ${btn_konfirmasi}
 									<button class="btn btn-primary btn-xs" onclick="Ubah('${data}')">
 										<i class="fa fa-edit"></i> Ubah
 									</button>
@@ -71,7 +93,7 @@ $(function () {
         setKelas($(this).select2('data')[0].id);
     });
 
-    // sekolah tambah diubah
+    // filter sekolah diubah
     $('#filter-sekolah').on('select2:select', function (e) {
         const id = $(this).select2('data')[0].id;
         if (id) {
@@ -84,6 +106,15 @@ $(function () {
             })
         }
     });
+
+    // initial filter guru
+    {
+        if (level == 'Guru Administrator') {
+            const id = $('#filter-sekolah').select2('data')[0].id;
+            setKelas(id, false, { id: 'filter-kelas', parent: 'filter', pre: 'Semua Kelas' });
+        }
+    }
+
 
     // btn ubah di klik
     $("#btn-tambah").click(() => {
@@ -200,6 +231,7 @@ $(function () {
         const status = $("#filter-aktif").val();
         const kata_kunci = $("#filter-key").val();
         dynamic(id_sekolah, id_kelas, status, kata_kunci);
+        setTitle();
     });
 
     // cek nip
@@ -297,6 +329,10 @@ function setKelas(id_sekolah, id_kelas = false, kelas = { id: 'kelas', parent: '
         if (id_kelas) {
             $('#kelas').val(id_kelas).trigger('change');
         }
+
+        if (level == 'Guru Administrator' || level == 'Guru') {
+            setTitle();
+        }
     }).fail(($xhr) => {
         console.log($xhr);
     })
@@ -313,6 +349,63 @@ function Info(id) {
     }).done((data) => {
         if (data.data) {
             data = data.data;
+            $("#btn-konfirmasi").attr("style", 'display:none');
+            $('#modalInfo').modal('toggle')
+            $("#detail-alamat").html(data.alamat);
+            $("#detail-created_at").html(data.created_at);
+            $("#detail-jenis_kelamin").html(data.jenis_kelamin);
+            $("#detail-nama").html(data.nama);
+            $("#detail-nama_kelas").html(data.nama_kelas);
+            $("#detail-nama_sekolah").html(data.nama_sekolah);
+            $("#detail-nip").html(data.nip);
+            $("#detail-tanggal_lahir").html(data.tanggal_lahir);
+            $("#detail-updated_at").html(data.updated_at == null ? '<i>Belum Pernah diubah</i>' : data.updated_at);
+            $("#detail-user_phone").html(data.user_phone);
+            $("#detail-status").html(data.status == 2 ? "Menunggu dikonfirmasi" : (data.status == 0 ? "Tidak Aktif" : (data.status == 1 ? "Aktif" : '')));
+            $("#detail-level").html(data.level_str);
+        } else {
+            Toast.fire({
+                icon: 'error',
+                title: 'Gagal mendapatkan data.'
+            })
+        }
+    }).fail(($xhr) => {
+        Toast.fire({
+            icon: 'error',
+            title: 'Gagal mendapatkan data.'
+        })
+    }).always(() => {
+        $.LoadingOverlay("hide");
+    })
+}
+
+function setTitle() {
+    const sekolah = $('#filter-sekolah').select2('data');
+    const kelas_title = $('#filter-kelas').select2('data');
+    let detail = '';
+    if (sekolah) {
+        let text = sekolah[0].text;
+        detail += text != 'Semua Sekolah' ? ` <b>${sekolah[0].text}</b>` : '';
+    }
+    if (kelas_title) {
+        let text = kelas_title[0].text;
+        detail += text != 'Semua Kelas' ? ` Kelas <b>${kelas_title[0].text}</b>` : '';
+    }
+    $("#table-title").html(`List Guru ${detail}`);
+}
+
+function Konfirmasi(id) {
+    $.LoadingOverlay("show");
+    $.ajax({
+        method: 'get',
+        url: '<?= base_url() ?>sekolah/guru/getGuru',
+        data: {
+            nip: id
+        }
+    }).done((data) => {
+        if (data.data) {
+            data = data.data;
+            $("#btn-konfirmasi").removeAttr("style");
             $('#modalInfo').modal('toggle')
             $("#detail-alamat").html(data.alamat);
             $("#detail-created_at").html(data.created_at);

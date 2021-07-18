@@ -4,13 +4,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Kelas extends Render_Controller
 {
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function index()
     {
         // Page Settings
         $this->title = 'Kelas';
         $this->title_show = false;
-        $this->navigation = ['Sekolah', 'Kelas '];
+        $this->navigation = ['Kelas '];
         $this->plugins = ['datatables', 'select2'];
 
         // Breadcrumb setting

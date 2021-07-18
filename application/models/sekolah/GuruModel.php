@@ -4,9 +4,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class GuruModel extends Render_Model
 {
     // get data ========================================================================================================
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
+
+        // jika level Guru Administrator
+        $id_sekolah = '';
+        if ($this->level == 'Guru Administrator') {
+            // get sekolah guru itu
+            $id_sekolah = $this->db->select('id_sekolah')
+                ->from('guru')
+                ->where('id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
+        }
+
         // select tabel
         $this->db->select("
         a.nip as id,
@@ -14,6 +27,7 @@ class GuruModel extends Render_Model
         a.nama,
         a.jenis_kelamin,
         a.alamat,
+        a.status,
         e.nama as nama_sekolah,
         g.lev_nama as level_str,
         d.nama as nama_kelas");
@@ -26,6 +40,10 @@ class GuruModel extends Render_Model
         $this->db->join('role_users f', 'a.id_user = f.role_user_id', 'left');
         $this->db->join('level g', 'g.lev_id = f.role_lev_id', 'left');
 
+        // Jika level Guru Administrator
+        if ($this->level == 'Guru Administrator') {
+            $this->db->where('e.id', $id_sekolah);
+        }
 
         // order by
         if ($order['order'] != null) {
@@ -111,14 +129,30 @@ class GuruModel extends Render_Model
         return $result;
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function getAllSekolah()
     {
-        $result = $this->db->select("id, nama")->from('sekolah')->get()->result_array();
+        // jika level Guru Administrator atau guru
+        $id_sekolah = '';
+        if ($this->level == 'Guru Administrator') {
+            $id_sekolah = $this->db->select('id_sekolah')
+                ->from('guru')
+                ->where('id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
+        }
+
+
+        $result = $this->db->select("id, nama")->from('sekolah');
+        if ($this->level == 'Guru Administrator') {
+            $result->where('id', $id_sekolah);
+        }
+        $result = $result->get()->result_array();
         return $result;
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function getKelas($id)
     {
         $result = $this->db->select('id, nama as text')
@@ -129,7 +163,7 @@ class GuruModel extends Render_Model
         return $result;
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function getUsers($nip)
     {
         $result = $this->db->select('a.id_user, b.id as id_guru_kelas')
@@ -141,7 +175,7 @@ class GuruModel extends Render_Model
         return  $result;
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator |
     public function getGuru($nip)
     {
         $result =  $this->db->select("
@@ -159,7 +193,8 @@ class GuruModel extends Render_Model
             b.user_phone,
             f.role_lev_id as level,
             g.lev_nama as level_str,
-            b.updated_at")
+            b.updated_at,
+            a.created_at")
             ->from('guru a')
             ->join('users b', 'b.user_id = a.id_user', 'left')
             ->join('guru_kelas c', 'a.nip = c.nip', 'left')
@@ -186,7 +221,7 @@ class GuruModel extends Render_Model
     }
 
     // insert ==========================================================================================================
-    // dipakai Administrator | Registrasi
+    // dipakai Administrator | Guru Administrator | Registrasi
     public function insertGuru($nip, $id_user, $id_sekolah, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $no_telpon, $status)
     {
         $result = $this->db->insert("guru", [
@@ -284,5 +319,12 @@ class GuruModel extends Render_Model
                 ->num_rows();
         }
         return $result;
+    }
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->level = $this->session->userdata('data') ? $this->session->userdata('data')['level'] : '';
+        $this->id_user = $this->session->userdata('data') ? $this->session->userdata('data')['id'] : '';
     }
 }

@@ -10,7 +10,7 @@ class Guru extends Render_Controller
         // Page Settings
         $this->title = 'Kelas';
         $this->title_show = false;
-        $this->navigation = ['Sekolah', 'Guru '];
+        $this->navigation = ['Guru '];
         $this->plugins = ['datatables', 'select2'];
 
         // Breadcrumb setting

@@ -92,7 +92,7 @@ $(function () {
         setKelas($(this).select2('data')[0].id);
     });
 
-    // sekolah tambah diubah
+    // filter sekolah diubah
     $('#filter-sekolah').on('select2:select', function (e) {
         const id = $(this).select2('data')[0].id;
         if (id) {
