@@ -48,13 +48,7 @@ $(() => {
             },
         }).done((data) => {
             if (data.data > 0) {
-                $(document).Toasts('create', {
-                    delay: 4000,
-                    class: 'bg-danger',
-                    title: 'Gagal',
-                    body: 'NIP Sudah Terdaftar'
-                })
-                setTimeout(() => $("#toastsContainerTopRight").remove(), 3000);
+                setToast({ title: "Gagal", body: 'NIP Sudah Terdaftar', class: "bg-warning" });
                 this.value = '';
                 this.focus();
             }
@@ -79,13 +73,7 @@ $(() => {
 
     $('#password1').change(function () {
         if (this.value != $('#password').val()) {
-            $(document).Toasts('create', {
-                delay: 4000,
-                class: 'bg-danger',
-                title: 'Gagal',
-                body: 'Ulangi Password Tidak Sama'
-            })
-            setTimeout(() => $("#toastsContainerTopRight").remove(), 3000);
+            setToast({ title: "Gagal", body: 'Ulangi Password Tidak Sama', class: "bg-warning" });
             this.value = '';
             this.focus();
         }
@@ -93,13 +81,7 @@ $(() => {
 
     $('#password').change(function () {
         if (this.value.length < 6) {
-            $(document).Toasts('create', {
-                delay: 4000,
-                class: 'bg-danger',
-                title: 'Gagal',
-                body: 'Pajang karakter password minimal 6'
-            })
-            setTimeout(() => $("#toastsContainerTopRight").remove(), 3000);
+            setToast({ title: "Gagal", body: 'Pajang karakter password minimal 6', class: "bg-warning" });
             this.value = '';
             this.focus();
         }
@@ -125,13 +107,7 @@ $(() => {
             },
         }).done((data) => {
             if (data.data > 0) {
-                $(document).Toasts('create', {
-                    delay: 4000,
-                    class: 'bg-success',
-                    title: 'Berhasil',
-                    body: 'Registrasi berhasil. Silahakan tunggu akun di konfirmasi oleh Administrator Guru Sekolah'
-                })
-                setTimeout(() => $("#toastsContainerTopRight").remove(), 10000);
+                setToast({ title: "Berhasil", body: "Registrasi berhasil. Silahakan tunggu akun di konfirmasi oleh guru administrator.", class: "bg-info" });
             }
             $('#nip').val('');
             $('#nama').val('');
@@ -145,9 +121,18 @@ $(() => {
             $.LoadingOverlay("hide");
         }).fail(($xhr) => {
             console.log($xhr);
+            setToast({ title: "Gagal", body: "Registrasi Gagal segera hubungi administrator.", class: "bg-danger" });
+        }).always(() => {
             $.LoadingOverlay("hide");
         })
     })
 })
 
-
+function setToast(data) {
+    $(document).Toasts('create', {
+        class: data.class,
+        title: data.title,
+        body: data.body
+    })
+    setTimeout(() => $("#toastsContainerTopRight").remove(), 5000);
+}

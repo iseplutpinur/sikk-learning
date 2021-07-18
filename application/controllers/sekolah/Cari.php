@@ -50,7 +50,7 @@ class Cari extends Render_Controller
     // dipakai Registrasi |
     public function cekNip()
     {
-        $this->load->model("sekolah/sekolahModel", 'model');
+        $this->load->model("sekolah/guruModel", 'model');
         $nip = $this->input->get("nip");
         $result = $this->model->cekNip($nip);
         $this->output_json(["data" => $result]);
