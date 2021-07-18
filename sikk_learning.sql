@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2021 at 02:18 AM
+-- Generation Time: Jul 18, 2021 at 04:42 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -11,9 +11,65 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Database: `sikk_learning`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `daftar_project`
+--
+
+CREATE TABLE `daftar_project` (
+  `id` int(11) NOT NULL,
+  `id_sekolah` int(11) DEFAULT NULL,
+  `id_kelas` int(11) DEFAULT NULL,
+  `nip_guru` varchar(20) DEFAULT NULL,
+  `pendahuluan` text DEFAULT NULL,
+  `deskripsi` text DEFAULT NULL,
+  `tujuan` text DEFAULT NULL,
+  `link_sumber` varchar(200) DEFAULT NULL,
+  `jumlah_aktifitas` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT 0 COMMENT '0 Draft | 1 Simpan |',
+  `gambar` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `daftar_project`
+--
+
+INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `created_at`, `updated_at`) VALUES
+(4, 3, 18, 'guru3', NULL, NULL, NULL, NULL, NULL, 0, '', '2021-07-16 23:17:49', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `daftar_project_detail`
+--
+
+CREATE TABLE `daftar_project_detail` (
+  `id` int(11) NOT NULL,
+  `id_daftar_project` int(11) DEFAULT NULL,
+  `id_template` int(11) DEFAULT NULL,
+  `naskah` text DEFAULT NULL,
+  `detail` text DEFAULT NULL,
+  `lembar_kerja` text DEFAULT NULL,
+  `jenis_upload` varchar(100) DEFAULT NULL,
+  `nilai` int(11) NOT NULL,
+  `status` int(11) DEFAULT NULL,
+  `gambar` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -26,14 +82,26 @@ CREATE TABLE `guru` (
   `id_user` int(11) NOT NULL,
   `id_sekolah` int(11) DEFAULT NULL,
   `nama` varchar(50) DEFAULT NULL,
-  `jenis_kelamin` varchar(15) DEFAULT NULL,
+  `jenis_kelamin` enum('Laki-Laki','Perempuan') DEFAULT NULL,
   `tanggal_lahir` date DEFAULT NULL,
   `alamat` text DEFAULT NULL,
   `no_hp` varchar(20) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL COMMENT '0 Tidak Aktif | 1 Aktif | 2 Pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `guru`
+--
+
+INSERT INTO `guru` (`nip`, `id_user`, `id_sekolah`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `alamat`, `no_hp`, `status`, `created_at`, `updated_at`) VALUES
+('987321', 25, 1, 'Ani Ayu Pratiwi', 'Perempuan', '2021-07-17', 'Cirebon', '0254', 1, '2021-07-17 15:42:41', '2021-07-17 15:43:39'),
+('guru', 12, 1, 'Isep Lutpi Nur 1', 'Laki-Laki', '2021-07-15', 'Cianjur', '085798132505', 1, '2021-07-16 13:43:44', '2021-07-16 23:12:38'),
+('guru1', 17, 3, 'Isep Lutpi Nur', 'Laki-Laki', '2021-07-21', 'Cianjur', '085798132505', 1, '2021-07-16 23:09:14', NULL),
+('guru2', 18, 1, 'M ilham solehudin', 'Laki-Laki', '2021-07-28', '-', '085798132505', 1, '2021-07-16 23:13:04', '2021-07-16 23:13:37'),
+('guru3', 19, 3, 'M ilham solehudin 3', 'Laki-Laki', '2021-07-23', '-', '085798132505', 1, '2021-07-16 23:16:58', '2021-07-16 23:17:11'),
+('guruadmin', 10, 3, 'M. Ath thariq', 'Laki-Laki', '2021-07-17', 'BDG', '0857981325059', 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35');
 
 -- --------------------------------------------------------
 
@@ -49,6 +117,18 @@ CREATE TABLE `guru_kelas` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `guru_kelas`
+--
+
+INSERT INTO `guru_kelas` (`id`, `nip`, `id_kelas`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'guruadmin', 18, 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35'),
+(2, 'guru', 1, 1, '2021-07-16 13:43:44', '2021-07-16 23:12:38'),
+(3, 'guru1', 18, 1, '2021-07-16 23:09:14', NULL),
+(4, 'guru2', 1, 1, '2021-07-16 23:13:04', '2021-07-16 23:13:37'),
+(5, 'guru3', 18, 1, '2021-07-16 23:16:58', '2021-07-16 23:17:11'),
+(6, '987321', 4, 1, '2021-07-17 15:42:41', '2021-07-17 15:43:39');
 
 -- --------------------------------------------------------
 
@@ -70,27 +150,27 @@ CREATE TABLE `kelas` (
 --
 
 INSERT INTO `kelas` (`id`, `id_sekolah`, `nama`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'I', 1, '2021-07-14 20:47:21', NULL),
-(2, 1, 'II', 1, '2021-07-14 20:47:21', NULL),
-(3, 1, 'III', 1, '2021-07-14 20:47:21', NULL),
-(4, 1, 'IV', 1, '2021-07-14 20:47:21', NULL),
-(5, 1, 'V', 1, '2021-07-14 20:47:21', NULL),
-(6, 1, 'VI', 1, '2021-07-14 20:47:21', NULL),
-(7, 2, 'I', 1, '2021-07-14 20:48:25', NULL),
-(8, 2, 'II', 1, '2021-07-14 20:48:25', NULL),
-(9, 2, 'III', 1, '2021-07-14 20:48:25', NULL),
-(10, 2, 'IV', 1, '2021-07-14 20:48:25', NULL),
-(11, 2, 'V', 1, '2021-07-14 20:48:25', NULL),
-(12, 2, 'VI', 1, '2021-07-14 20:48:25', NULL),
-(13, 3, 'I', 1, '2021-07-14 20:48:42', NULL),
-(14, 3, 'II', 1, '2021-07-14 20:48:42', NULL),
-(15, 3, 'III', 1, '2021-07-14 20:48:42', NULL),
-(16, 3, 'IV', 1, '2021-07-14 20:48:42', NULL),
-(17, 3, 'V', 1, '2021-07-14 20:48:42', NULL),
-(18, 3, 'VI', 1, '2021-07-14 20:48:42', NULL),
-(19, 4, 'I', 1, '2021-07-14 20:49:06', NULL),
-(20, 4, 'II', 1, '2021-07-14 20:49:06', NULL),
-(21, 4, 'III', 1, '2021-07-14 20:49:06', NULL);
+(1, 1, 'I', 1, '2021-07-14 13:47:21', NULL),
+(2, 1, 'II', 1, '2021-07-14 13:47:21', NULL),
+(3, 1, 'III', 1, '2021-07-14 13:47:21', NULL),
+(4, 1, 'IV', 1, '2021-07-14 13:47:21', NULL),
+(5, 1, 'V', 1, '2021-07-14 13:47:21', NULL),
+(6, 1, 'VI', 1, '2021-07-14 13:47:21', NULL),
+(7, 2, 'I', 1, '2021-07-14 13:48:25', NULL),
+(8, 2, 'II', 1, '2021-07-14 13:48:25', NULL),
+(9, 2, 'III', 1, '2021-07-14 13:48:25', NULL),
+(10, 2, 'IV', 1, '2021-07-14 13:48:25', NULL),
+(11, 2, 'V', 1, '2021-07-14 13:48:25', NULL),
+(12, 2, 'VI', 1, '2021-07-14 13:48:25', NULL),
+(13, 3, 'I', 1, '2021-07-14 13:48:42', NULL),
+(14, 3, 'II', 1, '2021-07-14 13:48:42', NULL),
+(15, 3, 'III', 1, '2021-07-14 13:48:42', NULL),
+(16, 3, 'IV', 1, '2021-07-14 13:48:42', NULL),
+(17, 3, 'V', 1, '2021-07-14 13:48:42', NULL),
+(18, 3, 'VI', 1, '2021-07-14 13:48:42', NULL),
+(19, 4, 'I', 1, '2021-07-14 13:49:06', NULL),
+(20, 4, 'II', 1, '2021-07-14 13:49:06', NULL),
+(21, 4, 'III', 1, '2021-07-14 13:49:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -112,7 +192,7 @@ CREATE TABLE `level` (
 
 INSERT INTO `level` (`lev_id`, `lev_nama`, `lev_keterangan`, `lev_status`, `created_at`) VALUES
 (1, 'Administrator', 'Super Administrator', 'Aktif', '2020-06-18 09:40:31'),
-(3, 'GuruAdmin', 'Guru administrator di masing masing sekolah', 'Aktif', '2021-07-14 12:28:52'),
+(3, 'Guru Administrator', 'Guru administrator di masing masing sekolah', 'Aktif', '2021-07-14 12:28:52'),
 (4, 'Guru', 'Guru sekolah biasa', 'Aktif', '2021-07-14 12:29:03'),
 (5, 'Siswa', 'Siswa sekolah', 'Aktif', '2021-07-14 12:29:19');
 
@@ -146,7 +226,7 @@ INSERT INTO `menu` (`menu_id`, `menu_menu_id`, `menu_nama`, `menu_keterangan`, `
 (5, 2, 'Level', '-', 3, 'far fa-circle', 'pengaturan/level', 'Aktif', '2020-06-18 02:40:07'),
 (6, 2, 'Pengguna', '-', 4, 'far fa-circle', 'pengaturan/pengguna', 'Aktif', '2020-06-18 02:40:07'),
 (7, 0, 'Ganti Password', 'Ganti password', 99, 'fa fa-key', 'pengaturan/password', 'Aktif', '2021-06-28 08:34:14'),
-(24, 0, 'Daftar Project', '-', 2, 'fas fa-clipboard-list', 'daftarProject', 'Aktif', '2021-07-14 12:46:15'),
+(24, 0, 'Daftar Project', '-', 2, 'fas fa-clipboard-list', '#', 'Aktif', '2021-07-14 12:46:15'),
 (25, 0, 'Monitoring dan Penilaian', '-', 3, 'fas fa-desktop', 'monitoringDanPenilaian', 'Aktif', '2021-07-14 12:51:47'),
 (26, 0, 'Siswa', '-', 4, 'fas fa-users', 'siswa', 'Aktif', '2021-07-14 12:53:01'),
 (27, 0, 'Profile', '-', 5, 'fas fa-user', '#', 'Aktif', '2021-07-14 12:53:59'),
@@ -158,7 +238,10 @@ INSERT INTO `menu` (`menu_id`, `menu_menu_id`, `menu_nama`, `menu_keterangan`, `
 (33, 0, 'Sekolah', 'Menu CRUD Sekolah Khusus Admin Pusat', 3, 'fas fa-home', '#', 'Aktif', '2021-07-14 13:34:23'),
 (34, 33, 'Daftar Sekolah', '-', 1, 'far fa-circle', 'sekolah/daftarSekolah', 'Aktif', '2021-07-14 14:32:13'),
 (35, 33, 'Kelas ', '-', 2, 'far fa-circle', 'sekolah/kelas', 'Aktif', '2021-07-14 14:32:42'),
-(36, 33, 'Siswa ', '-', 3, 'far fa-circle', 'sekolah/siswa', 'Aktif', '2021-07-14 14:33:10');
+(36, 33, 'Siswa ', '-', 4, 'far fa-circle', 'sekolah/siswa', 'Aktif', '2021-07-14 14:33:10'),
+(37, 33, 'Guru ', 'Super admin kelola guru sekolah\n', 3, 'far fa-circle', 'sekolah/guru', 'Aktif', '2021-07-16 02:45:10'),
+(38, 24, 'Data Project', 'Daftar project', 1, 'far fa-circle', 'project/data', 'Aktif', '2021-07-16 06:24:53'),
+(39, 24, 'Project Siswa', 'Daftar project siswa', 2, 'far fa-circle', 'project/siswa', 'Aktif', '2021-07-16 06:26:01');
 
 -- --------------------------------------------------------
 
@@ -201,7 +284,6 @@ CREATE TABLE `role_aplikasi` (
 
 INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_at`) VALUES
 (1, 1, 1, '2021-07-14 12:27:04'),
-(2, 3, 1, '2021-07-14 12:27:11'),
 (3, 4, 1, '2021-07-14 12:27:17'),
 (4, 5, 1, '2021-07-14 12:27:25'),
 (5, 6, 1, '2021-07-14 12:27:31'),
@@ -209,7 +291,6 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (7, 2, 1, '2021-07-14 12:27:48'),
 (8, 24, 1, '2021-07-14 13:00:21'),
 (9, 25, 1, '2021-07-14 13:00:29'),
-(10, 26, 1, '2021-07-14 13:00:40'),
 (11, 27, 1, '2021-07-14 13:00:46'),
 (13, 29, 1, '2021-07-14 13:01:00'),
 (14, 30, 1, '2021-07-14 13:01:08'),
@@ -235,7 +316,6 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (35, 29, 4, '2021-07-14 13:13:19'),
 (36, 1, 5, '2021-07-14 13:13:49'),
 (37, 7, 5, '2021-07-14 13:13:56'),
-(38, 24, 5, '2021-07-14 13:14:11'),
 (39, 27, 5, '2021-07-14 13:14:24'),
 (40, 32, 5, '2021-07-14 13:14:57'),
 (41, 28, 5, '2021-07-14 13:15:15'),
@@ -245,7 +325,22 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (45, 33, 1, '2021-07-14 13:34:39'),
 (46, 34, 1, '2021-07-14 14:33:31'),
 (47, 35, 1, '2021-07-14 14:33:38'),
-(48, 36, 1, '2021-07-14 14:33:49');
+(48, 36, 1, '2021-07-14 14:33:49'),
+(49, 37, 1, '2021-07-16 02:45:47'),
+(50, 35, 3, '2021-07-16 04:04:22'),
+(51, 37, 3, '2021-07-16 04:04:36'),
+(52, 36, 3, '2021-07-16 04:04:47'),
+(53, 33, 3, '2021-07-16 04:04:55'),
+(54, 39, 1, '2021-07-16 06:26:44'),
+(55, 38, 1, '2021-07-16 06:27:53'),
+(59, 24, 5, '2021-07-16 08:24:22'),
+(60, 38, 3, '2021-07-16 10:24:47'),
+(61, 39, 3, '2021-07-16 10:24:48'),
+(62, 24, 4, '2021-07-16 13:45:47'),
+(63, 38, 4, '2021-07-16 13:45:48'),
+(64, 39, 4, '2021-07-16 13:45:49'),
+(65, 33, 4, '2021-07-16 13:45:54'),
+(66, 36, 4, '2021-07-16 13:45:58');
 
 -- --------------------------------------------------------
 
@@ -266,9 +361,25 @@ CREATE TABLE `role_users` (
 
 INSERT INTO `role_users` (`role_id`, `role_user_id`, `role_lev_id`, `created_at`) VALUES
 (1, 1, 1, '2020-06-18 09:39:26'),
-(340, 2, 3, '2021-07-14 12:39:01'),
-(341, 3, 4, '2021-07-14 12:39:33'),
-(342, 4, 5, '2021-07-14 12:40:33');
+(2, 2, 3, '2021-07-14 12:39:01'),
+(3, 3, 4, '2021-07-14 12:39:33'),
+(4, 4, 5, '2021-07-14 12:40:33'),
+(6, 9, 5, '2021-07-15 08:18:40'),
+(7, 10, 3, '2021-07-16 03:14:17'),
+(8, 11, 5, '2021-07-16 10:53:23'),
+(9, 12, 4, '2021-07-16 13:43:44'),
+(10, 13, 5, '2021-07-16 13:47:41'),
+(11, 14, 5, '2021-07-16 14:11:51'),
+(12, 15, 5, '2021-07-16 14:52:34'),
+(14, 17, 4, '2021-07-16 23:09:14'),
+(15, 18, 4, '2021-07-16 23:13:04'),
+(16, 19, 4, '2021-07-16 23:16:58'),
+(17, 20, 5, '2021-07-17 02:29:29'),
+(18, 21, 5, '2021-07-17 14:38:27'),
+(19, 22, 5, '2021-07-17 15:15:46'),
+(20, 23, 5, '2021-07-17 15:20:08'),
+(21, 24, 5, '2021-07-17 15:22:43'),
+(22, 25, 4, '2021-07-17 15:42:41');
 
 -- --------------------------------------------------------
 
@@ -307,11 +418,29 @@ CREATE TABLE `siswa` (
   `id_user` int(11) DEFAULT NULL,
   `nama` varchar(100) DEFAULT NULL,
   `tanggal_lahir` date DEFAULT NULL,
-  `jenis_kelamin` varchar(15) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
+  `jenis_kelamin` enum('Laki-Laki','Perempuan') DEFAULT NULL,
+  `alamat` text NOT NULL,
+  `status` int(1) DEFAULT NULL COMMENT '0 Tidak Aktif | 1 Aktif | 2 Pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `siswa`
+--
+
+INSERT INTO `siswa` (`nisn`, `id_user`, `nama`, `tanggal_lahir`, `jenis_kelamin`, `alamat`, `status`, `created_at`, `updated_at`) VALUES
+('10203040', 15, 'Ai Latipah', '2021-07-15', 'Perempuan', 'Cianjur', 1, '2021-07-16 14:52:34', NULL),
+('123', 14, 'Asep septiadi', '2021-07-02', 'Perempuan', 'bekasi', 1, '2021-07-16 14:11:51', '2021-07-16 14:29:56'),
+('1234567', 9, 'M ilham solehudin', '2021-07-31', 'Laki-Laki', 'Bandung', 1, '2021-07-15 08:18:40', '2021-07-15 08:18:55'),
+('123458', 4, 'Isep Lutpi Nur', '2000-08-10', 'Laki-Laki', 'Cianjur', 1, '2021-07-15 01:15:46', NULL),
+('185798', 13, 'Biasa', '2021-07-29', 'Perempuan', '123', 1, '2021-07-16 13:47:41', '2021-07-16 14:51:56'),
+('2113191079', 20, 'Isep Lutpi Nur 5', '2021-07-24', 'Laki-Laki', 'Cianjur', 1, '2021-07-17 02:29:29', '2021-07-17 03:10:56'),
+('333', 23, 'M taufiq ali', '2021-07-31', 'Laki-Laki', 'CIMAHI', 2, '2021-07-17 15:20:08', NULL),
+('55555', 22, 'Ahmad rizal imaduddin', '2021-07-17', 'Laki-Laki', 'Nusa tenggara timur', 2, '2021-07-17 15:15:46', NULL),
+('67890', 24, 'Dara Atria Ferliandini', '2021-07-24', 'Perempuan', 'Bandung', 0, '2021-07-17 15:22:43', '2021-07-17 15:24:44'),
+('777777777', 11, 'Adje abdul aziz', '2021-07-16', 'Laki-Laki', 'Cimahi', 1, '2021-07-16 10:53:23', NULL),
+('987654', 21, 'Adistia Ramadhani', '2000-08-10', 'Perempuan', 'Cicaheum', 1, '2021-07-17 14:38:27', '2021-07-17 15:12:35');
 
 -- --------------------------------------------------------
 
@@ -328,6 +457,52 @@ CREATE TABLE `siswa_kelas` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `siswa_kelas`
+--
+
+INSERT INTO `siswa_kelas` (`id`, `nisn`, `id_kelas`, `status`, `created_at`, `updated_at`) VALUES
+(1, '123458', 21, 1, '2021-07-15 01:16:44', NULL),
+(3, '1234567', 7, 1, '2021-07-15 08:18:40', '2021-07-15 08:18:55'),
+(4, '777777777', 15, 1, '2021-07-16 10:53:23', NULL),
+(5, '185798', 1, 1, '2021-07-16 13:47:41', '2021-07-16 14:51:56'),
+(6, '123', 1, 1, '2021-07-16 14:11:51', '2021-07-16 14:29:56'),
+(7, '10203040', 1, 1, '2021-07-16 14:52:34', NULL),
+(9, '2113191079', 18, 1, '2021-07-17 02:29:29', '2021-07-17 03:10:56'),
+(10, '987654', 13, 1, '2021-07-17 14:38:27', '2021-07-17 15:12:35'),
+(11, '55555', 1, 2, '2021-07-17 15:15:46', NULL),
+(12, '333', 1, 2, '2021-07-17 15:20:08', NULL),
+(13, '67890', 1, 0, '2021-07-17 15:22:43', '2021-07-17 15:24:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tes`
+--
+
+CREATE TABLE `tes` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(10) NOT NULL,
+  `deskripsi` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tes`
+--
+
+INSERT INTO `tes` (`id`, `nama`, `deskripsi`) VALUES
+(1, '123 tes1', '1222 tes1'),
+(2, '123 tes2', '1222 tes1'),
+(3, '123...sada', '1222 tes3'),
+(6, '123 tes1', '1222 tes1'),
+(7, '123 tes2', '1222 tes1'),
+(14, '123 tes1', '1222 tes1'),
+(15, '123 tes2', '1222 tes1'),
+(16, '123...sada', '1222 tes3'),
+(17, '123 tes1', '1222 tes1'),
+(18, '123 tes2', '1222 tes1'),
+(19, '123...sada', '1222 tes3');
+
 -- --------------------------------------------------------
 
 --
@@ -340,7 +515,7 @@ CREATE TABLE `users` (
   `user_password` varchar(100) NOT NULL,
   `user_email` varchar(50) NOT NULL,
   `user_phone` varchar(15) NOT NULL,
-  `user_status` varchar(50) NOT NULL,
+  `user_status` int(1) NOT NULL DEFAULT 0 COMMENT '0 Tidak Aktif | 1 Aktif | 2 Pendding',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -350,14 +525,42 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_nama`, `user_password`, `user_email`, `user_phone`, `user_status`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Pusat', '$2y$10$gp.46.UzygRVbGZTyzDZ6eZrMQ1q4jBhQtQSsWafE7vO3e50CfOqu', 'administrator@gmail.com', '08123123', 'Aktif', '2020-06-18 09:39:08', '2020-06-18 09:39:08'),
-(2, 'GuruAdmin', '$2y$10$cuM8OFkRf3vsGWaBmmUz5.ZJ.AXZlF.Q9PAi3dcVv52shhyvlpsbG', '123456', '0123456', 'Aktif', '2021-07-14 12:39:01', NULL),
-(3, 'Guru', '$2y$10$RbKHEt2IdzsVR08IsVwgUufZWXpByOKyT7e.ye6RyTLJ6KdFZ1svG', '123457', '123456', 'Aktif', '2021-07-14 12:39:33', NULL),
-(4, 'Isep Lutpi Nur', '$2y$10$xr7gB/izXR.fE8xQ/nTpOej73GaISeKpPPBJW7vM6nQpJJRQwy8My', '123458', '085798132505', 'Aktif', '2021-07-14 12:40:33', NULL);
+(1, 'Admin Pusat', '$2y$10$gp.46.UzygRVbGZTyzDZ6eZrMQ1q4jBhQtQSsWafE7vO3e50CfOqu', 'administrator@gmail.com', '08123123', 1, '2020-06-18 09:39:08', '2020-06-18 09:39:08'),
+(2, 'GuruAdmin', '$2y$10$cuM8OFkRf3vsGWaBmmUz5.ZJ.AXZlF.Q9PAi3dcVv52shhyvlpsbG', '123456', '0123456', 1, '2021-07-14 12:39:01', NULL),
+(3, 'Guru', '$2y$10$RbKHEt2IdzsVR08IsVwgUufZWXpByOKyT7e.ye6RyTLJ6KdFZ1svG', '123457', '123456', 1, '2021-07-14 12:39:33', NULL),
+(4, 'Isep Lutpi Nur', '$2y$10$xr7gB/izXR.fE8xQ/nTpOej73GaISeKpPPBJW7vM6nQpJJRQwy8My', '123458', '085798132505', 1, '2021-07-14 12:40:33', NULL),
+(9, 'M ilham solehudin', '$2y$10$Jkos91pNm5XiIN8R6v6BPeLVZ8YJP1RLgPq6aRFF6FP0dUSbQNh26', '1234567', '0223123123', 1, '2021-07-15 08:18:40', '2021-07-16 23:43:04'),
+(10, 'M. Ath thariq', '$2y$10$H77DmFTbNyc6A19oh8Zaley5CqZCWxf5OhLEIuUhakRGx2zVejGwq', 'guruadmin', '0857981325059', 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35'),
+(11, 'Adje abdul aziz', '$2y$10$RcZHX37TRR6PgMEl8LSTyuM72o5A6dog7AEQenRw7QDDAFhckzn.W', '777777777', '0223123123', 1, '2021-07-16 10:53:23', NULL),
+(12, 'Isep Lutpi Nur 1', '$2y$10$kRb4EgmTHSa67kxkz43EyePqdeX.3PfZlQFnjdF0eRFt5OICLOrvK', 'guru', '085798132505', 1, '2021-07-16 13:43:44', '2021-07-16 23:12:38'),
+(13, 'Biasa', '$2y$10$PyO23nqy6M1QBYPMDZTPvO9C4INmo2AjEX7Q6491u/o1Lw8vO8b2m', '185798', '0223123123', 1, '2021-07-16 13:47:41', '2021-07-16 14:51:56'),
+(14, 'Asep septiadi', '$2y$10$rEWyupQecC2Va8prtp2SIenwXPbTe3wwMR7BBAuU9GKqr.nT7T3a.', '123', '0223123123', 1, '2021-07-16 14:11:51', '2021-07-16 14:29:56'),
+(15, 'Ai Latipah', '$2y$10$Zf/h4TxzAHhjwzDzQd8rjur3dISoq7MyotVwoGQMp.dQCbgVFPwjS', '10203040', '0223123123', 1, '2021-07-16 14:52:34', NULL),
+(17, 'Isep Lutpi Nur', '$2y$10$/4KlzqGV/D8vOutEmcqzCOVGxMBNpRh/ih/nRDXAr5eb49hg2hUWS', 'guru1', '085798132505', 1, '2021-07-16 23:09:14', NULL),
+(18, 'M ilham solehudin', '$2y$10$VrnBGhRA51uFKJEqDyWnIu92YnyEfIa.HrNEulDC91c6pNU1nae8q', 'guru2', '085798132505', 1, '2021-07-16 23:13:04', '2021-07-16 23:13:37'),
+(19, 'M ilham solehudin 3', '$2y$10$CUUka6Tu27vrqrE27mj3V.toNIcshYK8O06Da3roa2I6k7bAVQOpK', 'guru3', '085798132505', 1, '2021-07-16 23:16:58', '2021-07-16 23:42:59'),
+(20, 'Isep Lutpi Nur 5', '$2y$10$H.3BGy/7U3pOk8QToex1dei/HeXTX.AI85fPMJocNtC/71V3ODfPm', '2113191079', '085798132505', 1, '2021-07-17 02:29:29', '2021-07-17 03:10:56'),
+(21, 'Adistia Ramadhani', '$2y$10$Rl4EK2nlSTELPFY7YUPYTei.uTT98h2grqX6AaQckkYIwOFzBKz5a', '987654', '0123', 1, '2021-07-17 14:38:27', '2021-07-17 15:12:35'),
+(22, 'Ahmad rizal imaduddin', '$2y$10$iwPFB6iPtRTozNjcqOD92eR0VznzjhLDvXWsf7npKJqQDq7ITFtPu', '55555', '99990', 2, '2021-07-17 15:15:46', NULL),
+(23, 'M taufiq ali', '$2y$10$EFrFKbDOt5cEdvkq//xX3OmxY9Cc4y.8ySapIK0KBcR6A/xcMlDpa', '333', '085798132505', 2, '2021-07-17 15:20:08', NULL),
+(24, 'Dara Atria Ferliandini', '$2y$10$kxmONr5JAkAGtOHd3cvykeQOkzpQqHUFk6tx4ievvnZl5s/GL7/5W', '67890', '99990', 0, '2021-07-17 15:22:43', '2021-07-17 15:24:44'),
+(25, 'Ani Ayu Pratiwi', '$2y$10$a9x3BQ.uit1/h7eOnTPHduOAlxjsT3N5/GjunEAmTQNieXWxsfmfi', '987321', '0254', 1, '2021-07-17 15:42:41', '2021-07-17 15:43:39');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `daftar_project`
+--
+ALTER TABLE `daftar_project`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `daftar_project_detail`
+--
+ALTER TABLE `daftar_project_detail`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `guru`
@@ -426,6 +629,12 @@ ALTER TABLE `siswa_kelas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tes`
+--
+ALTER TABLE `tes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -436,16 +645,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `daftar_project`
+--
+ALTER TABLE `daftar_project`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `daftar_project_detail`
+--
+ALTER TABLE `daftar_project_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `guru_kelas`
 --
 ALTER TABLE `guru_kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -457,7 +678,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
@@ -469,13 +690,13 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `role_aplikasi`
 --
 ALTER TABLE `role_aplikasi`
-  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `role_users`
 --
 ALTER TABLE `role_users`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=343;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sekolah`
@@ -487,11 +708,21 @@ ALTER TABLE `sekolah`
 -- AUTO_INCREMENT for table `siswa_kelas`
 --
 ALTER TABLE `siswa_kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `tes`
+--
+ALTER TABLE `tes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
