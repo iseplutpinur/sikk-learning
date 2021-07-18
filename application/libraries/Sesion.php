@@ -1,26 +1,30 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Sesion {
+class Sesion
+{
 
-	public function cek_session() 
+	public function cek_session()
 	{
 		$this->ci = &get_instance();
-		
-		if($this->ci->session->userdata('status') == false)
-		{
-			redirect('login','refresh');
+
+		if ($this->ci->session->userdata('status') == false) {
+			redirect('login', 'refresh');
 		}
 	}
 
-	public function cek_login() 
+	public function cek_session_return()
 	{
 		$this->ci = &get_instance();
-		
-		if($this->ci->session->userdata('status') == true)
-		{
-			redirect('dashboard','refresh');
-		}
+		return $this->ci->session->userdata('status') == true;
 	}
 
+	public function cek_login()
+	{
+		$this->ci = &get_instance();
+
+		if ($this->ci->session->userdata('status') == true) {
+			redirect('dashboard', 'refresh');
+		}
+	}
 }
