@@ -65,3 +65,12 @@ $config['masonry'] = [
 		'assets/plugins/masonry/masonry.pkgd.min.js'
 	]
 ];
+
+$config['switch'] = [
+	'styles' => [
+		'assets/plugins/bootstrap-switch-button/css/bootstrap-switch-button.min.css'
+	],
+	'scripts' => [
+		'assets/plugins/bootstrap-switch-button/js/bootstrap-switch-button.min.js'
+	]
+];
