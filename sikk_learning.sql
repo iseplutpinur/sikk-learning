@@ -101,7 +101,7 @@ INSERT INTO `guru` (`nip`, `id_user`, `id_sekolah`, `nama`, `jenis_kelamin`, `ta
 ('guru1', 17, 3, 'Isep Lutpi Nur', 'Laki-Laki', '2021-07-21', 'Cianjur', '085798132505', 1, '2021-07-16 23:09:14', NULL),
 ('guru2', 18, 1, 'M ilham solehudin', 'Laki-Laki', '2021-07-28', '-', '085798132505', 1, '2021-07-16 23:13:04', '2021-07-16 23:13:37'),
 ('guru3', 19, 3, 'M ilham solehudin 3', 'Laki-Laki', '2021-07-23', '-', '085798132505', 1, '2021-07-16 23:16:58', '2021-07-16 23:17:11'),
-('guruadmin', 10, 3, 'M. Ath thariq', 'Laki-Laki', '2021-07-17', 'BDG', '0857981325059', 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35');
+('Guru Administrator', 10, 3, 'M. Ath thariq', 'Laki-Laki', '2021-07-17', 'BDG', '0857981325059', 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35');
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ CREATE TABLE `guru_kelas` (
 --
 
 INSERT INTO `guru_kelas` (`id`, `nip`, `id_kelas`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'guruadmin', 18, 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35'),
+(1, 'Guru Administrator', 18, 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35'),
 (2, 'guru', 1, 1, '2021-07-16 13:43:44', '2021-07-16 23:12:38'),
 (3, 'guru1', 18, 1, '2021-07-16 23:09:14', NULL),
 (4, 'guru2', 1, 1, '2021-07-16 23:13:04', '2021-07-16 23:13:37'),
@@ -526,11 +526,11 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `user_nama`, `user_password`, `user_email`, `user_phone`, `user_status`, `created_at`, `updated_at`) VALUES
 (1, 'Admin Pusat', '$2y$10$gp.46.UzygRVbGZTyzDZ6eZrMQ1q4jBhQtQSsWafE7vO3e50CfOqu', 'administrator@gmail.com', '08123123', 1, '2020-06-18 09:39:08', '2020-06-18 09:39:08'),
-(2, 'GuruAdmin', '$2y$10$cuM8OFkRf3vsGWaBmmUz5.ZJ.AXZlF.Q9PAi3dcVv52shhyvlpsbG', '123456', '0123456', 1, '2021-07-14 12:39:01', NULL),
+(2, 'Guru Administrator', '$2y$10$cuM8OFkRf3vsGWaBmmUz5.ZJ.AXZlF.Q9PAi3dcVv52shhyvlpsbG', '123456', '0123456', 1, '2021-07-14 12:39:01', NULL),
 (3, 'Guru', '$2y$10$RbKHEt2IdzsVR08IsVwgUufZWXpByOKyT7e.ye6RyTLJ6KdFZ1svG', '123457', '123456', 1, '2021-07-14 12:39:33', NULL),
 (4, 'Isep Lutpi Nur', '$2y$10$xr7gB/izXR.fE8xQ/nTpOej73GaISeKpPPBJW7vM6nQpJJRQwy8My', '123458', '085798132505', 1, '2021-07-14 12:40:33', NULL),
 (9, 'M ilham solehudin', '$2y$10$Jkos91pNm5XiIN8R6v6BPeLVZ8YJP1RLgPq6aRFF6FP0dUSbQNh26', '1234567', '0223123123', 1, '2021-07-15 08:18:40', '2021-07-16 23:43:04'),
-(10, 'M. Ath thariq', '$2y$10$H77DmFTbNyc6A19oh8Zaley5CqZCWxf5OhLEIuUhakRGx2zVejGwq', 'guruadmin', '0857981325059', 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35'),
+(10, 'M. Ath thariq', '$2y$10$H77DmFTbNyc6A19oh8Zaley5CqZCWxf5OhLEIuUhakRGx2zVejGwq', 'Guru Administrator', '0857981325059', 1, '2021-07-16 03:14:17', '2021-07-16 15:14:35'),
 (11, 'Adje abdul aziz', '$2y$10$RcZHX37TRR6PgMEl8LSTyuM72o5A6dog7AEQenRw7QDDAFhckzn.W', '777777777', '0223123123', 1, '2021-07-16 10:53:23', NULL),
 (12, 'Isep Lutpi Nur 1', '$2y$10$kRb4EgmTHSa67kxkz43EyePqdeX.3PfZlQFnjdF0eRFt5OICLOrvK', 'guru', '085798132505', 1, '2021-07-16 13:43:44', '2021-07-16 23:12:38'),
 (13, 'Biasa', '$2y$10$PyO23nqy6M1QBYPMDZTPvO9C4INmo2AjEX7Q6491u/o1Lw8vO8b2m', '185798', '0223123123', 1, '2021-07-16 13:47:41', '2021-07-16 14:51:56'),

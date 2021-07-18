@@ -192,7 +192,7 @@ class Guru extends Render_Controller
         // Cek session
         $this->sesion->cek_session();
         $this->level = $this->session->userdata('data')['level'];
-        if ($this->level != 'Administrator' && $this->level != 'GuruAdmin') {
+        if ($this->level != 'Administrator' && $this->level != 'Guru Administrator') {
             redirect('my404', 'refresh');
         }
 
