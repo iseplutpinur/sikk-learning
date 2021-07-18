@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Guru extends Render_Controller
 {
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function index()
     {
         // Page Settings
@@ -26,7 +26,7 @@ class Guru extends Render_Controller
         $this->render();
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -52,7 +52,7 @@ class Guru extends Render_Controller
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function getKelas()
     {
         $id = $this->input->get("id_sekolah");
@@ -61,7 +61,7 @@ class Guru extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function getGuru()
     {
         $nip = $this->input->get("nip");
@@ -70,7 +70,7 @@ class Guru extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function insert()
     {
         // load model pengguna untuk insert
@@ -109,7 +109,7 @@ class Guru extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function update()
     {
         // load model pengguna untuk update
@@ -151,7 +151,7 @@ class Guru extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function delete()
     {
         // load model pengguna untuk update
@@ -177,7 +177,7 @@ class Guru extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // dipakai Administrator |
+    // dipakai Administrator | Guru Administrator
     public function cekNip()
     {
         $nip = $this->input->get("nip");
