@@ -2,12 +2,64 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class DataModel extends Render_Model
-{    // dipakai Administrator |
-    public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null)
+{
+
+    // dipakai Administrator | Guru Administrator | Guru
+    public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
+
+        // jika level Guru Administrator get sekolah
+        $id_sekolah = '';
+        if ($this->level == 'Guru Administrator') {
+            // get sekolah guru itu
+            $id_sekolah = $this->db->select('id_sekolah')
+                ->from('guru')
+                ->where('id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
+        }
+
+        // jika level Guru get kelas
+        $id_kelas = '';
+        if ($this->level == 'Guru') {
+            // get kelas guru itu
+            $id_kelas = $this->db->select('b.id_kelas')
+                ->from('guru a')
+                ->join('guru_kelas b', 'a.nip = b.nip')
+                ->where('a.id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
+        }
+
+
         // select tabel
-        $this->db->select("*, IF(sekolah.status = '0' , 'Tidak Aktif', IF(sekolah.status = '1' , 'Aktif', 'Tidak Diketahui')) as status_str");
-        $this->db->from("sekolah");
+        $this->db->select("
+        a.nisn as id,
+        a.nisn,
+        a.nama,
+        a.jenis_kelamin,
+        a.alamat,
+        a.status,
+        e.nama as nama_sekolah,
+        d.nama as nama_kelas");
+
+        $this->db->from('siswa a');
+        $this->db->join('users b', 'b.user_id = a.id_user', 'left');
+        $this->db->join('siswa_kelas c', 'a.nisn = c.nisn', 'left');
+        $this->db->join('kelas d', 'c.id_kelas = d.id', 'left');
+        $this->db->join('sekolah e', 'e.id = d.id_sekolah', 'left');
+
+        // Jika level Guru Administrator by sekolah
+        if ($this->level == 'Guru Administrator') {
+            $this->db->where('e.id', $id_sekolah);
+        }
+
+        // Jika level Guru by kelas
+        if ($this->level == 'Guru') {
+            $this->db->where('d.id', $id_kelas);
+        }
 
         // order by
         if ($order['order'] != null) {
@@ -15,8 +67,29 @@ class DataModel extends Render_Model
             $dir = $order['order'][0]['dir'];
             $order = $order['order'][0]['column'];
             $columns = $columns[$order];
-
             $order_colum = $columns['data'];
+
+            switch ($order_colum) {
+                case 'nisn':
+                    $order_colum = 'a.nisn';
+                    break;
+                case 'nama':
+                    $order_colum = 'a.nama';
+                    break;
+                case 'nama_sekolah':
+                    $order_colum = 'e.nama';
+                    break;
+                case 'nama_kelas':
+                    $order_colum = 'd.nama';
+                    break;
+                case 'jenis_kelamin':
+                    $order_colum = 'a.jenis_kelamin';
+                    break;
+                case 'alamat':
+                    $order_colum = 'a.alamat';
+                    break;
+            }
+
             $this->db->order_by($order_colum, $dir);
         }
 
@@ -25,9 +98,38 @@ class DataModel extends Render_Model
             $this->db->limit(10, 0);
         }
 
+        // filter
+        if ($filter != null) {
+            // cari
+            $cari = $filter['kata_kunci'] != '' ? $filter['kata_kunci'] : $cari;
+
+            // by sekolah
+            if ($filter['id_sekolah'] != '') {
+                $this->db->where('e.id', $filter['id_sekolah']);
+            }
+
+            // by kelas
+            if ($filter['id_kelas'] != '') {
+                $this->db->where('d.id', $filter['id_kelas']);
+            }
+
+            // by status
+            if ($filter['status'] != '') {
+                $this->db->where('a.status', $filter['status']);
+            }
+        }
+
         // pencarian
         if ($cari != null) {
-            $this->db->where("(nama LIKE '%$cari%' or alamat LIKE '%$cari%' or no_telpon LIKE '%$cari%' or created_at LIKE '%$cari%' or updated_at LIKE '%$cari%' or IF(sekolah.status = '0' , 'Tidak Aktif', IF(sekolah.status = '1' , 'Aktif', 'Tidak Diketahui')) LIKE '%$cari%')");
+            $this->db->where("(
+                a.nisn LIKE '%$cari%' or
+                a.nama LIKE '%$cari%' or
+                a.jenis_kelamin LIKE '%$cari%' or
+                e.nama LIKE '%$cari%' or
+                d.nama LIKE '%$cari%' or
+                a.alamat LIKE '%$cari%' or
+                a.jenis_kelamin LIKE '%$cari%'
+                )");
         }
 
         // pagination

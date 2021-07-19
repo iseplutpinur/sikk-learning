@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2021 at 01:52 AM
+-- Generation Time: Jul 19, 2021 at 04:02 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -502,6 +502,24 @@ INSERT INTO `siswa_kelas` (`id`, `nisn`, `id_kelas`, `status`, `created_at`, `up
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `template`
+--
+
+CREATE TABLE `template` (
+  `id` int(11) NOT NULL,
+  `id_sekolah` int(11) NOT NULL,
+  `judul` varchar(20) DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `gambar` text NOT NULL,
+  `suara` text NOT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tes`
 --
 
@@ -662,6 +680,12 @@ ALTER TABLE `siswa_kelas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `template`
+--
+ALTER TABLE `template`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tes`
 --
 ALTER TABLE `tes`
@@ -748,6 +772,12 @@ ALTER TABLE `sekolah`
 --
 ALTER TABLE `siswa_kelas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `template`
+--
+ALTER TABLE `template`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tes`

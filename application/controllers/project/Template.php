@@ -8,8 +8,8 @@ class Data extends Render_Controller
     public function index()
     {
         // Page Settings
-        $this->title = 'Daftar Project';
-        $this->navigation = ['Data Project'];
+        $this->title = 'Template Project';
+        $this->navigation = ['Template'];
         $this->plugins = ['datatables'];
 
         // Breadcrumb setting
@@ -17,7 +17,7 @@ class Data extends Render_Controller
         $this->breadcrumb_1_url = base_url();
         $this->breadcrumb_2 = 'Daftar Project';
         $this->breadcrumb_2_url = '#';
-        $this->breadcrumb_3 = 'Data Project';
+        $this->breadcrumb_3 = 'Template';
         $this->breadcrumb_3_url = '#';
 
         // Guru
