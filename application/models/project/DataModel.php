@@ -177,8 +177,8 @@ class DataModel extends Render_Model
     // Dipakai Guru |
     public function simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $pendahuluan, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image)
     {
-        $this->db->where('id', $id_project);
-        $result = $this->db->update('daftar_project', [
+        $tipe = $this->input->post("tipe");
+        $data = [
             'id_sekolah' => $id_sekolah,
             'id_kelas' => $id_kelas,
             'nip_guru' => $nip,
@@ -191,8 +191,15 @@ class DataModel extends Render_Model
             'suara' => $simpan_audio,
             'gambar' => $simpan_image,
             'status' => 1,
-            'created_at' => Date("Y-m-d H:i:s", time())
-        ]);
+        ];
+        if ($tipe) {
+            $data['updated_at'] = Date("Y-m-d H:i:s", time());
+        } else {
+            $data['created_at'] = Date("Y-m-d H:i:s", time());
+        }
+
+        $this->db->where('id', $id_project);
+        $result = $this->db->update('daftar_project', $data);
         return $result;
     }
 
@@ -223,6 +230,13 @@ class DataModel extends Render_Model
         $result = $this->db->get()->row_array();
         return $result;
     }
+
+    public function getProjectComplete($id)
+    {
+        $result = $this->db->get_where("daftar_project", ['id' => $id])->row_array();
+        return $result;
+    }
+
     function __construct()
     {
         parent::__construct();

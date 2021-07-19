@@ -69,6 +69,33 @@ class Data extends Render_Controller
     }
 
     // Dipakai Guru |
+    public function perbaiki($id)
+    {
+        // Page Settings
+        $this->title = 'Perbaiki Project';
+        $this->title_show = false;
+        $this->navigation = ['Perbaiki Project'];
+        $this->plugins = ['summernote', 'summernote-audio'];
+
+        // Breadcrumb setting
+        $this->breadcrumb_1 = 'Dashboard';
+        $this->breadcrumb_1_url = base_url();
+        $this->breadcrumb_2 = 'Daftar Project';
+        $this->breadcrumb_2_url = '#';
+        $this->breadcrumb_3 = 'Data Project';
+        $this->breadcrumb_3_url = base_url('project/data');
+        $this->breadcrumb_4 = 'Perbaiki Project';
+        $this->breadcrumb_4_url = '#';
+
+        // content
+        $detail = $this->model->getProjectComplete($id);
+        $this->data['detail'] = $detail;
+        $this->content = 'project/guru/perbaiki';
+        // Send data to view
+        $this->render();
+    }
+
+    // Dipakai Guru |
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];

@@ -39,9 +39,7 @@ $(function () {
                                     <button class="btn btn-info btn-xs" onclick="Info('${data}')">
                                         <i class="fa fa-info"></i> Lihat
                                     </button>
-									<button class="btn btn-primary btn-xs" onclick="Ubah('${data}')">
-										<i class="fa fa-edit"></i> Perbaiki
-									</button>
+                                    <a href="<?php base_url() ?>data/perbaiki/${data}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Perbaiki</a>
 									<button class="btn btn-danger btn-xs" onclick="Hapus('${data}')">
 										<i class="fa fa-trash"></i> Hapus
 									</button>
@@ -52,39 +50,6 @@ $(function () {
         });
     }
     dynamic();
-
-    // init select 2
-    $('#sekolah').select2({
-        dropdownParent: $("#myModal")
-    })
-
-    $('#filter-sekolah').select2({
-        dropdownParent: $("#filter")
-    })
-
-    $('#filter-kelas').select2({
-        dropdownParent: $("#filter")
-    })
-
-    // sekolah tambah diubah
-    $('#sekolah').on('select2:select', function (e) {
-        setKelas($(this).select2('data')[0].id);
-    });
-
-    // filter sekolah diubah
-    $('#filter-sekolah').on('select2:select', function (e) {
-        const id = $(this).select2('data')[0].id;
-        if (id) {
-            setKelas(id, false, { id: 'filter-kelas', parent: 'filter', pre: 'Semua Kelas' });
-        } else {
-            $('#filter-kelas').empty();
-            $('#filter-kelas').select2({
-                data: [{ id: '', text: 'Semua Kelas' }],
-                dropdownParent: $('#filter')
-            })
-        }
-    });
-
 
     // hapus
     $('#OkCheck').click(() => {
@@ -110,64 +75,6 @@ $(function () {
         }).always(() => {
             $('#ModalCheck').modal('toggle')
             $.LoadingOverlay("hide");
-        })
-    })
-
-    // filter
-    $("#btn-filter").click(() => {
-        const id_sekolah = $('#filter-sekolah').select2('data')[0].id;
-        const id_kelas = $('#filter-kelas').select2('data')[0].id;
-        const status = $("#filter-aktif").val();
-        const kata_kunci = $("#filter-key").val();
-        dynamic(id_sekolah, id_kelas, status, kata_kunci);
-        setTitle();
-    });
-
-    // cek nisn
-    $("#nisn").change(function () {
-        $.ajax({
-            method: 'get',
-            url: '<?= base_url() ?>sekolah/siswa/cekNisn',
-            data: {
-                nisn: this.value
-            },
-        }).done((data) => {
-            if (data.data > 0) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'NISN Sudah Terdaftar'
-                })
-                this.value = '';
-                this.focus();
-            }
-        }).fail(($xhr) => {
-            console.log($xhr);
-        })
-    });
-
-    $("#form-konfirmasi").submit(function (e) {
-        e.preventDefault();
-        $.LoadingOverlay("show");
-        $.ajax({
-            method: 'post',
-            url: '<?= base_url() ?>sekolah/siswa/konfirmasiSiswa',
-            data: {
-                nisn: $("#id-konfirmasi").val()
-            }
-        }).done((data) => {
-            Toast.fire({
-                icon: 'success',
-                title: 'Berhasil Dikonfirmasi'
-            })
-            dynamic();
-        }).fail(($xhr) => {
-            Toast.fire({
-                icon: 'error',
-                title: 'Gagal mendapatkan data.'
-            })
-        }).always(() => {
-            $.LoadingOverlay("hide");
-            $('#modalInfo').modal('toggle');
         })
     })
 })
