@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between w-100">
-            <h3 class="card-title">List Kelas</h3>
+            <h3 class="card-title">List Project</h3>
             <a href="<?php base_url() ?>data/tambah" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
         </div>
     </div>

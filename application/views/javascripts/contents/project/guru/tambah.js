@@ -1,10 +1,10 @@
 $(function () {
     // Summernote
-    $('#deskripsi').summernote({
+    $('.summernote').summernote({
         toolbar: [
             ['fontsize', ['fontsize']], ['fontname', ['fontname']], ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
             ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']], ['color', ['color']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']], ['table', ['table']], ['insert', ['link', 'unlink', 'picture', 'video', 'audio', 'hr']], ['mybutton', ['myVideo']], ['view', ['fullscreen', 'codeview']], ['help', ['help']]],
-        height: ($(window).height() - 400),
+        height: (100),
         callbacks: {
             onImageUpload: function (image) {
                 uploadFile(image[0], $(this), 'image');
@@ -28,6 +28,9 @@ $(function () {
         var data = new FormData();
         data.append(tipe, image);
         data.append("tipe", tipe);
+        data.append("id_project", $("#id_project").val());
+        data.append("id_sekolah", $("#id_sekolah").val());
+        data.append("id_kelas", $("#id_kelas").val());
         $.ajax({
             url: "<?= base_url() ?>/project/data/upload",
             cache: false,
@@ -39,10 +42,11 @@ $(function () {
                 if (tipe == "image") {
                     var image = $('<img>').attr('src', data.path);
                     image.attr('alt', data.file_name);
+                    image.attr('data-filename', data.file_name);
                     id.summernote("insertNode", image[0]);
                 } else if (tipe == "audio") {
                     var audio = $('<audio>').attr('src', data.path);
-                    audio.attr('alt', data.file_name);
+                    audio.attr('data-filename', data.file_name);
                     audio.attr('controls', '');
                     audio.addClass("note-audio-clip");
                     const output = $("<p>").append(audio[0]);
@@ -76,37 +80,49 @@ $(function () {
     }
 
     // simpan konten
-    $("#form-konten").submit(function (ev) {
+    $("#form-project").submit(function (ev) {
         ev.preventDefault();
         let konten_image = [];
-        $("#informasi-deskripsi").next().find("img").each(function () {
-            konten_image.push(this.alt)
+        let konten_audio = [];
+        $('.summernote').each(function () {
+            $(this).next().find("img").each(function () {
+                konten_image.push(this.dataset.filename)
+            })
+            $(this).next().find("audio").each(function () {
+                konten_audio.push(this.dataset.filename)
+            })
         })
 
         $.LoadingOverlay("show");
         $.ajax({
             url: "<?= base_url() ?>/project/data/insert",
             data: {
-                slider_judul: $("#slider-judul").val(),
-                slider_deskripsi: $("#slider-deskripsi").val(),
-                informasi_judul: $("#informasi-judul").val(),
-                informasi_deskripsi: $("#informasi-deskripsi").summernote('code'),
-                gambar: konten_image
+                jumlah_aktifitas: $("#jumlah_aktifitas").val(),
+                id_project: $("#id_project").val(),
+                id_sekolah: $("#id_sekolah").val(),
+                id_kelas: $("#id_kelas").val(),
+                deskripsi: $("#deskripsi").summernote('code'),
+                tujuan: $("#tujuan").summernote('code'),
+                link_sumber: $("#link_sumber").summernote('code'),
+                jumlah_aktifitas: $("#jumlah_aktifitas").val(),
+                judul: $("#judul").val(),
+                image: konten_image,
+                audio: konten_audio
             },
             type: "post",
             success: function (data) {
                 Toast.fire({
                     icon: 'success',
-                    title: 'Berhasil diubah.'
+                    title: 'Berhasil Disimpan.'
                 })
-                if (typeof (data.status) == "string") {
-                    $("#last-update").text(data.status);
-                }
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             },
             error: function (data) {
                 Toast.fire({
                     icon: 'error',
-                    title: 'Gagal Diubah..'
+                    title: 'Gagal Disimpan..'
                 })
             },
             complete: function () {

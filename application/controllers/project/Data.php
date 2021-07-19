@@ -8,8 +8,8 @@ class Data extends Render_Controller
     public function index()
     {
         // Page Settings
-        $this->title = 'Tambah Project';
-        $this->navigation = ['Tambah Project'];
+        $this->title = 'Daftar Project';
+        $this->navigation = ['Data Project'];
         $this->plugins = ['datatables'];
 
         // Breadcrumb setting
@@ -115,50 +115,85 @@ class Data extends Render_Controller
 
     public function insert()
     {
-        // get row jika ada
-        $slider_judul               = $this->input->post('slider_judul');
-        $slider_deskripsi           = $this->input->post('slider_deskripsi');
-        $informasi_judul            = $this->input->post('informasi_judul');
-        $informasi_deskripsi        = $this->input->post('informasi_deskripsi', false);
+        // get data untuk databse
+        $judul              = $this->input->post('judul');
+        $deskripsi          = $this->input->post('deskripsi', false);
+        $tujuan             = $this->input->post('tujuan', false);
+        $link_sumber        = $this->input->post('link_sumber', false);
+        $jumlah_aktifitas   = $this->input->post('jumlah_aktifitas', false);
 
-        // list gambar yang dikirim
-        $gambars                     = $this->input->post("gambar");
-        $gambars                     = $gambars == null ? [] : $gambars;
+        // list files yang dikirim
+        $images                     = $this->input->post("image");
+        $images                     = $images == null ? [] : $images;
+        $audios                     = $this->input->post("audio");
+        $audios                     = $audios == null ? [] : $audios;
 
         // list file in dir
         $this->load->helper('directory');
-        $path = './' . $this->path;
-        $files = directory_map($path, FALSE, TRUE);
-        if ($files) {
-            foreach ($files as $file) {
-                if (!in_array($file, $gambars)) {
-                    $this->deleteFile($path . $file);
+        $id_sekolah = $this->input->post('id_sekolah');
+        $id_kelas = $this->input->post('id_kelas');
+        $nip = $this->input->post('nip');
+        $id_project = $this->input->post('id_project');
+        $nip = $nip != null ? $nip : $this->guru->getNipGuruByIdUser($this->id_user);
+        $path = "/files/$this->path/$id_sekolah/$id_kelas/$nip/$id_project";
+
+        $images_dir = directory_map(".$path/image", FALSE, TRUE);
+        $audios_dir = directory_map(".$path/audio", FALSE, TRUE);
+
+        // delete file tidak terpakai
+        if ($images_dir) {
+            foreach ($images_dir as $file) {
+                if (!in_array($file, $images)) {
+                    $this->deleteFile(".$path/image/" . $file);
                 }
             }
         }
 
-        // jika tidak ada gambar maka folder akan dihapus
-        if ($files == false || $gambars == false) {
-            if (is_dir($path)) {
-                rmdir($path);
+        if ($audios_dir) {
+            foreach ($audios_dir as $file) {
+                if (!in_array($file, $audios)) {
+                    $this->deleteFile(".$path/audio/" . $file);
+                }
             }
         }
 
-        $informasi_gambar = '';
-        foreach ($gambars as $gambar) {
-            $informasi_gambar .= ($informasi_gambar == '') ? $gambar : ('|' . $gambar);
+        // jika tidak ada file maka folder akan dihapus
+        if ($images_dir == false || $images == false) {
+            if (is_dir(".$path/image")) {
+                rmdir(".$path/image");
+            }
         }
 
-        $exe = $this->model->inputData($slider_judul, $slider_deskripsi, $informasi_judul, $informasi_deskripsi, $informasi_gambar);
+        if ($audios_dir == false || $audios == false) {
+            if (is_dir(".$path/audio")) {
+                rmdir(".$path/audio");
+            }
+        }
+
+        $simpan_image = '';
+        foreach ($images as $image) {
+            $simpan_image .= ($simpan_image == '') ? $image : ('|' . $image);
+        }
+
+        $simpan_audio = '';
+        foreach ($audios as $audio) {
+            $simpan_audio .= ($simpan_audio == '') ? $audio : ('|' . $audio);
+        }
+
+        $exe = $this->model->simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image);
         $this->output_json(["status" => $exe]);
     }
 
     public function upload()
     {
+        $id_sekolah = $this->input->post('id_sekolah');
+        $id_kelas = $this->input->post('id_kelas');
         $nip = $this->input->post('nip');
         $tipe = $this->input->post('tipe');
+        $id_project = $this->input->post('id_project');
         $nip = $nip != null ? $nip : $this->guru->getNipGuruByIdUser($this->id_user);
-        $path = "/files/$tipe/$this->path/$nip";
+
+        $path = "/files/$this->path/$id_sekolah/$id_kelas/$nip/$id_project/$tipe";
 
         // cek directory
         if (!is_dir('.' . $path)) {
@@ -195,6 +230,7 @@ class Data extends Render_Controller
 
     private function deleteFile($path)
     {
+        $result = false;
         if (file_exists($path)) {
             $result = unlink($path);
         }
