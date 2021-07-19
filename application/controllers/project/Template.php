@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Data extends Render_Controller
+class Template extends Render_Controller
 {
 
     // Dipakai Guru |
@@ -24,12 +24,12 @@ class Data extends Render_Controller
         if ($this->level == 'Guru') {
             $this->data['id_sekolah'] = $this->sekolah->getIdSekolahByIdUser($this->id_user);
             $this->data['id_kelas'] = $this->kelas->getIdKelasByIdUser($this->id_user);
-            $this->content = 'project/guru/data';
+            $this->content = 'project/guru/template';
         }
 
         // Administrator
         if ($this->level == 'Administrator') {
-            $this->content = 'project/admin/data';
+            $this->content = 'project/admin/template';
         }
 
         // Send data to view

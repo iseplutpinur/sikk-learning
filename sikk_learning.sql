@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2021 at 04:02 PM
+-- Generation Time: Jul 19, 2021 at 04:06 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -26,6 +26,7 @@ CREATE TABLE `daftar_project` (
   `id_sekolah` int(11) DEFAULT NULL,
   `id_kelas` int(11) DEFAULT NULL,
   `nip_guru` varchar(20) DEFAULT NULL,
+  `Judul` varchar(255) NOT NULL,
   `pendahuluan` text DEFAULT NULL,
   `deskripsi` text DEFAULT NULL,
   `tujuan` text DEFAULT NULL,
@@ -41,8 +42,8 @@ CREATE TABLE `daftar_project` (
 -- Dumping data for table `daftar_project`
 --
 
-INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `created_at`, `updated_at`) VALUES
-(4, 3, 18, 'guru3', NULL, NULL, NULL, NULL, NULL, 0, '', '2021-07-16 23:17:49', NULL);
+INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `Judul`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `created_at`, `updated_at`) VALUES
+(4, 3, 18, 'guru3', '', NULL, NULL, NULL, NULL, NULL, 0, '', '2021-07-16 23:17:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -239,7 +240,8 @@ INSERT INTO `menu` (`menu_id`, `menu_menu_id`, `menu_nama`, `menu_keterangan`, `
 (37, 33, 'Guru ', 'Super admin kelola guru sekolah\n', 3, 'far fa-circle', 'sekolah/guru', 'Aktif', '2021-07-16 02:45:10'),
 (38, 24, 'Data Project', 'Daftar project', 1, 'far fa-circle', 'project/data', 'Aktif', '2021-07-16 06:24:53'),
 (39, 24, 'Project Siswa', 'Daftar project siswa', 2, 'far fa-circle', 'project/siswa', 'Aktif', '2021-07-16 06:26:01'),
-(40, 2, 'Registrasi', 'Mengatur halaman registrasi', 5, 'far fa-circle', 'pengaturan/registrasi', 'Aktif', '2021-07-18 20:44:14');
+(40, 2, 'Registrasi', 'Mengatur halaman registrasi', 5, 'far fa-circle', 'pengaturan/registrasi', 'Aktif', '2021-07-18 20:44:14'),
+(41, 24, 'Template', '-', 3, 'far fa-circle', 'project/template', 'Aktif', '2021-07-19 14:04:08');
 
 -- --------------------------------------------------------
 
@@ -361,7 +363,8 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (64, 39, 4, '2021-07-16 13:45:49'),
 (65, 33, 4, '2021-07-16 13:45:54'),
 (66, 36, 4, '2021-07-16 13:45:58'),
-(67, 40, 1, '2021-07-18 20:44:36');
+(67, 40, 1, '2021-07-18 20:44:36'),
+(68, 41, 1, '2021-07-19 14:04:13');
 
 -- --------------------------------------------------------
 
@@ -735,7 +738,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `pengaturan_registrasi`
@@ -753,7 +756,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `role_aplikasi`
 --
 ALTER TABLE `role_aplikasi`
-  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `role_users`
