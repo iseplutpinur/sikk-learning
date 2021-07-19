@@ -23,9 +23,7 @@ class Data extends Render_Controller
         // Guru
         if ($this->level == 'Guru') {
             $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
-            $this->data['id_sekolah'] = $detail['id_sekolah'];
-            $this->data['id_kelas'] = $detail['id_kelas'];
-            $this->data['nip_guru'] = $detail['nip_guru'];
+            $this->data['detail'] = $detail;
             $this->content = 'project/guru/data';
         }
 
