@@ -123,6 +123,7 @@ class Data extends Render_Controller
         // get data untuk databse
         $judul              = $this->input->post('judul');
         $deskripsi          = $this->input->post('deskripsi', false);
+        $pendahuluan        = $this->input->post('pendahuluan', false);
         $tujuan             = $this->input->post('tujuan', false);
         $link_sumber        = $this->input->post('link_sumber', false);
         $jumlah_aktifitas   = $this->input->post('jumlah_aktifitas', false);
@@ -185,7 +186,7 @@ class Data extends Render_Controller
             $simpan_audio .= ($simpan_audio == '') ? $audio : ('|' . $audio);
         }
 
-        $exe = $this->model->simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image);
+        $exe = $this->model->simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $pendahuluan, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image);
         $this->output_json(["status" => $exe]);
     }
 

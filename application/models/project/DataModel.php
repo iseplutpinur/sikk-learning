@@ -172,7 +172,7 @@ class DataModel extends Render_Model
     }
 
     // Digunakan Guru |
-    public function simpanData($id_project, $id_sekolah, $id_kelas, $nip,  $judul, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image)
+    public function simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $pendahuluan, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image)
     {
         $this->db->where('id', $id_project);
         $result = $this->db->update('daftar_project', [
@@ -180,6 +180,7 @@ class DataModel extends Render_Model
             'id_kelas' => $id_kelas,
             'nip_guru' => $nip,
             'judul' => $judul,
+            'pendahuluan' => $pendahuluan,
             'deskripsi' => $deskripsi,
             'tujuan' => $tujuan,
             'link_sumber' => $link_sumber,

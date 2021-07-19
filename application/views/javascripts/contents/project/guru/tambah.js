@@ -101,6 +101,7 @@ $(function () {
                 id_project: $("#id_project").val(),
                 id_sekolah: $("#id_sekolah").val(),
                 id_kelas: $("#id_kelas").val(),
+                pendahuluan: $("#pendahuluan").summernote('code'),
                 deskripsi: $("#deskripsi").summernote('code'),
                 tujuan: $("#tujuan").summernote('code'),
                 link_sumber: $("#link_sumber").summernote('code'),
