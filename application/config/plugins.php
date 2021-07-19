@@ -60,6 +60,15 @@ $config['summernote'] = [
 	]
 ];
 
+$config['summernote-audio'] = [
+	'styles' => [
+		'assets/plugins/summernote-audio/summernote-audio.css'
+	],
+	'scripts' => [
+		'assets/plugins/summernote-audio/summernote-audio.js'
+	]
+];
+
 $config['masonry'] = [
 	'scripts' => [
 		'assets/plugins/masonry/masonry.pkgd.min.js'

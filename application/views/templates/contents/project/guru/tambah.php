@@ -6,15 +6,15 @@
                     Tambah Project
                 </h3>
             </div>
-            <form id="form-konten">
+            <form id="form-project">
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="slider-judul">Judul</label>
-                        <input type="text" class="form-control" placeholder="Slider Judul" id="slider-judul" name="slider-judul" value="<?= isset($about['slider_judul']) ? $about['slider_judul'] : '' ?>">
+                        <label for="judul">Judul</label>
+                        <input type="text" class="form-control" placeholder="Judul" id="judul" name="judul" value="">
                     </div>
                     <div class="form-group">
-                        <label for="slider-deskripsi">Deskripsi</label>
-                        <textarea class="form-control" rows="3" placeholder="Slider Deskripsi" id="slider-deskripsi" name="slider-deskripsi"><?= isset($about['slider_deskripsi']) ? $about['slider_deskripsi'] : '' ?></textarea>
+                        <label for="deskripsi">Deskripsi</label>
+                        <textarea class="form-control" rows="3" placeholder="Deskripsi" id="deskripsi" name="deskripsi"></textarea>
                     </div>
                 </div>
                 <div class="card-footer">

@@ -1,9 +1,9 @@
 /**
- * 
+ *
  * copyright 2018 [Taal & Digitaal | Hendri Smit].
  * email: hen3smit@gmail.com
  * license: MIT
- * 
+ *
  */
 (function (factory) {
     /* Global define */
@@ -58,18 +58,18 @@
          */
         'audio': function (context) {
             var self = this,
-                    // ui has renders to build ui elements
-                    // for e.g. you can create a button with 'ui.button'
-                    ui = $.summernote.ui,
-                    $note = context.layoutInfo.note,
-                    // contentEditable element
-                    $editor = context.layoutInfo.editor,
-                    $editable = context.layoutInfo.editable,
-                    $toolbar = context.layoutInfo.toolbar,
-                    // options holds the Options Information from Summernote and what we extended above.
-                    options = context.options,
-                    // lang holds the Language Information from Summernote and what we extended above.
-                    lang = options.langInfo;
+                // ui has renders to build ui elements
+                // for e.g. you can create a button with 'ui.button'
+                ui = $.summernote.ui,
+                $note = context.layoutInfo.note,
+                // contentEditable element
+                $editor = context.layoutInfo.editor,
+                $editable = context.layoutInfo.editable,
+                $toolbar = context.layoutInfo.toolbar,
+                // options holds the Options Information from Summernote and what we extended above.
+                options = context.options,
+                // lang holds the Language Information from Summernote and what we extended above.
+                lang = options.langInfo;
 
             context.memo('button.audio', function () {
                 // Here we create a button
@@ -98,7 +98,7 @@
                 if (options.maximumAudioFileSize) {
                     var unit = Math.floor(Math.log(options.maximumAudioFileSize) / Math.log(1024));
                     var readableSize = (options.maximumAudioFileSize / Math.pow(1024, unit)).toFixed(2) * 1 +
-                            ' ' + ' KMGTP'[unit] + 'B';
+                        ' ' + ' KMGTP'[unit] + 'B';
                     audioLimitation = '<small>' + lang.audio.maximumFileSize + ' : ' + readableSize + '</small>';
                 }
 
@@ -132,7 +132,7 @@
                     // Set the Footer of the Dialog.
                     footer: footer
 
-                            // This adds the Modal to the DOM.
+                    // This adds the Modal to the DOM.
                 }).render().appendTo($container);
             };
 
@@ -193,7 +193,7 @@
                 var $audio;
                 if (mp3Match || oggMatch || base64Match) {
                     $audio = $('<audio controls>')
-                            .attr('src', url);
+                        .attr('src', url);
                 } else {
                     // this is not a known audio link. Now what, Cat? Now what?
                     return false;
@@ -275,7 +275,7 @@
                         context.triggerEvent('dialog.shown');
 
                         // Cloning AudioInput to clear element.
-                        $audioInput.replaceWith($audioInput.clone().on('change', function(event) {
+                        $audioInput.replaceWith($audioInput.clone().on('change', function (event) {
                             deferred.resolve(event.target.files || event.target.value);
                         }).val(''));
 
@@ -284,14 +284,14 @@
                             deferred.resolve($audioUrl.val());
                         });
 
-                        $audioUrl.on('keyup paste', function() {
+                        $audioUrl.on('keyup paste', function () {
                             var url = $audioUrl.val();
                             ui.toggleBtn($audioBtn, url);
                         }).val('');
 
-//                        if (!env.isSupportTouch) {
-//                            $audioUrl.trigger('focus');
-//                        }
+                        //                        if (!env.isSupportTouch) {
+                        //                            $audioUrl.trigger('focus');
+                        //                        }
                         self.bindEnterKey($audioUrl, $audioBtn);
                         self.bindLabels();
                     });
