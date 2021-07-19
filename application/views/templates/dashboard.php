@@ -333,6 +333,15 @@
 			}
 			setDarkMode(localStorage.getItem('isDarkMode'));
 		})
+
+		function setToast(data) {
+			$(document).Toasts('create', {
+				class: data.class,
+				title: data.title,
+				body: data.body
+			})
+			setTimeout(() => $("#toastsContainerTopRight").remove(), 5000);
+		}
 	</script>
 </body>
 

@@ -119,7 +119,7 @@ $(() => {
             $('#sekolah').empty();
             $('#kelas').empty();
         }).fail(($xhr) => {
-            console.log($xhr);
+            // console.log($xhr);
             setToast({ title: "Gagal", body: "Registrasi Gagal segera hubungi administrator.", class: "bg-danger" });
         }).always(() => {
             $.LoadingOverlay("hide");
