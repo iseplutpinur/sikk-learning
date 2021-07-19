@@ -29,7 +29,7 @@ $(function () {
         data.append(tipe, image);
         data.append("tipe", tipe);
         $.ajax({
-            url: "https://localhost/project/data/upload",
+            url: "<?= base_url() ?>/project/data/upload",
             cache: false,
             contentType: false,
             processData: false,
@@ -85,7 +85,7 @@ $(function () {
 
         $.LoadingOverlay("show");
         $.ajax({
-            url: "https://localhost/home/konten/insert",
+            url: "<?= base_url() ?>/project/data/insert",
             data: {
                 slider_judul: $("#slider-judul").val(),
                 slider_deskripsi: $("#slider-deskripsi").val(),
