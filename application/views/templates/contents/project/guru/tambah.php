@@ -17,7 +17,7 @@
                     </div>
                     <div class="form-group">
                         <label for="pendahuluan">Pendahuluan</label>
-                        <textarea class="form-control summernote" rows="3" placeholder="pendahuluan" id="Pendahuluan" name="pendahuluan"></textarea>
+                        <textarea class="form-control summernote" rows="3" placeholder="pendahuluan" id="pendahuluan" name="pendahuluan"></textarea>
                     </div>
                     <hr>
                     <div class="form-group">
@@ -37,7 +37,7 @@
                     <hr>
                     <div class="form-group">
                         <label for="jumlah_aktifitas">Jumlah Aktifitas</label>
-                        <input class="form-control" type="number" placeholder="Jumlah Aktifitas" id="jumlah_aktifitas" name="jumlah_aktifitas" required>
+                        <input class="form-control" type="number" placeholder="Jumlah Aktifitas" id="jumlah_aktifitas" min="1" name="jumlah_aktifitas" required>
                     </div>
                 </div>
                 <div class="card-footer">
