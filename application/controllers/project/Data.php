@@ -89,10 +89,14 @@ class Data extends Render_Controller
 
         // content
         $detail = $this->model->getProjectComplete($id);
-        $this->data['detail'] = $detail;
-        $this->content = 'project/guru/perbaiki';
-        // Send data to view
-        $this->render();
+        if ($detail) {
+            $this->data['detail'] = $detail;
+            $this->content = 'project/guru/perbaiki';
+            // Send data to view
+            $this->render();
+        } else {
+            redirect('my404', 'refresh');
+        }
     }
 
     // Dipakai Guru |

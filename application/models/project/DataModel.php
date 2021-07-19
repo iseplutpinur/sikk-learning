@@ -206,6 +206,31 @@ class DataModel extends Render_Model
     // Dipakai Guru |
     public function getProject($id)
     {
+        // jika level Guru Administrator get sekolah
+        $id_sekolah = '';
+        if ($this->level == 'Guru Administrator') {
+            // get sekolah guru itu
+            $id_sekolah = $this->db->select('id_sekolah')
+                ->from('guru')
+                ->where('id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
+        }
+
+        // jika level Guru get kelas
+        $id_kelas = '';
+        if ($this->level == 'Guru') {
+            // get kelas guru itu
+            $id_kelas = $this->db->select('b.id_kelas')
+                ->from('guru a')
+                ->join('guru_kelas b', 'a.nip = b.nip')
+                ->where('a.id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
+        }
+
         // select tabel
         $this->db->select("
                 a.judul,
@@ -227,6 +252,17 @@ class DataModel extends Render_Model
         $this->db->join('kelas c', 'a.id_kelas = c.id', 'left');
         $this->db->join('sekolah d', 'a.id_sekolah = d.id', 'left');
         $this->db->where('a.id', $id);
+
+        // Jika level Guru Administrator by sekolah
+        if ($this->level == 'Guru Administrator') {
+            $this->db->where('d.id', $id_sekolah);
+        }
+
+        // Jika level Guru by kelas
+        if ($this->level == 'Guru') {
+            $this->db->where('c.id', $id_kelas);
+        }
+
         $result = $this->db->get()->row_array();
         return $result;
     }
