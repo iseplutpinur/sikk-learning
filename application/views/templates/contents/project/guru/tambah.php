@@ -12,8 +12,6 @@
                         <label for="judul">Judul</label>
                         <input class="form-control" type="text" placeholder="Judul Project" id="judul" name="judul" required>
                         <input type="hidden" id="id_project" value="<?= $id_project['id'] ?>">
-                        <input type="hidden" id="id_sekolah" value="<?= $id_sekolah ?>">
-                        <input type="hidden" id="id_kelas" value="<?= $id_kelas ?>">
                     </div>
                     <div class="form-group">
                         <label for="pendahuluan">Pendahuluan</label>

@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class DataModel extends Render_Model
 {
 
-    // dipakai Administrator | Guru Administrator | Guru
+    // dipakai Guru |
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
 
@@ -36,29 +36,29 @@ class DataModel extends Render_Model
 
         // select tabel
         $this->db->select("
-        a.nisn as id,
-        a.nisn,
-        a.nama,
-        a.jenis_kelamin,
-        a.alamat,
-        a.status,
-        e.nama as nama_sekolah,
-        d.nama as nama_kelas");
+            a.id,
+            a.judul,
+            a.pendahuluan,
+            a.deskripsi,
+            a.tujuan,
+            a.jumlah_aktifitas,
+            a.status
+        ");
 
-        $this->db->from('siswa a');
-        $this->db->join('users b', 'b.user_id = a.id_user', 'left');
-        $this->db->join('siswa_kelas c', 'a.nisn = c.nisn', 'left');
-        $this->db->join('kelas d', 'c.id_kelas = d.id', 'left');
-        $this->db->join('sekolah e', 'e.id = d.id_sekolah', 'left');
+        $this->db->from('daftar_project a');
+        $this->db->join('guru b', 'a.nip_guru = b.nip', 'left');
+        $this->db->join('kelas c', 'a.id_kelas = c.id', 'left');
+        $this->db->join('sekolah d', 'a.id_sekolah = d.id', 'left');
+        $this->db->where('a.status <> 0');
 
         // Jika level Guru Administrator by sekolah
         if ($this->level == 'Guru Administrator') {
-            $this->db->where('e.id', $id_sekolah);
+            $this->db->where('d.id', $id_sekolah);
         }
 
         // Jika level Guru by kelas
         if ($this->level == 'Guru') {
-            $this->db->where('d.id', $id_kelas);
+            $this->db->where('c.id', $id_kelas);
         }
 
         // order by
@@ -70,23 +70,23 @@ class DataModel extends Render_Model
             $order_colum = $columns['data'];
 
             switch ($order_colum) {
-                case 'nisn':
-                    $order_colum = 'a.nisn';
+                case 'judul':
+                    $order_colum = 'a.judul';
                     break;
-                case 'nama':
-                    $order_colum = 'a.nama';
+                case 'pendahuluan':
+                    $order_colum = 'a.pendahuluan';
                     break;
-                case 'nama_sekolah':
-                    $order_colum = 'e.nama';
+                case 'deskripsi':
+                    $order_colum = 'a.deskripsi';
                     break;
-                case 'nama_kelas':
-                    $order_colum = 'd.nama';
+                case 'tujuan':
+                    $order_colum = 'a.tujuan';
                     break;
-                case 'jenis_kelamin':
-                    $order_colum = 'a.jenis_kelamin';
+                case 'jumlah_aktifitas':
+                    $order_colum = 'a.jumlah_aktifitas';
                     break;
-                case 'alamat':
-                    $order_colum = 'a.alamat';
+                case 'status':
+                    $order_colum = 'a.status';
                     break;
             }
 
@@ -122,13 +122,16 @@ class DataModel extends Render_Model
         // pencarian
         if ($cari != null) {
             $this->db->where("(
-                a.nisn LIKE '%$cari%' or
-                a.nama LIKE '%$cari%' or
-                a.jenis_kelamin LIKE '%$cari%' or
-                e.nama LIKE '%$cari%' or
+                a.pendahuluan LIKE '%$cari%' or
+                a.deskripsi LIKE '%$cari%' or
+                a.tujuan LIKE '%$cari%' or
+                a.jumlah_aktifitas LIKE '%$cari%' or
+                a.link_sumber LIKE '%$cari%' or
+                a.status LIKE '%$cari%' or
                 d.nama LIKE '%$cari%' or
-                a.alamat LIKE '%$cari%' or
-                a.jenis_kelamin LIKE '%$cari%'
+                c.nama LIKE '%$cari%' or
+                a.judul LIKE '%$cari%' or
+                b.nama LIKE '%$cari%'
                 )");
         }
 
@@ -141,7 +144,7 @@ class DataModel extends Render_Model
         return $result;
     }
 
-    // digunakan Guru |
+    // Dipakai Guru |
     public function tambahProject($id_sekolah, $id_kelas, $nip_guru)
     {
         // get darft
@@ -171,7 +174,7 @@ class DataModel extends Render_Model
         }
     }
 
-    // Digunakan Guru |
+    // Dipakai Guru |
     public function simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $pendahuluan, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image)
     {
         $this->db->where('id', $id_project);
@@ -193,6 +196,33 @@ class DataModel extends Render_Model
         return $result;
     }
 
+    // Dipakai Guru |
+    public function getProject($id)
+    {
+        // select tabel
+        $this->db->select("
+                a.judul,
+                a.pendahuluan,
+                a.deskripsi,
+                a.tujuan,
+                a.jumlah_aktifitas,
+                a.link_sumber,
+                a.status,
+                d.nama as nama_sekolah,
+                c.nama as nama_kelas,
+                b.nama as nama_guru,
+                a.created_at,
+                a.updated_at
+            ");
+
+        $this->db->from('daftar_project a');
+        $this->db->join('guru b', 'a.nip_guru = b.nip', 'left');
+        $this->db->join('kelas c', 'a.id_kelas = c.id', 'left');
+        $this->db->join('sekolah d', 'a.id_sekolah = d.id', 'left');
+        $this->db->where('a.id', $id);
+        $result = $this->db->get()->row_array();
+        return $result;
+    }
     function __construct()
     {
         parent::__construct();

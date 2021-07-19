@@ -29,8 +29,6 @@ $(function () {
         data.append(tipe, image);
         data.append("tipe", tipe);
         data.append("id_project", $("#id_project").val());
-        data.append("id_sekolah", $("#id_sekolah").val());
-        data.append("id_kelas", $("#id_kelas").val());
         $.ajax({
             url: "<?= base_url() ?>/project/data/upload",
             cache: false,
@@ -43,6 +41,7 @@ $(function () {
                     var image = $('<img>').attr('src', data.path);
                     image.attr('alt', data.file_name);
                     image.attr('data-filename', data.file_name);
+                    image.addClass("img-fluid");
                     id.summernote("insertNode", image[0]);
                 } else if (tipe == "audio") {
                     var audio = $('<audio>').attr('src', data.path);
@@ -99,8 +98,6 @@ $(function () {
             data: {
                 jumlah_aktifitas: $("#jumlah_aktifitas").val(),
                 id_project: $("#id_project").val(),
-                id_sekolah: $("#id_sekolah").val(),
-                id_kelas: $("#id_kelas").val(),
                 pendahuluan: $("#pendahuluan").summernote('code'),
                 deskripsi: $("#deskripsi").summernote('code'),
                 tujuan: $("#tujuan").summernote('code'),

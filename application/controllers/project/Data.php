@@ -22,8 +22,10 @@ class Data extends Render_Controller
 
         // Guru
         if ($this->level == 'Guru') {
-            $this->data['id_sekolah'] = $this->sekolah->getIdSekolahByIdUser($this->id_user);
-            $this->data['id_kelas'] = $this->kelas->getIdKelasByIdUser($this->id_user);
+            $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+            $this->data['id_sekolah'] = $detail['id_sekolah'];
+            $this->data['id_kelas'] = $detail['id_kelas'];
+            $this->data['nip_guru'] = $detail['nip_guru'];
             $this->content = 'project/guru/data';
         }
 
@@ -57,16 +59,18 @@ class Data extends Render_Controller
 
         // content
         if ($this->level == 'Guru') {
-            $this->data['id_sekolah'] = $this->sekolah->getIdSekolahByIdUser($this->id_user);
-            $this->data['id_kelas'] = $this->kelas->getIdKelasByIdUser($this->id_user);
-            $this->data['nip_guru'] = $this->guru->getNipGuruByIdUser($this->id_user);
-            $this->data['id_project'] = $this->model->tambahProject($this->data['id_sekolah'], $this->data['id_kelas'], $this->data['nip_guru']);
+            $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+            $this->data['id_sekolah'] = $detail['id_sekolah'];
+            $this->data['id_kelas'] = $detail['id_kelas'];
+            $this->data['nip_guru'] = $detail['nip_guru'];
+            $this->data['id_project'] = $this->model->tambahProject($detail['id_sekolah'], $detail['id_kelas'], $detail['nip_guru']);
             $this->content = 'project/guru/tambah';
         }
         // Send data to view
         $this->render();
     }
 
+    // Dipakai Guru |
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -84,18 +88,17 @@ class Data extends Render_Controller
 
         $data = $this->model->getAllData($draw, $length, $start, $_cari, $order)->result_array();
         $count = $this->model->getAllData(null, null, null, $_cari, $order, null)->num_rows();
-
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    public function getSekolah()
+    // Dipakai Guru
+    public function getProject()
     {
         $id = $this->input->get("id");
-        $result = $this->model->getSekolah($id);
+        $result = $this->model->getProject($id);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
-
 
     public function update()
     {
@@ -136,11 +139,16 @@ class Data extends Render_Controller
 
         // list file in dir
         $this->load->helper('directory');
+        $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
         $id_sekolah = $this->input->post('id_sekolah');
         $id_kelas = $this->input->post('id_kelas');
         $nip = $this->input->post('nip');
+
+        $nip = $nip != null ? $nip : $detail['nip_guru'];
+        $id_sekolah = $id_sekolah != null ? $id_sekolah : $detail['id_sekolah'];
+        $id_kelas = $id_kelas != null ? $id_kelas : $detail['id_kelas'];
+
         $id_project = $this->input->post('id_project');
-        $nip = $nip != null ? $nip : $this->guru->getNipGuruByIdUser($this->id_user);
         $path = "/files/$this->path/$id_sekolah/$id_kelas/$nip/$id_project";
 
         $images_dir = directory_map(".$path/image", FALSE, TRUE);
@@ -192,13 +200,17 @@ class Data extends Render_Controller
 
     public function upload()
     {
+        $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
         $id_sekolah = $this->input->post('id_sekolah');
         $id_kelas = $this->input->post('id_kelas');
         $nip = $this->input->post('nip');
+
+        $nip = $nip != null ? $nip : $detail['nip_guru'];
+        $id_sekolah = $id_sekolah != null ? $id_sekolah : $detail['id_sekolah'];
+        $id_kelas = $id_kelas != null ? $id_kelas : $detail['id_kelas'];
+
         $tipe = $this->input->post('tipe');
         $id_project = $this->input->post('id_project');
-        $nip = $nip != null ? $nip : $this->guru->getNipGuruByIdUser($this->id_user);
-
         $path = "/files/$this->path/$id_sekolah/$id_kelas/$nip/$id_project/$tipe";
 
         // cek directory
@@ -257,8 +269,6 @@ class Data extends Render_Controller
         }
         if ($this->level == 'Guru' ||  $this->level == 'Guru Administrator') {
             $this->load->model("sekolah/DaftarSekolahModel", 'sekolah');
-            $this->load->model("sekolah/KelasModel", 'kelas');
-            $this->load->model("sekolah/GuruModel", 'guru');
         }
 
         $this->load->model("project/DataModel", 'model');

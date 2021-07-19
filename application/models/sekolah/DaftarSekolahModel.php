@@ -84,12 +84,14 @@ class DaftarSekolahModel extends Render_Model
     // dipakai Guru Administrator | Guru
     public function getIdSekolahByIdUser($id)
     {
-        $id_sekolah = $this->db->select('id_sekolah')
-            ->from('guru')
-            ->where('id_user', $id)
+        $id_sekolah = $this->db->select('d.id as id_sekolah, d.nama as nama_sekolah, c.id as id_kelas,c.nama as nama_kelas, a.nip as nip_guru, a.nama as nama_guru')
+            ->from('guru a')
+            ->join('guru_kelas b', 'a.nip = b.nip', 'left')
+            ->join('kelas c', 'b.id_kelas = c.id', 'left')
+            ->join('sekolah d', 'c.id_sekolah = d.id', 'left')
+            ->where('a.id_user', $id)
             ->get()
             ->row_array();
-        $id_sekolah = $id_sekolah != null ? $id_sekolah['id_sekolah'] : null;
         return $id_sekolah;
     }
 
