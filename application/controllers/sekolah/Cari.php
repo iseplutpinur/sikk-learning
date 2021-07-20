@@ -29,11 +29,31 @@ class Cari extends Render_Controller
     {
         $this->load->model("sekolah/guruModel", 'model');
         $id = $this->input->get("id_sekolah");
-        $all = $this->input->post('all');
+        $all = $this->input->get('all');
         // jika inputan ada
         if ($id) {
             $result = $this->model->getKelas($id);
             $result = $all ? array_merge([['id' => '', 'text' => 'Semua Kelas']], $result) : $result;
+            $this->output_json([
+                "results" => $result
+            ]);
+        } else {
+            $this->output_json([
+                "results" => []
+            ]);
+        }
+    }
+
+    // dipakai Registrasi |
+    public function getListGuruByIdKelas()
+    {
+        $this->load->model("sekolah/guruModel", 'model');
+        $id_kelas = $this->input->get("id_kelas");
+        $all = $this->input->get('all');
+        // jika inputan ada
+        if ($id_kelas) {
+            $result = $this->model->getListGuruByIdKelas($id_kelas);
+            $result = $all ? array_merge([['id' => '', 'text' => 'Semua Guru']], $result) : $result;
             $this->output_json([
                 "results" => $result
             ]);

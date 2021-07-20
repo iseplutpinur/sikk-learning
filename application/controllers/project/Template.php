@@ -24,6 +24,8 @@ class Template extends Render_Controller
         if ($this->level == 'Administrator') {
             $this->plugins = array_merge($this->plugins, ['select2']);
             $this->content = 'project/template/admin/list';
+            $this->title_show = false;
+            $this->breadcrumb_show = false;
         }
 
         // Guru Administrator

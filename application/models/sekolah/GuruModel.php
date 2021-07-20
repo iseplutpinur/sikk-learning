@@ -220,6 +220,19 @@ class GuruModel extends Render_Model
         return $nip;
     }
 
+    // Dipakai Sekolah Cari | Tambah Project Administrator | Select2
+    public function getListGuruByIdKelas($id_kelas)
+    {
+        $result = $this->db
+            ->select("b.nip as id, b.nama as text")
+            ->from("guru_kelas a")
+            ->join("guru b", "a.nip = b.nip")
+            ->where("a.id_kelas", $id_kelas)
+            ->get()
+            ->result_array();
+        return $result;
+    }
+
     // insert ==========================================================================================================
     // dipakai Administrator | Guru Administrator | Registrasi
     public function insertGuru($nip, $id_user, $id_sekolah, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $no_telpon, $status)

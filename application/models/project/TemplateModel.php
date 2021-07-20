@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class TemplateModel extends Render_Model
 {
 
-    // Dipakai Administrator  | Guru Administrator
+    // Dipakai Administrator | Guru Administrator
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
 
@@ -48,6 +48,8 @@ class TemplateModel extends Render_Model
             $order_colum = $columns['data'];
 
             switch ($order_colum) {
+                case 'id':
+                    $order_colum = 'a.id';
                 case 'judul':
                     $order_colum = 'a.judul';
                     break;
@@ -109,7 +111,7 @@ class TemplateModel extends Render_Model
         return $result;
     }
 
-    // Dipakai Administrator  | Guru Administrator
+    // Dipakai Administrator | Guru Administrator
     public function tambahTemplate($id_sekolah = null)
     {
         if ($this->level == "Administrator") {
@@ -138,7 +140,7 @@ class TemplateModel extends Render_Model
         }
     }
 
-    // Dipakai Administrator  | Guru Administrator
+    // Dipakai Administrator | Guru Administrator
     public function simpanData($id_template, $id_sekolah, $judul, $keterangan, $simpan_audio, $simpan_image)
     {
         $tipe = $this->input->post("tipe");
@@ -161,7 +163,7 @@ class TemplateModel extends Render_Model
         return $result;
     }
 
-    // Dipakai Guru | Guru Administrator
+    // Dipakai Administrator | Guru Administrator
     public function getTemplate($id)
     {
 
@@ -203,7 +205,7 @@ class TemplateModel extends Render_Model
         return $result;
     }
 
-    // Dipakai Guru | Guru Administrator
+    // Dipakai Administrator | Guru Administrator
     public function delete($id)
     {
         $result = $this->db->delete('templates', ['id' => $id]);

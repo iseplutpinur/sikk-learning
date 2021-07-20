@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class DataModel extends Render_Model
 {
 
-    // dipakai Guru |
+    // Dipkakai Administrator | Guru Administrator | Guru
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
 
@@ -44,7 +44,12 @@ class DataModel extends Render_Model
             a.deskripsi,
             a.tujuan,
             a.jumlah_aktifitas,
-            a.status
+            a.status,
+            d.nama as nama_sekolah,
+            c.nama as nama_kelas,
+            b.nama as nama_guru,
+            a.created_at,
+            a.updated_at,
         ");
 
         $this->db->from('daftar_project a');
@@ -73,6 +78,9 @@ class DataModel extends Render_Model
             $order_colum = $columns['data'];
 
             switch ($order_colum) {
+                case 'id':
+                    $order_colum = 'a.id';
+                    break;
                 case 'judul':
                     $order_colum = 'a.judul';
                     break;
@@ -91,6 +99,18 @@ class DataModel extends Render_Model
                 case 'status':
                     $order_colum = 'a.status';
                     break;
+                case 'created_at':
+                    $order_colum = 'a.created_at';
+                    break;
+                case 'nama_sekolah':
+                    $order_colum = 'd.nama';
+                    break;
+                case 'nama_kelas':
+                    $order_colum = 'c.nama';
+                    break;
+                case 'nama_guru':
+                    $order_colum = 'b.nama';
+                    break;
             }
 
             $this->db->order_by($order_colum, $dir);
@@ -108,12 +128,17 @@ class DataModel extends Render_Model
 
             // by sekolah
             if ($filter['id_sekolah'] != '') {
-                $this->db->where('e.id', $filter['id_sekolah']);
+                $this->db->where('d.id', $filter['id_sekolah']);
             }
 
             // by kelas
             if ($filter['id_kelas'] != '') {
-                $this->db->where('d.id', $filter['id_kelas']);
+                $this->db->where('c.id', $filter['id_kelas']);
+            }
+
+            // by kelas
+            if ($filter['nip_guru'] != '') {
+                $this->db->where('b.nip', $filter['nip_guru']);
             }
 
             // by status
@@ -147,8 +172,8 @@ class DataModel extends Render_Model
         return $result;
     }
 
-    // Dipakai Guru |
-    public function tambahProject($id_sekolah, $id_kelas, $nip_guru)
+    // Dipkakai Administrator | Guru Administrator | Guru
+    public function tambahProject($id_sekolah = 0, $id_kelas = 0, $nip_guru = 0)
     {
         // get darft
         $row = $this->db
@@ -177,7 +202,7 @@ class DataModel extends Render_Model
         }
     }
 
-    // Dipakai Guru |
+    // Dipkakai Administrator | Guru Administrator | Guru
     public function simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $pendahuluan, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image)
     {
         $tipe = $this->input->post("tipe");
@@ -206,7 +231,7 @@ class DataModel extends Render_Model
         return $result;
     }
 
-    // Dipakai Guru | Guru Administrator
+    // Dipkakai Administrator | Guru Administrator | Guru
     public function getProject($id)
     {
         // jika level Guru Administrator get sekolah
@@ -238,6 +263,7 @@ class DataModel extends Render_Model
 
         // select tabel
         $this->db->select("
+                a.id,
                 a.judul,
                 a.pendahuluan,
                 a.deskripsi,
@@ -246,10 +272,13 @@ class DataModel extends Render_Model
                 a.link_sumber,
                 a.status,
                 d.nama as nama_sekolah,
+                d.id as id_sekolah,
                 c.nama as nama_kelas,
+                c.id as id_kelas,
                 b.nama as nama_guru,
+                b.nip as nip_guru,
                 a.created_at,
-                a.updated_at
+                a.updated_at,
             ");
 
         $this->db->from('daftar_project a');
@@ -273,12 +302,14 @@ class DataModel extends Render_Model
         return $result;
     }
 
+    // Dipkakai Administrator | Guru Administrator | Guru
     public function getProjectComplete($id)
     {
         $result = $this->db->get_where("daftar_project", ['id' => $id])->row_array();
         return $result;
     }
 
+    // Dipkakai Administrator | Guru Administrator | Guru
     public function delete($id)
     {
         $result = $this->db->delete('daftar_project', ['id' => $id]);
