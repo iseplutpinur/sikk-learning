@@ -45,7 +45,7 @@ $(function () {
                                         <i class="fa fa-info"></i> Lihat
                                     </button>
                                     <a href="<?php base_url() ?>data/perbaiki/${data}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Perbaiki</a>
-                                    <a href="<?php base_url() ?>data/aktifitas/${data}" class="btn btn-secondary btn-xs"><i class="fa fa-list"></i> Aktifitas</a>
+                                    <a href="<?php base_url() ?>aktifitas/detail/${data}" class="btn btn-secondary btn-xs"><i class="fa fa-list"></i> Aktifitas</a>
 									<button class="btn btn-danger btn-xs" onclick="Hapus('${data}')">
 										<i class="fa fa-trash"></i> Hapus
 									</button>
