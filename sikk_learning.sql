@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2021 at 01:48 PM
+-- Generation Time: Jul 20, 2021 at 06:01 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -46,7 +46,9 @@ CREATE TABLE `daftar_project` (
 INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `judul`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `suara`, `created_at`, `updated_at`) VALUES
 (17, 1, 1, 'guru', 'Testing', '<p>Pendahuluan</p>', '<p>Deskripsi</p>', '<p>Tujuan</p>', '<p>Link</p>', 5, 1, '', '', '2021-07-19 18:38:52', NULL),
 (18, 1, 1, 'guru', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-19 18:38:55', NULL),
-(19, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 00:50:28', NULL);
+(19, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 00:50:28', NULL),
+(20, 3, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 13:31:54', NULL),
+(23, 0, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 14:41:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -95,7 +97,7 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`nip`, `id_user`, `id_sekolah`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `alamat`, `no_hp`, `status`, `created_at`, `updated_at`) VALUES
-('987321', 25, 1, 'Ani Ayu Pratiwi', 'Perempuan', '2021-07-17', 'Cirebon', '0254', 1, '2021-07-17 15:42:41', '2021-07-17 15:43:39'),
+('987321', 25, 1, 'Ani Ayu Pratiwi', 'Perempuan', '2021-07-17', 'Cirebon', '0254', 1, '2021-07-17 15:42:41', '2021-07-20 15:40:38'),
 ('guru', 12, 1, 'Isep Lutpi Nur 1', 'Laki-Laki', '2021-07-15', 'Cianjur', '085798132505', 1, '2021-07-16 13:43:44', '2021-07-16 23:12:38'),
 ('guru1', 17, 3, 'Isep Lutpi Nur', 'Laki-Laki', '2021-07-21', 'Cianjur', '085798132505', 1, '2021-07-16 23:09:14', NULL),
 ('guru2', 18, 1, 'M ilham solehudin', 'Laki-Laki', '2021-07-28', '-', '085798132505', 1, '2021-07-16 23:13:04', '2021-07-16 23:13:37'),
@@ -128,7 +130,7 @@ INSERT INTO `guru_kelas` (`id`, `nip`, `id_kelas`, `status`, `created_at`, `upda
 (3, 'guru1', 18, 1, '2021-07-16 23:09:14', NULL),
 (4, 'guru2', 1, 1, '2021-07-16 23:13:04', '2021-07-16 23:13:37'),
 (5, 'guru3', 18, 2, '2021-07-16 23:16:58', '2021-07-18 19:42:00'),
-(6, '987321', 4, 1, '2021-07-17 15:42:41', '2021-07-17 15:43:39'),
+(6, '987321', 4, 1, '2021-07-17 15:42:41', '2021-07-20 15:40:38'),
 (7, 'guru5', 17, 2, '2021-07-18 23:49:30', NULL);
 
 -- --------------------------------------------------------
@@ -267,8 +269,8 @@ CREATE TABLE `pengaturan_registrasi` (
 --
 
 INSERT INTO `pengaturan_registrasi` (`id`, `nama`, `keterangan`, `nilai`, `created_at`, `updated_at`) VALUES
-(5, 'siswa', 'Nilai pengaturan untuk halaman registrasi siswa', 0, '2021-07-19 06:18:29', '2021-07-19 06:50:47'),
-(6, 'guru', 'Nilai pengaturan untuk halaman registrasi guru', 0, '2021-07-19 06:18:29', '2021-07-19 06:50:02');
+(5, 'siswa', 'Nilai pengaturan untuk halaman registrasi siswa', 1, '2021-07-19 06:18:29', '2021-07-20 19:29:54'),
+(6, 'guru', 'Nilai pengaturan untuk halaman registrasi guru', 1, '2021-07-19 06:18:29', '2021-07-20 19:30:08');
 
 -- --------------------------------------------------------
 
@@ -368,7 +370,8 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (65, 33, 4, '2021-07-16 13:45:54'),
 (66, 36, 4, '2021-07-16 13:45:58'),
 (67, 40, 1, '2021-07-18 20:44:36'),
-(68, 41, 1, '2021-07-19 14:04:13');
+(68, 41, 1, '2021-07-19 14:04:13'),
+(69, 41, 3, '2021-07-20 12:35:36');
 
 -- --------------------------------------------------------
 
@@ -407,7 +410,7 @@ INSERT INTO `role_users` (`role_id`, `role_user_id`, `role_lev_id`, `created_at`
 (19, 22, 5, '2021-07-17 15:15:46'),
 (20, 23, 5, '2021-07-17 15:20:08'),
 (21, 24, 5, '2021-07-17 15:22:43'),
-(22, 25, 4, '2021-07-17 15:42:41'),
+(22, 25, 3, '2021-07-17 15:42:41'),
 (23, 26, 5, '2021-07-18 23:34:36'),
 (24, 27, 4, '2021-07-18 23:49:30');
 
@@ -529,8 +532,10 @@ CREATE TABLE `templates` (
 --
 
 INSERT INTO `templates` (`id`, `id_sekolah`, `judul`, `keterangan`, `gambar`, `suara`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Template A', '<p>Kamu Siapa</p><p><img src=\"/files/project/templates/1/image/photoGGS.png\" alt=\"photoGGS.png\" data-filename=\"photoGGS.png\" class=\"img-fluid note-float-center\" style=\"width: 50%;\"><br></p>', 'photoGGS.png', '', 1, '2021-07-20 02:11:57', '2021-07-20 11:47:12'),
-(4, 0, NULL, NULL, '', '', 0, '2021-07-20 11:41:42', NULL);
+(1, 1, 'Template A', '<p>Kamu Siapa</p><p><img src=\"/files/project/templates/1/image/photoGGS.png\" alt=\"photoGGS.png\" data-filename=\"photoGGS.png\" class=\"img-fluid note-float-center\" style=\"width: 50%;\"><br></p>', 'photoGGS.png', '', 1, '2021-07-20 02:11:57', '2021-07-20 13:48:12'),
+(4, 3, 'Template A', '<p>Template A</p>', '', '', 1, '2021-07-20 12:54:35', NULL),
+(5, 0, NULL, NULL, '', '', 0, '2021-07-20 12:54:39', NULL),
+(9, 3, NULL, NULL, '', '', 0, '2021-07-20 13:08:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -602,7 +607,7 @@ INSERT INTO `users` (`user_id`, `user_nama`, `user_password`, `user_email`, `use
 (22, 'Ahmad rizal imaduddin', '$2y$10$iwPFB6iPtRTozNjcqOD92eR0VznzjhLDvXWsf7npKJqQDq7ITFtPu', '55555', '99990', 2, '2021-07-17 15:15:46', '2021-07-18 19:10:05'),
 (23, 'M taufiq ali', '$2y$10$EFrFKbDOt5cEdvkq//xX3OmxY9Cc4y.8ySapIK0KBcR6A/xcMlDpa', '333', '085798132505', 2, '2021-07-17 15:20:08', '2021-07-18 19:10:13'),
 (24, 'Dara Atria Ferliandini', '$2y$10$kxmONr5JAkAGtOHd3cvykeQOkzpQqHUFk6tx4ievvnZl5s/GL7/5W', '67890', '99990', 0, '2021-07-17 15:22:43', '2021-07-17 15:24:44'),
-(25, 'Ani Ayu Pratiwi', '$2y$10$a9x3BQ.uit1/h7eOnTPHduOAlxjsT3N5/GjunEAmTQNieXWxsfmfi', '987321', '0254', 1, '2021-07-17 15:42:41', '2021-07-17 15:43:39'),
+(25, 'Ani Ayu Pratiwi', '$2y$10$w7k.hHiGp/zGC0R2Qh9X5.f3U57AL782mZUHHPYiCUL4u6Kp98xAy', '987321', '0254', 1, '2021-07-17 15:42:41', '2021-07-20 15:40:38'),
 (26, 'Sandi solehudin', '$2y$10$DKQfR6E5tFjDislu9txeyuyVq6A/PSAwcf5EqZ6YlT2FELWIOabTW', '654321', 'administrator@g', 2, '2021-07-18 23:34:36', NULL),
 (27, 'Abul aziz', '$2y$10$.oOK6v9ZFGzDIoaaKwTxMuzEmnk734KZPRjFFRzWQLaE7wK9JCXgq', 'guru5', '123', 2, '2021-07-18 23:49:30', NULL);
 
@@ -720,7 +725,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `daftar_project`
 --
 ALTER TABLE `daftar_project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `daftar_project_detail`
@@ -768,7 +773,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `role_aplikasi`
 --
 ALTER TABLE `role_aplikasi`
-  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `role_users`
@@ -792,7 +797,7 @@ ALTER TABLE `siswa_kelas`
 -- AUTO_INCREMENT for table `templates`
 --
 ALTER TABLE `templates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tes`
