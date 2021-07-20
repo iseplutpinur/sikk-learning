@@ -36,7 +36,7 @@ class Template extends Render_Controller
         $this->render();
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function tambah()
     {
         // Page Settings
@@ -73,7 +73,7 @@ class Template extends Render_Controller
         $this->render();
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function perbaiki($id)
     {
         // Page Settings
@@ -120,7 +120,7 @@ class Template extends Render_Controller
     }
 
     // Fungsi =========================================================================================================
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -143,7 +143,7 @@ class Template extends Render_Controller
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function getTemplate()
     {
         $id = $this->input->get("id");
@@ -152,7 +152,7 @@ class Template extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function delete()
     {
         $id = $this->input->post("id");
@@ -207,7 +207,7 @@ class Template extends Render_Controller
         }
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function insert()
     {
         // get data untuk databse
@@ -273,7 +273,7 @@ class Template extends Render_Controller
         $this->output_json(["status" => $exe]);
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function upload()
     {
         $tipe = $this->input->post('tipe');
@@ -313,7 +313,7 @@ class Template extends Render_Controller
         }
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     private function deleteFile($path)
     {
         $result = false;
@@ -330,17 +330,17 @@ class Template extends Render_Controller
         $this->sesion->cek_session();
         $this->level = $this->session->userdata('data') ? $this->session->userdata('data')['level'] : '';
         $this->id_user = $this->session->userdata('data') ? $this->session->userdata('data')['id'] : '';
-
         // cek level
         if ($this->level != 'Administrator' && $this->level != 'Guru Administrator') {
             redirect('my404', 'refresh');
         }
+        $this->load->model("project/TemplateModel", 'model');
+
 
         if ($this->level == 'Administrator' ||  $this->level == 'Guru Administrator') {
             $this->load->model("sekolah/DaftarSekolahModel", 'sekolah');
         }
 
-        $this->load->model("project/TemplateModel", 'model');
 
         if ($this->level == 'Guru Administrator') {
             $this->sekolah = $this->model->getSekolahByIdUser($this->id_user);

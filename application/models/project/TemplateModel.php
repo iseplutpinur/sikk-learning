@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class TemplateModel extends Render_Model
 {
 
-    // dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function getAllData($draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
 
@@ -109,7 +109,7 @@ class TemplateModel extends Render_Model
         return $result;
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function tambahTemplate($id_sekolah = null)
     {
         if ($this->level == "Administrator") {
@@ -138,7 +138,7 @@ class TemplateModel extends Render_Model
         }
     }
 
-    // Dipakai Administrator |
+    // Dipakai Administrator  | Guru Administrator
     public function simpanData($id_template, $id_sekolah, $judul, $keterangan, $simpan_audio, $simpan_image)
     {
         $tipe = $this->input->post("tipe");
