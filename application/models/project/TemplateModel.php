@@ -36,7 +36,7 @@ class TemplateModel extends Render_Model
 
         // Jika level Guru Administrator by sekolah
         if ($this->level == 'Guru Administrator') {
-            $this->db->where('a.id', $id_sekolah);
+            $this->db->where('b.id', $id_sekolah);
         }
 
         // order by
@@ -203,9 +203,22 @@ class TemplateModel extends Render_Model
         return $result;
     }
 
+    // Dipakai Guru | Guru Administrator
     public function delete($id)
     {
         $result = $this->db->delete('templates', ['id' => $id]);
+        return $result;
+    }
+
+    // Dipakai Guru Administraor
+    public function getSekolahByIdUser($id)
+    {
+        $result = $this->db->select('a.id_sekolah, b.nama')
+            ->from('guru a')
+            ->join("sekolah b", 'a.id_sekolah = b.id')
+            ->where('id_user', $this->id_user)
+            ->get()
+            ->row_array();
         return $result;
     }
 

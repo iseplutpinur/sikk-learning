@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Template extends Render_Controller
 {
     // Halaman =========================================================================================================
-    // Dipakai Administrator |
+    // Dipakai Administrator | Guru Administrator
     public function index()
     {
         // Page Settings
@@ -24,6 +24,12 @@ class Template extends Render_Controller
         if ($this->level == 'Administrator') {
             $this->plugins = array_merge($this->plugins, ['select2']);
             $this->content = 'project/template/admin/list';
+        }
+
+        // Guru Administrator
+        if ($this->level == 'Guru Administrator') {
+            $this->data['sekolah'] = $this->sekolah;
+            $this->content = 'project/template/guruadmin/list';
         }
 
         // Send data to view
@@ -55,6 +61,14 @@ class Template extends Render_Controller
             $this->data['id_template'] = $this->model->tambahTemplate();
             $this->content = 'project/template/admin/tambah';
         }
+
+        // content
+        if ($this->level == 'Guru Administrator') {
+            $this->data['id_template'] = $this->model->tambahTemplate($this->sekolah['id_sekolah']);
+            $this->data['sekolah'] = $this->sekolah;
+            $this->content = 'project/template/guruadmin/tambah';
+        }
+
         // Send data to view
         $this->render();
     }
@@ -79,14 +93,29 @@ class Template extends Render_Controller
         $this->breadcrumb_4_url = '#';
 
         // content
-        $detail = $this->model->getTemplate($id);
-        if ($detail) {
-            $this->plugins = array_merge($this->plugins, ['select2']);
-            $this->data['detail'] = $detail;
-            $this->content = 'project/template/admin/perbaiki';
-            $this->render();
-        } else {
-            redirect('my404', 'refresh');
+        if ($this->level == 'Administrator') {
+            $detail = $this->model->getTemplate($id);
+            if ($detail) {
+                $this->plugins = array_merge($this->plugins, ['select2']);
+                $this->data['detail'] = $detail;
+                $this->content = 'project/template/admin/perbaiki';
+                $this->render();
+            } else {
+                redirect('my404', 'refresh');
+            }
+        }
+
+        // content
+        if ($this->level == 'Guru Administrator') {
+            $detail = $this->model->getTemplate($id);
+            if ($detail) {
+                $this->data['detail'] = $detail;
+                $this->data['sekolah'] = $this->sekolah;
+                $this->content = 'project/template/guruadmin/perbaiki';
+                $this->render();
+            } else {
+                redirect('my404', 'refresh');
+            }
         }
     }
 
@@ -303,14 +332,20 @@ class Template extends Render_Controller
         $this->id_user = $this->session->userdata('data') ? $this->session->userdata('data')['id'] : '';
 
         // cek level
-        if ($this->level != 'Administrator' && $this->level != 'template Administrator') {
+        if ($this->level != 'Administrator' && $this->level != 'Guru Administrator') {
             redirect('my404', 'refresh');
         }
-        if ($this->level == 'Administrator' ||  $this->level == 'template Administrator') {
+
+        if ($this->level == 'Administrator' ||  $this->level == 'Guru Administrator') {
             $this->load->model("sekolah/DaftarSekolahModel", 'sekolah');
         }
 
         $this->load->model("project/TemplateModel", 'model');
+
+        if ($this->level == 'Guru Administrator') {
+            $this->sekolah = $this->model->getSekolahByIdUser($this->id_user);
+        }
+
         $this->default_template = 'templates/dashboard';
         $this->load->library('plugin');
         $this->load->helper('url');
