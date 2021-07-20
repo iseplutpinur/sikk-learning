@@ -4,13 +4,11 @@
             <div class="d-flex justify-content-end  align-items-star w-100 flex-md-row flex-column">
                 <h3 class="card-title align-self-center">Filter Project: </h3>
                 <div class="form-group  mb-lg-0 ml-lg-2">
-                    <select class="form-control" id="filter-sekolah" name="filter-sekolah" style="min-width: 100px;">
-                        <option value="" selected>Semua Sekolah</option>
-                    </select>
-                </div>
-                <div class="form-group  mb-lg-0 ml-lg-2">
                     <select class="form-control" id="filter-kelas" name="filter-kelas" style="min-width: 100px;">
                         <option value="" selected>Semua Kelas</option>
+                        <?php foreach ($list_kelas as $kelas) : ?>
+                            <option value="<?= $kelas['id'] ?>"><?= $kelas['text'] ?></option>
+                        <?php endforeach ?>
                     </select>
                 </div>
                 <div class="form-group  mb-lg-0 ml-lg-2">
@@ -51,7 +49,6 @@
         <table id="dt_basic" class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <td>Sekolah</td>
                     <td>Kelas</td>
                     <td>Guru</td>
                     <td>Judul</td>

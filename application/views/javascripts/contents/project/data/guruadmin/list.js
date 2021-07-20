@@ -27,7 +27,6 @@ $(function () {
             "lengthChange": true,
             "autoWidth": false,
             "columns": [
-                { "data": "nama_sekolah" },
                 { "data": "nama_kelas" },
                 { "data": "nama_guru" },
                 { "data": "judul" },
@@ -57,53 +56,6 @@ $(function () {
         });
     }
     dynamic();
-
-    // initial filter
-    $('#filter-sekolah').select2({
-        ajax: {
-            url: '<?= base_url() ?>sekolah/cari',
-            dataType: 'json',
-            method: 'post',
-            data: function (params) {
-                return {
-                    q: params.term,
-                    all: true
-                };
-            },
-        },
-        minimumInputLength: 1,
-        dropdownParent: $("#filter")
-    })
-
-    // cari kelas
-    $('#filter-sekolah').on('select2:select', function (e) {
-        const id = $(this).select2('data')[0].id;
-        if (id) {
-            $('#filter-kelas').html();
-            $.ajax({
-                method: 'get',
-                url: '<?= base_url() ?>sekolah/cari/getKelas',
-                data: {
-                    id_sekolah: id
-                },
-            }).done((data) => {
-                $('#filter-kelas').empty();
-                $('#filter-kelas').append($('<option>', { value: '', text: 'Semua Kelas' }))
-                data.results.forEach(function (e) {
-                    $('#filter-kelas').append($('<option>', { value: e.id, text: e.text }))
-                })
-
-                setListGuru($('#filter-kelas').val());
-            }).fail(($xhr) => {
-                console.log($xhr);
-            })
-        } else {
-            $('#filter-kelas').empty();
-            $('#filter-kelas').append($('<option>', { value: '', text: 'Semua Kelas' }))
-            $('#filter-guru').empty();
-            $('#filter-guru').append($('<option>', { value: '', text: 'Semua Guru' }))
-        }
-    });
 
     // cari guru
     $('#filter-kelas').change(function () {
@@ -158,13 +110,12 @@ $(function () {
 
     // filter
     $("#btn-filter").click(() => {
-        const id_sekolah = $('#filter-sekolah').select2('data')[0].id;
-        const nama_sekolah = $('#filter-sekolah').select2('data')[0].text;
+        const id_sekolah = '';
+        const nama_sekolah = '';
         const kata_kunci = $("#filter-key").val();
         const id_kelas = $("#filter-kelas").val();
         const nip_guru = $("#filter-guru").val();
         dynamic(id_sekolah, id_kelas, nip_guru, status, kata_kunci);
-        $("#table-title").html(`List Data Project ${nama_sekolah != 'Semua Sekolah' ? ' Sekolah <b>' + nama_sekolah + '</b>' : ''}`);
     });
 })
 

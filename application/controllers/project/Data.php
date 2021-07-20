@@ -31,6 +31,9 @@ class Data extends Render_Controller
         // Guru Administrator
         if ($this->level == 'Guru Administrator') {
             $this->data['sekolah'] = $this->sekolah;
+            $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+            $this->load->model("sekolah/guruModel", 'guru');
+            $this->data['list_kelas'] = $this->guru->getKelas($detail['id_sekolah']);
             $this->content = 'project/data/guruadmin/list';
         }
 
@@ -66,8 +69,8 @@ class Data extends Render_Controller
 
         // content
         if ($this->level == 'Guru Administrator') {
-            $this->load->model("sekolah/guruModel", 'guru');
             $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+            $this->load->model("sekolah/guruModel", 'guru');
             $this->data['list_kelas'] = $this->guru->getKelas($detail['id_sekolah']);
             $this->data['id_sekolah'] = $detail['id_sekolah'];
             $this->data['id_project'] = $this->model->tambahProject($detail['id_sekolah']);
