@@ -1,12 +1,13 @@
 $(function () {
     // data table
-    function dynamic(id_sekolah, id_kelas, status, kata_kunci) {
+    function dynamic(id_sekolah, id_kelas, nip_guru, status, kata_kunci) {
         let data = null;
-        if (id_sekolah || status || kata_kunci || id_kelas) {
+        if (id_sekolah || id_kelas || nip_guru || status || kata_kunci) {
             data = {
                 filter: {
                     id_sekolah: id_sekolah,
                     id_kelas: id_kelas,
+                    nip_guru: nip_guru,
                     status: status,
                     kata_kunci: kata_kunci,
                 }
@@ -26,6 +27,9 @@ $(function () {
             "lengthChange": true,
             "autoWidth": false,
             "columns": [
+                { "data": "nama_sekolah" },
+                { "data": "nama_kelas" },
+                { "data": "nama_guru" },
                 { "data": "judul" },
                 { "data": "jumlah_aktifitas" },
                 {
@@ -33,6 +37,8 @@ $(function () {
                         return data == '1' ? "Aktif" : 'Tidak Aktif'
                     }
                 },
+                { "data": "created_at" },
+                { "data": "updated_at" },
                 {
                     "data": "id", render(data, type, full, meta) {
                         return `<div class="pull-right">
@@ -40,6 +46,7 @@ $(function () {
                                         <i class="fa fa-info"></i> Lihat
                                     </button>
                                     <a href="<?php base_url() ?>data/perbaiki/${data}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Perbaiki</a>
+                                    <a href="<?php base_url() ?>data/aktifitas/${data}" class="btn btn-secondary btn-xs"><i class="fa fa-list"></i> Aktifitas</a>
 									<button class="btn btn-danger btn-xs" onclick="Hapus('${data}')">
 										<i class="fa fa-trash"></i> Hapus
 									</button>
@@ -50,6 +57,77 @@ $(function () {
         });
     }
     dynamic();
+
+    // initial filter
+    $('#filter-sekolah').select2({
+        ajax: {
+            url: '<?= base_url() ?>sekolah/cari',
+            dataType: 'json',
+            method: 'post',
+            data: function (params) {
+                return {
+                    q: params.term,
+                    all: true
+                };
+            },
+        },
+        minimumInputLength: 1,
+        dropdownParent: $("#filter")
+    })
+
+    // cari kelas
+    $('#filter-sekolah').on('select2:select', function (e) {
+        const id = $(this).select2('data')[0].id;
+        if (id) {
+            $('#filter-kelas').html();
+            $.ajax({
+                method: 'get',
+                url: '<?= base_url() ?>sekolah/cari/getKelas',
+                data: {
+                    id_sekolah: id
+                },
+            }).done((data) => {
+                $('#filter-kelas').empty();
+                $('#filter-kelas').append($('<option>', { value: '', text: 'Semua Kelas' }))
+                data.results.forEach(function (e) {
+                    $('#filter-kelas').append($('<option>', { value: e.id, text: e.text }))
+                })
+
+                setListGuru($('#filter-kelas').val());
+            }).fail(($xhr) => {
+                console.log($xhr);
+            })
+        } else {
+            $('#filter-kelas').empty();
+            $('#filter-kelas').append($('<option>', { value: '', text: 'Semua Kelas' }))
+            $('#filter-guru').empty();
+            $('#filter-guru').append($('<option>', { value: '', text: 'Semua Guru' }))
+        }
+    });
+
+    // cari guru
+    $('#filter-kelas').change(function () {
+        setListGuru(this.value);
+    })
+
+    // set list guru
+    function setListGuru(id_kelas) {
+        $.ajax({
+            method: 'get',
+            url: '<?= base_url() ?>sekolah/cari/getListGuruByIdKelas',
+            data: {
+                id_kelas: id_kelas
+            },
+        }).done((data) => {
+            $('#filter-guru').empty();
+            $('#filter-guru').append($('<option>', { value: '', text: 'Semua Guru' }))
+            data.results.forEach(function (e) {
+                $('#filter-guru').append($('<option>', { value: e.id, text: e.text }))
+            })
+        }).fail(($xhr) => {
+            console.log($xhr);
+        })
+    }
 
     // hapus
     $('#OkCheck').click(() => {
@@ -77,6 +155,17 @@ $(function () {
             $.LoadingOverlay("hide");
         })
     })
+
+    // filter
+    $("#btn-filter").click(() => {
+        const id_sekolah = $('#filter-sekolah').select2('data')[0].id;
+        const nama_sekolah = $('#filter-sekolah').select2('data')[0].text;
+        const kata_kunci = $("#filter-key").val();
+        const id_kelas = $("#filter-kelas").val();
+        const nip_guru = $("#filter-guru").val();
+        dynamic(id_sekolah, id_kelas, nip_guru, status, kata_kunci);
+        $("#table-title").html(`List Data Project ${nama_sekolah != 'Semua Sekolah' ? ' Sekolah <b>' + nama_sekolah + '</b>' : ''}`);
+    });
 })
 
 // Click Hapus
@@ -85,78 +174,6 @@ const Hapus = (id) => {
     $("#LabelCheck").text('Form Hapus')
     $("#ContentCheck").text('Apakah anda yakin akan menghapus data ini?')
     $('#ModalCheck').modal('toggle')
-}
-
-
-// Click Ubah
-const Ubah = (id) => {
-    $.LoadingOverlay("show");
-    $.ajax({
-        method: 'get',
-        url: '<?= base_url() ?>sekolah/siswa/getSiswa',
-        data: {
-            nisn: id
-        }
-    }).done((data) => {
-        if (data.data) {
-            data = data.data;
-            $("#myModalLabel").text("Ubah Siswa");
-            $('#id').val(data.id);
-            $('#nisn').val(data.nisn);
-            $('#nama').val(data.nama);
-            $('#status').val(data.status);
-            $('#tanggal_lahir').val(data.tanggal_lahir);
-            $('#jenis_kelamin').val(data.jenis_kelamin);
-            $('#alamat').val(data.alamat);
-            $('#no_telpon').val(data.user_phone);
-            $('#password').val('');
-            setKelas(data.id_sekolah, data.id_kelas);
-            $('#myModal').modal('toggle')
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'Data tidak valid.'
-            })
-        }
-    }).fail(($xhr) => {
-        Toast.fire({
-            icon: 'error',
-            title: 'Gagal mendapatkan data.'
-        })
-    }).always(() => {
-        $.LoadingOverlay("hide");
-    })
-}
-
-// get kelas by id_sekolah
-function setKelas(id_sekolah, id_kelas = false, kelas = { id: 'kelas', parent: 'myModal', pre: false },) {
-    $('#sekolah').val(id_sekolah).trigger('change');
-    $.ajax({
-        method: 'get',
-        url: '<?= base_url() ?>sekolah/siswa/getKelas',
-        data: {
-            id_sekolah: id_sekolah
-        },
-    }).done((data) => {
-        $(`#${kelas.id}`).empty();
-        if (kelas.pre) {
-            data.data = [{ id: '', text: kelas.pre }, ...data.data];
-        }
-        $(`#${kelas.id}`).select2({
-            data: data.data,
-            dropdownParent: $(`#${kelas.parent}`)
-        })
-
-        if (id_kelas) {
-            $('#kelas').val(id_kelas).trigger('change');
-        }
-
-        if (level == 'Guru Administrator' || level == 'Guru') {
-            setTitle();
-        }
-    }).fail(($xhr) => {
-        console.log($xhr);
-    })
 }
 
 function Info(id) {

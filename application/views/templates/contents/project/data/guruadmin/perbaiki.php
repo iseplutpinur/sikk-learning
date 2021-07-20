@@ -10,17 +10,18 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="judul">Judul</label>
-                        <input class="form-control" type="text" placeholder="Judul Project" id="judul" name="judul" required>
-                        <input type="hidden" id="id_project" value="<?= $id_project['id'] ?>">
-                        <input type="hidden" id="sekolah" value="<?= $id_sekolah ?>">
+                        <input class="form-control" type="text" placeholder="Judul Project" id="judul" name="judul" value="<?= $detail['judul'] ?>" required>
+                        <input type="hidden" id="id_project" value="<?= $detail['id'] ?>">
+                        <input type="hidden" id="sekolah" value="<?= $detail['id_sekolah'] ?>">
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="kelas">Kelas</label>
                                 <select class="form-control" id="kelas" name="kelas" style="min-width: 100px;" required>
-                                    <?php foreach ($list_kelas as $kelas) : ?>
-                                        <option value="<?= $kelas['id'] ?>"><?= $kelas['text'] ?></option>
+                                    <?php foreach ($list_kelas as $kelas) :
+                                        $selected = $kelas['id'] == $detail['id_kelas'] ? 'selected' : ''; ?>
+                                        <option value="<?= $kelas['id'] ?>" <?= $selected ?>><?= $kelas['text'] ?></option>
                                     <?php endforeach ?>
                                 </select>
                             </div>
@@ -29,33 +30,35 @@
                             <div class="form-group">
                                 <label for="guru">Guru</label>
                                 <select class="form-control" id="guru" name="guru" style="min-width: 100px;" required>
+                                    <option value="<?= $detail['nip_guru'] ?>"><?= $detail['nama_guru'] ?></option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="pendahuluan">Pendahuluan</label>
-                        <textarea class="form-control summernote" rows="3" placeholder="pendahuluan" id="pendahuluan" name="pendahuluan"></textarea>
+                        <textarea class="form-control summernote" rows="3" placeholder="pendahuluan" id="pendahuluan" name="pendahuluan"><?= $detail['pendahuluan'] ?></textarea>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label for="deskripsi">Deskripsi</label>
-                        <textarea class="form-control summernote" rows="3" placeholder="Deskripsi" id="deskripsi" name="deskripsi"></textarea>
+                        <textarea class="form-control summernote" rows="3" placeholder="Deskripsi" id="deskripsi" name="deskripsi"><?= $detail['deskripsi'] ?></textarea>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label for="tujuan">Tujuan</label>
-                        <textarea class="form-control summernote" rows="3" placeholder="Tujuan" id="tujuan" name="tujuan"></textarea>
+                        <textarea class="form-control summernote" rows="3" placeholder="Tujuan" id="tujuan" name="tujuan"><?= $detail['tujuan'] ?></textarea>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label for="link_sumber">Link Sumber</label>
-                        <textarea class="form-control summernote" rows="3" placeholder="Link Sumber" id="link_sumber" name="link_sumber"></textarea>
+                        <textarea class="form-control summernote" rows="3" placeholder="Link Sumber" id="link_sumber" name="link_sumber"><?= $detail['link_sumber'] ?></textarea>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label for="jumlah_aktifitas">Jumlah Aktifitas</label>
-                        <input class="form-control" type="number" placeholder="Jumlah Aktifitas" id="jumlah_aktifitas" name="jumlah_aktifitas" required>
+                        <input class="form-control" type="number" placeholder="Jumlah Aktifitas" id="jumlah_aktifitas" name="jumlah_aktifitas" value="<?= $detail['jumlah_aktifitas'] ?>" required readonly>
+                        <small class="text-muted">Jumlah Aktifitas bisa diubah saat berada pada halaman aktifitas dari project.</small>
                     </div>
                 </div>
                 <div class="card-footer">

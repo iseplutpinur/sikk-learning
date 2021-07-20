@@ -4,7 +4,7 @@ $(function () {
         toolbar: [
             ['fontsize', ['fontsize']], ['fontname', ['fontname']], ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
             ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']], ['color', ['color']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']], ['table', ['table']], ['insert', ['link', 'unlink', 'picture', 'video', 'audio', 'hr']], ['mybutton', ['myVideo']], ['view', ['fullscreen', 'codeview']], ['help', ['help']]],
-        height: (100),
+        height: 300,
         callbacks: {
             onImageUpload: function (image) {
                 uploadFile(image[0], $(this), 'image');
@@ -17,6 +17,47 @@ $(function () {
         maximumAudioFileSize: 10483870.967741936,
         maximumImageFileSize: 10483870.967741936
     })
+
+    // cari guru
+    $('#kelas').change(function () {
+        setListGuru(this.value);
+    })
+
+    // set list guru
+    function setListGuru(id_kelas) {
+        $.ajax({
+            method: 'get',
+            url: '<?= base_url() ?>sekolah/cari/getListGuruByIdKelas',
+            data: {
+                id_kelas: id_kelas
+            },
+        }).done((data) => {
+            $('#guru').empty();
+            data.results.forEach(function (e) {
+                $('#guru').append($('<option>', { value: e.id, text: e.text }))
+            })
+        }).fail(($xhr) => {
+            console.log($xhr);
+        }).always(() => {
+            setSummernot();
+        })
+    }
+
+    // set summernote
+    function setSummernot() {
+        const val = Boolean($("#kelas").val()) && Boolean($("#guru").val());
+        $("#pendahuluan").summernote(val ? 'enable' : 'disable');
+        $("#deskripsi").summernote(val ? 'enable' : 'disable');
+        $("#tujuan").summernote(val ? 'enable' : 'disable');
+        $("#link_sumber").summernote(val ? 'enable' : 'disable');
+        if (val) {
+            $("button[type=submit]").removeAttr("disabled")
+        } else {
+            $("button[type=submit]").attr("disabled", "")
+        }
+        return val;
+    }
+    setSummernot();
 
     // upload image summernote
     function uploadFile(image, id, tipe) {
@@ -70,7 +111,11 @@ $(function () {
             },
             error: function (data) {
                 console.log(data);
-                setToast({ title: "Gagal", body: data.responseJSON.message, class: "bg-danger" });
+                if (data.responseJSON) {
+                    setToast({ title: "Gagal", body: data.responseJSON.message, class: "bg-danger" });
+                } else {
+                    setToast({ title: "Gagal", body: data.responseText, class: "bg-danger" });
+                }
             },
             complete: function () {
                 $.LoadingOverlay("hide");
@@ -79,8 +124,15 @@ $(function () {
     }
 
     // simpan konten
-    $("#form-project").submit(function (ev) {
+    $("#form").submit(function (ev) {
         ev.preventDefault();
+        if (!setSummernot()) {
+            Toast.fire({
+                icon: 'error',
+                title: 'Data belum lengkap'
+            })
+            return;
+        }
         let konten_image = [];
         let konten_audio = [];
         $('.summernote').each(function () {
@@ -98,9 +150,9 @@ $(function () {
             data: {
                 jumlah_aktifitas: $("#jumlah_aktifitas").val(),
                 id_project: $("#id_project").val(),
-                id_sekolah: $("#id_sekolah").val(),
-                id_kelas: $("#id_kelas").val(),
-                nip: $("#nip_guru").val(),
+                id_sekolah: $("#sekolah").val(),
+                id_kelas: $("#kelas").val(),
+                nip_guru: $("#guru").val(),
                 pendahuluan: $("#pendahuluan").summernote('code'),
                 deskripsi: $("#deskripsi").summernote('code'),
                 tujuan: $("#tujuan").summernote('code'),
@@ -109,7 +161,7 @@ $(function () {
                 judul: $("#judul").val(),
                 image: konten_image,
                 audio: konten_audio,
-                tipe: 'updated_at'
+                tipe: true
             },
             type: "post",
             success: function (data) {

@@ -34,7 +34,6 @@ class Data extends Render_Controller
             $this->content = 'project/data/guruadmin/list';
         }
 
-
         // Send data to view
         $this->render();
     }
@@ -67,8 +66,9 @@ class Data extends Render_Controller
 
         // content
         if ($this->level == 'Guru Administrator') {
+            $this->load->model("sekolah/guruModel", 'guru');
             $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
-            $this->plugins = array_merge($this->plugins, ['select2']);
+            $this->data['list_kelas'] = $this->guru->getKelas($detail['id_sekolah']);
             $this->data['id_sekolah'] = $detail['id_sekolah'];
             $this->data['id_project'] = $this->model->tambahProject($detail['id_sekolah']);
             $this->content = 'project/data/guruadmin/tambah';
@@ -94,7 +94,7 @@ class Data extends Render_Controller
         // Page Settings
         $this->title = 'Perbaiki Project';
         $this->title_show = false;
-        $this->navigation = ['Perbaiki Project'];
+        $this->navigation = ['Data Project'];
         $this->plugins = ['summernote', 'summernote-audio'];
 
         // Breadcrumb setting
@@ -114,6 +114,20 @@ class Data extends Render_Controller
                 $this->plugins = array_merge($this->plugins, ['select2']);
                 $this->data['detail'] = $detail;
                 $this->content = 'project/data/admin/perbaiki';
+                $this->render();
+            } else {
+                redirect('my404', 'refresh');
+            }
+        }
+
+        // content
+        if ($this->level == 'Guru Administrator') {
+            $detail = $this->model->getProject($id);
+            if ($detail) {
+                $this->load->model("sekolah/guruModel", 'guru');
+                $this->data['list_kelas'] = $this->guru->getKelas($detail['id_sekolah']);
+                $this->data['detail'] = $detail;
+                $this->content = 'project/data/guruadmin/perbaiki';
                 $this->render();
             } else {
                 redirect('my404', 'refresh');

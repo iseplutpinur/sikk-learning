@@ -158,6 +158,7 @@ class GuruModel extends Render_Model
         $result = $this->db->select('id, nama as text')
             ->from('kelas')
             ->where('id_sekolah', $id)
+            ->order_by('nama')
             ->get()
             ->result_array();
         return $result;
