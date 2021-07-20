@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2021 at 06:01 PM
+-- Generation Time: Jul 20, 2021 at 07:32 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -44,11 +44,12 @@ CREATE TABLE `daftar_project` (
 --
 
 INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `judul`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `suara`, `created_at`, `updated_at`) VALUES
-(17, 1, 1, 'guru', 'Testing', '<p>Pendahuluan</p>', '<p>Deskripsi</p>', '<p>Tujuan</p>', '<p>Link</p>', 5, 1, '', '', '2021-07-19 18:38:52', NULL),
-(18, 1, 1, 'guru', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-19 18:38:55', NULL),
+(17, 1, 1, 'guru', 'Testing', '<p>Pendahuluan</p>', '<p>Deskripsi</p>', '<p>Tujuan</p>', '<p>Link</p>', 5, 1, '', '', '2021-07-19 18:38:52', '2021-07-20 17:25:40'),
 (19, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 00:50:28', NULL),
-(20, 3, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 13:31:54', NULL),
-(23, 0, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 14:41:08', NULL);
+(20, 3, 18, 'guruadmin', 'Tes Guru Administrator', '<p>Pendahuluan ubah</p>', '<p>Deskripsi ubah</p>', '<p>Tujuan ubah</p>', '<p>Link Sumber ubah</p>', 5, 1, '', '', '2021-07-20 16:38:55', '2021-07-20 16:57:20'),
+(23, 0, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 14:41:08', NULL),
+(25, 3, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 17:07:24', NULL),
+(27, 1, 1, 'guru', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 17:22:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -725,7 +726,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `daftar_project`
 --
 ALTER TABLE `daftar_project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `daftar_project_detail`
