@@ -37,6 +37,15 @@ class Data extends Render_Controller
             $this->content = 'project/data/guruadmin/list';
         }
 
+        // Guru Administrator
+        if ($this->level == 'Guru') {
+            $this->breadcrumb_show = true;
+            $this->title_show = true;
+            $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+            $this->data['detail'] = $detail;
+            $this->content = 'project/data/guru/list';
+        }
+
         // Send data to view
         $this->render();
     }
@@ -131,6 +140,18 @@ class Data extends Render_Controller
                 $this->data['list_kelas'] = $this->guru->getKelas($detail['id_sekolah']);
                 $this->data['detail'] = $detail;
                 $this->content = 'project/data/guruadmin/perbaiki';
+                $this->render();
+            } else {
+                redirect('my404', 'refresh');
+            }
+        }
+
+        // content
+        if ($this->level == 'Guru') {
+            $detail = $this->model->getProject($id);
+            if ($detail) {
+                $this->data['detail'] = $detail;
+                $this->content = 'project/data/guru/perbaiki';
                 $this->render();
             } else {
                 redirect('my404', 'refresh');
@@ -240,6 +261,12 @@ class Data extends Render_Controller
         $tujuan             = $this->input->post('tujuan', false);
         $link_sumber        = $this->input->post('link_sumber', false);
         $jumlah_aktifitas   = $this->input->post('jumlah_aktifitas', false);
+
+        // jka User Level Guru yang kirim
+        $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
+        $nip_guru = $nip_guru != null ? $nip_guru : $detail['nip_guru'];
+        $id_sekolah = $id_sekolah != null ? $id_sekolah : $detail['id_sekolah'];
+        $id_kelas = $id_kelas != null ? $id_kelas : $detail['id_kelas'];
 
         // list files yang dikirim
         $images                     = $this->input->post("image");
