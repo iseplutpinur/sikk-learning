@@ -61,6 +61,8 @@ $route['pengaturan/hakakseslevel/(:num)'] = 'pengaturan/hakAksesLevel/index/$1';
 $route['javascripts/contents/(:any).js'] = 'loader/javascripts_contents/$1';
 $route['javascripts/contents/(:any)/(:any).js'] = 'loader/javascripts_contents/$1/$2';
 $route['javascripts/contents/(:any)/(:any)/(:any).js'] = 'loader/javascripts_contents/$1/$2/$3';
+$route['javascripts/contents/(:any)/(:any)/(:any)/(:any).js'] = 'loader/javascripts_contents/$1/$2/$3/$4';
+$route['javascripts/contents/(:any)/(:any)/(:any)/(:any)/(:any).js'] = 'loader/javascripts_contents/$1/$2/$3/$4/$5';
 
 $route['stylesheets/contents/(:any).js'] = 'loader/stylesheets_contents/$1';
 $route['stylesheets/contents/(:any)/(:any).js'] = 'loader/stylesheets_contents/$1/$2';

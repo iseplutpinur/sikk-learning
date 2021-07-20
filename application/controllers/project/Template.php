@@ -3,8 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Template extends Render_Controller
 {
-
-    // Dipakai Guru |
+    // Halaman =========================================================================================================
+    // Dipakai Administrator |
     public function index()
     {
         // Page Settings
@@ -20,23 +20,16 @@ class Template extends Render_Controller
         $this->breadcrumb_3 = 'Template';
         $this->breadcrumb_3_url = '#';
 
-        // Guru
-        if ($this->level == 'Guru') {
-            $this->data['id_sekolah'] = $this->sekolah->getIdSekolahByIdUser($this->id_user);
-            $this->data['id_kelas'] = $this->kelas->getIdKelasByIdUser($this->id_user);
-            $this->content = 'project/guru/template';
-        }
-
         // Administrator
         if ($this->level == 'Administrator') {
-            $this->content = 'project/admin/template';
+            $this->content = 'project/template/admin/list';
         }
 
         // Send data to view
         $this->render();
     }
 
-    // Dipakai Guru |
+    // Dipakai Administrator |
     public function tambah()
     {
         // Page Settings
@@ -50,23 +43,54 @@ class Template extends Render_Controller
         $this->breadcrumb_1_url = base_url();
         $this->breadcrumb_2 = 'Daftar Project';
         $this->breadcrumb_2_url = '#';
-        $this->breadcrumb_3 = 'Data Project';
-        $this->breadcrumb_3_url = base_url('project/data');
-        $this->breadcrumb_4 = 'Tambah Project';
+        $this->breadcrumb_3 = 'Template';
+        $this->breadcrumb_3_url = base_url('project/template');
+        $this->breadcrumb_4 = 'Tambah Template';
         $this->breadcrumb_4_url = '#';
 
         // content
-        if ($this->level == 'Guru') {
-            $this->data['id_sekolah'] = $this->sekolah->getIdSekolahByIdUser($this->id_user);
-            $this->data['id_kelas'] = $this->kelas->getIdKelasByIdUser($this->id_user);
-            $this->data['nip_guru'] = $this->guru->getNipGuruByIdUser($this->id_user);
-            $this->data['id_project'] = $this->model->tambahProject($this->data['id_sekolah'], $this->data['id_kelas'], $this->data['nip_guru']);
-            $this->content = 'project/guru/tambah';
+        if ($this->level == 'Administrator') {
+            $this->plugins = array_merge($this->plugins, ['select2']);
+            $this->data['id_template'] = $this->model->tambahTemplate();
+            $this->content = 'project/template/admin/tambah';
         }
         // Send data to view
         $this->render();
     }
 
+    // Dipakai Administrator |
+    public function perbaiki($id)
+    {
+        // Page Settings
+        $this->title = 'Perbaiki Project';
+        $this->title_show = false;
+        $this->navigation = ['Perbaiki Project'];
+        $this->plugins = ['summernote', 'summernote-audio'];
+
+        // Breadcrumb setting
+        $this->breadcrumb_1 = 'Dashboard';
+        $this->breadcrumb_1_url = base_url();
+        $this->breadcrumb_2 = 'Template Project';
+        $this->breadcrumb_2_url = '#';
+        $this->breadcrumb_3 = 'Data Project';
+        $this->breadcrumb_3_url = base_url('project/data');
+        $this->breadcrumb_4 = 'Perbaiki Project';
+        $this->breadcrumb_4_url = '#';
+
+        // content
+        $detail = $this->model->getTemplate($id);
+        if ($detail) {
+            $this->plugins = array_merge($this->plugins, ['select2']);
+            $this->data['detail'] = $detail;
+            $this->content = 'project/template/admin/perbaiki';
+            $this->render();
+        } else {
+            redirect('my404', 'refresh');
+        }
+    }
+
+    // Fungsi =========================================================================================================
+    // Dipakai Administrator |
     public function ajax_data()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -84,48 +108,80 @@ class Template extends Render_Controller
 
         $data = $this->model->getAllData($draw, $length, $start, $_cari, $order)->result_array();
         $count = $this->model->getAllData(null, null, null, $_cari, $order, null)->num_rows();
-
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    public function getSekolah()
+    // Dipakai Administrator |
+    public function getTemplate()
     {
         $id = $this->input->get("id");
-        $result = $this->model->getSekolah($id);
+        $result = $this->model->getTemplate($id);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
 
-
-    public function update()
-    {
-        $id = $this->input->post("id");
-        $nama = $this->input->post("nama");
-        $alamat = $this->input->post("alamat");
-        $no_telepon = $this->input->post("no_telepon");
-        $status = $this->input->post("status");
-        $result = $this->model->update($id, $nama, $alamat, $no_telepon, $status);
-        $code = $result ? 200 : 500;
-        $this->output_json(["data" => $result], $code);
-    }
-
-
+    // Dipakai Administrator |
     public function delete()
     {
         $id = $this->input->post("id");
-        $result = $this->model->delete($id);
-        $code = $result ? 200 : 500;
-        $this->output_json(["data" => $result], $code);
+        $detail = $this->model->getTemplate($id);
+        if ($detail) {
+            // Mulai transaksi
+            $this->db->trans_start();
+            // delete database
+            $result = $this->model->delete($id);
+
+            // delete file
+            $this->load->helper('directory');
+
+            $id_template = $detail['id'];
+
+            $path = "/files/$this->path/$id_template";
+
+            $images_dir = directory_map(".$path/image", FALSE, TRUE);
+            $audios_dir = directory_map(".$path/audio", FALSE, TRUE);
+
+            // delete file
+            if ($images_dir) {
+                foreach ($images_dir as $file) {
+                    $this->deleteFile(".$path/image/" . $file);
+                }
+            }
+
+            if ($audios_dir) {
+                foreach ($audios_dir as $file) {
+                    $this->deleteFile(".$path/audio/" . $file);
+                }
+            }
+
+            // delete folder
+            if (is_dir(".$path/image")) {
+                rmdir(".$path/image");
+            }
+
+            if (is_dir(".$path/audio")) {
+                rmdir(".$path/audio");
+            }
+
+            if (is_dir(".$path")) {
+                rmdir(".$path");
+            }
+
+            $this->db->trans_complete();
+            $code = $result ? 200 : 500;
+            $this->output_json(["data" => $result], $code);
+        } else {
+            redirect('my404', 'refresh');
+        }
     }
 
+    // Dipakai Administrator |
     public function insert()
     {
         // get data untuk databse
         $judul              = $this->input->post('judul');
-        $deskripsi          = $this->input->post('deskripsi', false);
-        $tujuan             = $this->input->post('tujuan', false);
-        $link_sumber        = $this->input->post('link_sumber', false);
-        $jumlah_aktifitas   = $this->input->post('jumlah_aktifitas', false);
+        $id_sekolah         = $this->input->post('id_sekolah');
+        $keterangan         = $this->input->post('keterangan', false);
 
         // list files yang dikirim
         $images                     = $this->input->post("image");
@@ -135,12 +191,8 @@ class Template extends Render_Controller
 
         // list file in dir
         $this->load->helper('directory');
-        $id_sekolah = $this->input->post('id_sekolah');
-        $id_kelas = $this->input->post('id_kelas');
-        $nip = $this->input->post('nip');
-        $id_project = $this->input->post('id_project');
-        $nip = $nip != null ? $nip : $this->guru->getNipGuruByIdUser($this->id_user);
-        $path = "/files/$this->path/$id_sekolah/$id_kelas/$nip/$id_project";
+        $id_template = $this->input->post('id_template');
+        $path = "/files/$this->path/$id_template";
 
         $images_dir = directory_map(".$path/image", FALSE, TRUE);
         $audios_dir = directory_map(".$path/audio", FALSE, TRUE);
@@ -185,20 +237,16 @@ class Template extends Render_Controller
             $simpan_audio .= ($simpan_audio == '') ? $audio : ('|' . $audio);
         }
 
-        $exe = $this->model->simpanData($id_project, $id_sekolah, $id_kelas, $nip, $judul, $deskripsi, $tujuan, $link_sumber, $jumlah_aktifitas, $simpan_audio, $simpan_image);
+        $exe = $this->model->simpanData($id_template, $id_sekolah, $judul, $keterangan, $simpan_audio, $simpan_image);
         $this->output_json(["status" => $exe]);
     }
 
+    // Dipakai Administrator |
     public function upload()
     {
-        $id_sekolah = $this->input->post('id_sekolah');
-        $id_kelas = $this->input->post('id_kelas');
-        $nip = $this->input->post('nip');
         $tipe = $this->input->post('tipe');
-        $id_project = $this->input->post('id_project');
-        $nip = $nip != null ? $nip : $this->guru->getNipGuruByIdUser($this->id_user);
-
-        $path = "/files/$this->path/$id_sekolah/$id_kelas/$nip/$id_project/$tipe";
+        $id_template = $this->input->post('id_template');
+        $path = "/files/$this->path/$id_template/$tipe";
 
         // cek directory
         if (!is_dir('.' . $path)) {
@@ -233,6 +281,7 @@ class Template extends Render_Controller
         }
     }
 
+    // Dipakai Administrator |
     private function deleteFile($path)
     {
         $result = false;
@@ -251,19 +300,17 @@ class Template extends Render_Controller
         $this->id_user = $this->session->userdata('data') ? $this->session->userdata('data')['id'] : '';
 
         // cek level
-        if ($this->level != 'Guru' && $this->level != 'Administrator') {
+        if ($this->level != 'Administrator' && $this->level != 'template Administrator') {
             redirect('my404', 'refresh');
         }
-        if ($this->level == 'Guru' ||  $this->level == 'Guru Administrator') {
+        if ($this->level == 'Administrator' ||  $this->level == 'template Administrator') {
             $this->load->model("sekolah/DaftarSekolahModel", 'sekolah');
-            $this->load->model("sekolah/KelasModel", 'kelas');
-            $this->load->model("sekolah/GuruModel", 'guru');
         }
 
-        $this->load->model("project/DataModel", 'model');
+        $this->load->model("project/TemplateModel", 'model');
         $this->default_template = 'templates/dashboard';
         $this->load->library('plugin');
         $this->load->helper('url');
-        $this->path = 'project/data';
+        $this->path = 'project/templates';
     }
 }

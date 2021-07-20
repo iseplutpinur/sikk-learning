@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Data extends Render_Controller
 {
-
+    // Halaman =========================================================================================================
     // Dipakai Guru |
     public function index()
     {
@@ -99,6 +99,7 @@ class Data extends Render_Controller
         }
     }
 
+    // Fungsi =========================================================================================================
     // Dipakai Guru |
     public function ajax_data()
     {
@@ -120,7 +121,7 @@ class Data extends Render_Controller
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
-    // Dipakai Guru
+    // Dipakai Guru |
     public function getProject()
     {
         $id = $this->input->get("id");
@@ -129,27 +130,65 @@ class Data extends Render_Controller
         $this->output_json(["data" => $result], $code);
     }
 
-    public function update()
-    {
-        $id = $this->input->post("id");
-        $nama = $this->input->post("nama");
-        $alamat = $this->input->post("alamat");
-        $no_telepon = $this->input->post("no_telepon");
-        $status = $this->input->post("status");
-        $result = $this->model->update($id, $nama, $alamat, $no_telepon, $status);
-        $code = $result ? 200 : 500;
-        $this->output_json(["data" => $result], $code);
-    }
-
-
+    // Dipakai Guru |
     public function delete()
     {
         $id = $this->input->post("id");
-        $result = $this->model->delete($id);
-        $code = $result ? 200 : 500;
-        $this->output_json(["data" => $result], $code);
+        $detail = $this->model->getProjectComplete($id);
+        if ($detail) {
+            // Mulai transaksi
+            $this->db->trans_start();
+            // delete database
+            $result = $this->model->delete($id);
+
+            // delete file
+            $this->load->helper('directory');
+
+            $nip = $detail['nip_guru'];
+            $id_sekolah = $detail['id_sekolah'];
+            $id_kelas = $detail['id_kelas'];
+            $id_project = $detail['id'];
+
+            $path = "/files/$this->path/$id_sekolah/$id_kelas/$nip/$id_project";
+
+            $images_dir = directory_map(".$path/image", FALSE, TRUE);
+            $audios_dir = directory_map(".$path/audio", FALSE, TRUE);
+
+            // delete file
+            if ($images_dir) {
+                foreach ($images_dir as $file) {
+                    $this->deleteFile(".$path/image/" . $file);
+                }
+            }
+
+            if ($audios_dir) {
+                foreach ($audios_dir as $file) {
+                    $this->deleteFile(".$path/audio/" . $file);
+                }
+            }
+
+            // delete folder
+            if (is_dir(".$path/image")) {
+                rmdir(".$path/image");
+            }
+
+            if (is_dir(".$path/audio")) {
+                rmdir(".$path/audio");
+            }
+
+            if (is_dir(".$path")) {
+                rmdir(".$path");
+            }
+
+            $this->db->trans_complete();
+            $code = $result ? 200 : 500;
+            $this->output_json(["data" => $result], $code);
+        } else {
+            redirect('my404', 'refresh');
+        }
     }
 
+    // Dipakai Guru |
     public function insert()
     {
         // get data untuk databse
@@ -227,6 +266,7 @@ class Data extends Render_Controller
         $this->output_json(["status" => $exe]);
     }
 
+    // Dipakai Guru |
     public function upload()
     {
         $detail = $this->sekolah->getIdSekolahByIdUser($this->id_user);
@@ -275,6 +315,7 @@ class Data extends Render_Controller
         }
     }
 
+    // Dipakai Guru |
     private function deleteFile($path)
     {
         $result = false;

@@ -1,4 +1,13 @@
 $(function () {
+    function setSummernot(data) {
+        $('.summernote').summernote(data.length ? 'enable' : 'disable');
+        if (data.length) {
+            $("button[type=submit]").removeAttr("disabled")
+        } else {
+            $("button[type=submit]").attr("disabled", "")
+        }
+    }
+
     // Summernote
     $('.summernote').summernote({
         toolbar: [
@@ -18,6 +27,28 @@ $(function () {
         maximumImageFileSize: 10483870.967741936
     })
 
+    // Fungsi cari
+    $('#sekolah').select2({
+        ajax: {
+            url: '<?= base_url() ?>sekolah/cari',
+            dataType: 'json',
+            method: 'post',
+            data: function (params) {
+                return {
+                    q: params.term
+                };
+            },
+        },
+        dropdownParent: $(".card-body"),
+        minimumInputLength: 1,
+    })
+
+    setSummernot($('#sekolah').select2('data'));
+    // Set visible summernote
+    $('#sekolah').on('select2:select', function (e) {
+        setSummernot($('#sekolah').select2('data'));
+    });
+
     // upload image summernote
     function uploadFile(image, id, tipe) {
         $.LoadingOverlay("show", {
@@ -28,9 +59,9 @@ $(function () {
         var data = new FormData();
         data.append(tipe, image);
         data.append("tipe", tipe);
-        data.append("id_project", $("#id_project").val());
+        data.append("id_template", $("#id_template").val());
         $.ajax({
-            url: "<?= base_url() ?>/project/data/upload",
+            url: "<?= base_url() ?>project/template/upload",
             cache: false,
             contentType: false,
             processData: false,
@@ -79,7 +110,7 @@ $(function () {
     }
 
     // simpan konten
-    $("#form-project").submit(function (ev) {
+    $("#form").submit(function (ev) {
         ev.preventDefault();
         let konten_image = [];
         let konten_audio = [];
@@ -94,15 +125,11 @@ $(function () {
 
         $.LoadingOverlay("show");
         $.ajax({
-            url: "<?= base_url() ?>/project/data/insert",
+            url: "<?= base_url() ?>project/template/insert",
             data: {
-                jumlah_aktifitas: $("#jumlah_aktifitas").val(),
-                id_project: $("#id_project").val(),
-                pendahuluan: $("#pendahuluan").summernote('code'),
-                deskripsi: $("#deskripsi").summernote('code'),
-                tujuan: $("#tujuan").summernote('code'),
-                link_sumber: $("#link_sumber").summernote('code'),
-                jumlah_aktifitas: $("#jumlah_aktifitas").val(),
+                id_template: $("#id_template").val(),
+                id_sekolah: $('#sekolah').select2('data')[0].id,
+                keterangan: $("#keterangan").summernote('code'),
                 judul: $("#judul").val(),
                 image: konten_image,
                 audio: konten_audio

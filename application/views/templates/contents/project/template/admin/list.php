@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between w-100">
-            <h3 class="card-title" id="table-title">List Project Sekolah <b><?= $detail['nama_sekolah'] ?></b> Kelas <b><?= $detail['nama_kelas'] ?></b> Guru <b><?= $detail['nama_guru'] ?></b></h3>
-            <a href="<?= base_url() ?>project/data/tambah" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+            <h3 class="card-title" id="table-title">List Template Project</b></h3>
+            <a href="<?= base_url() ?>project/template/tambah" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
         </div>
     </div>
     <!-- /.card-header -->
@@ -10,9 +10,11 @@
         <table id="dt_basic" class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
+                    <td>Sekolah</td>
                     <td>Judul</td>
-                    <td>Jumlah Aktifitas</td>
                     <td>Status</td>
+                    <td>Tgl. Dibuat</td>
+                    <td>Tgl. Diubah</td>
                     <td>Aksi</td>
                 </tr>
             </thead>
@@ -25,7 +27,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="modalInfoLabel">Project</h4>
+                <h4 class="modal-title" id="modalInfoLabel">Template</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -38,26 +40,11 @@
                     <h5 class="card-title">Sekolah:</h5>
                     <p class="card-text" id="detail-sekolah"></p>
 
-                    <h5 class="card-title">Kelas:</h5>
-                    <p class="card-text" id="detail-kelas"></p>
+                    <h5 class="card-title">Keterangan:</h5>
+                    <p class="card-text" id="detail-keterangan"></p>
 
-                    <h5 class="card-title">Guru:</h5>
-                    <p class="card-text" id="detail-guru"></p>
-
-                    <h5 class="card-title">Pendahuluan:</h5>
-                    <p class="card-text" id="detail-pendahuluan"></p>
-
-                    <h5 class="card-title">Deskripsi:</h5>
-                    <p class="card-text" id="detail-deskripsi"></p>
-
-                    <h5 class="card-title">Tujuan:</h5>
-                    <p class="card-text" id="detail-tujuan"></p>
-
-                    <h5 class="card-title">Link Sumber:</h5>
-                    <p class="card-text" id="detail-link_sumber"></p>
-
-                    <h5 class="card-title">Jumlah Aktifitas:</h5>
-                    <p class="card-text" id="detail-jumlah_aktifitas"></p>
+                    <h5 class="card-title">Status:</h5>
+                    <p class="card-text" id="detail-status"></p>
 
                     <h5 class="card-title">Tanggal Ditambahkan:</h5>
                     <p class="card-text" id="detail-created_at"></p>

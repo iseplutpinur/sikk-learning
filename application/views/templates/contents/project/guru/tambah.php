@@ -39,7 +39,10 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-secondary">Simpan</button>
+                    <div class="d-flex justify-content-between w-100">
+                        <button type="submit" class="btn btn-info">Simpan</button>
+                        <a href="<?= base_url() ?>project/data" class="btn btn-secondary">Kembali</a>
+                    </div>
                 </div>
             </form>
         </div>

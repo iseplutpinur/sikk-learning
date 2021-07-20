@@ -22,14 +22,16 @@ class DataModel extends Render_Model
 
         // jika level Guru get kelas
         $id_kelas = '';
+        $nip_guru = '';
         if ($this->level == 'Guru') {
             // get kelas guru itu
-            $id_kelas = $this->db->select('b.id_kelas')
+            $id_kelas = $this->db->select('b.id_kelas, a.nip')
                 ->from('guru a')
                 ->join('guru_kelas b', 'a.nip = b.nip')
                 ->where('a.id_user', $this->id_user)
                 ->get()
                 ->row_array();
+            $nip_guru = $id_kelas != null ? $id_kelas['nip'] : null;
             $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
         }
 
@@ -59,6 +61,7 @@ class DataModel extends Render_Model
         // Jika level Guru by kelas
         if ($this->level == 'Guru') {
             $this->db->where('c.id', $id_kelas);
+            $this->db->where('b.nip', $nip_guru);
         }
 
         // order by
@@ -203,7 +206,7 @@ class DataModel extends Render_Model
         return $result;
     }
 
-    // Dipakai Guru |
+    // Dipakai Guru | Guru Administrator
     public function getProject($id)
     {
         // jika level Guru Administrator get sekolah
@@ -220,14 +223,16 @@ class DataModel extends Render_Model
 
         // jika level Guru get kelas
         $id_kelas = '';
+        $nip_guru = '';
         if ($this->level == 'Guru') {
             // get kelas guru itu
-            $id_kelas = $this->db->select('b.id_kelas')
+            $id_kelas = $this->db->select('b.id_kelas, a.nip')
                 ->from('guru a')
                 ->join('guru_kelas b', 'a.nip = b.nip')
                 ->where('a.id_user', $this->id_user)
                 ->get()
                 ->row_array();
+            $nip_guru = $id_kelas != null ? $id_kelas['nip'] : null;
             $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
         }
 
@@ -261,6 +266,7 @@ class DataModel extends Render_Model
         // Jika level Guru by kelas
         if ($this->level == 'Guru') {
             $this->db->where('c.id', $id_kelas);
+            $this->db->where('b.nip', $nip_guru);
         }
 
         $result = $this->db->get()->row_array();
@@ -270,6 +276,12 @@ class DataModel extends Render_Model
     public function getProjectComplete($id)
     {
         $result = $this->db->get_where("daftar_project", ['id' => $id])->row_array();
+        return $result;
+    }
+
+    public function delete($id)
+    {
+        $result = $this->db->delete('daftar_project', ['id' => $id]);
         return $result;
     }
 

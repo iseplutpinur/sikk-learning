@@ -36,7 +36,7 @@ class Loader extends CI_Controller
 		$this->load->helper('url');
 	}
 
-	public function javascripts_contents($folder, $file = null, $file_sub = null)
+	public function javascripts_contents($folder, $file = null, $file_sub = null, $file_sub_sub = null, $file_sub_sub_sub = null)
 	{
 		$this->load->helper('file');
 		$this->output->set_content_type('js');
@@ -44,7 +44,9 @@ class Loader extends CI_Controller
 		$folder = $this->security->sanitize_filename($folder);
 		$file = $file == null ? '' : $this->security->sanitize_filename($file);
 		$file_sub = $file_sub == null ? '' : $this->security->sanitize_filename($file_sub);
-		$file = $file_sub != null ? "$folder/$file/$file_sub" : ($file != null ? "$folder/$file" : $folder);
+		$file_sub_sub = $file_sub_sub == null ? '' : $this->security->sanitize_filename($file_sub_sub);
+
+		$file = $file_sub_sub_sub != null ? "$folder/$file/$file_sub/$file_sub_sub/$file_sub_sub_sub" : ($file_sub_sub != null ? "$folder/$file/$file_sub/$file_sub_sub" : ($file_sub != null ? "$folder/$file/$file_sub" : ($file != null ? "$folder/$file" : $folder)));
 		if (file_exists(VIEWPATH . "javascripts/contents/$file.js")) {
 			if ($this->config->item('minify')) {
 				$result = $this->load->view("javascripts/contents/$file.js", '', true);
