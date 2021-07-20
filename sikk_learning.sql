@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2021 at 04:14 PM
+-- Generation Time: Jul 20, 2021 at 01:48 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -26,7 +26,7 @@ CREATE TABLE `daftar_project` (
   `id_sekolah` int(11) DEFAULT NULL,
   `id_kelas` int(11) DEFAULT NULL,
   `nip_guru` varchar(20) DEFAULT NULL,
-  `Judul` varchar(255) NOT NULL,
+  `judul` varchar(255) NOT NULL,
   `pendahuluan` text DEFAULT NULL,
   `deskripsi` text DEFAULT NULL,
   `tujuan` text DEFAULT NULL,
@@ -43,11 +43,10 @@ CREATE TABLE `daftar_project` (
 -- Dumping data for table `daftar_project`
 --
 
-INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `Judul`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `suara`, `created_at`, `updated_at`) VALUES
-(4, 3, 18, 'guru3', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-16 23:17:49', NULL),
-(5, 1, 1, 'guru', 'Testing', NULL, '<p><br></p>', '<p><br></p>', '<p><br></p>', 5, 1, '', '', '2021-07-19 14:11:38', NULL),
-(6, 1, 1, 'guru', '1', NULL, '<p><br></p>', '<p><br></p>', '<p><br></p>', 1, 1, '', '', '2021-07-19 14:12:05', NULL),
-(7, 1, 1, 'guru', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-19 14:12:08', NULL);
+INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `judul`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `suara`, `created_at`, `updated_at`) VALUES
+(17, 1, 1, 'guru', 'Testing', '<p>Pendahuluan</p>', '<p>Deskripsi</p>', '<p>Tujuan</p>', '<p>Link</p>', 5, 1, '', '', '2021-07-19 18:38:52', NULL),
+(18, 1, 1, 'guru', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-19 18:38:55', NULL),
+(19, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 00:50:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -66,6 +65,7 @@ CREATE TABLE `daftar_project_detail` (
   `nilai` int(11) NOT NULL,
   `status` int(11) DEFAULT NULL,
   `gambar` text DEFAULT NULL,
+  `suara` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -509,20 +509,28 @@ INSERT INTO `siswa_kelas` (`id`, `nisn`, `id_kelas`, `status`, `created_at`, `up
 -- --------------------------------------------------------
 
 --
--- Table structure for table `template`
+-- Table structure for table `templates`
 --
 
-CREATE TABLE `template` (
+CREATE TABLE `templates` (
   `id` int(11) NOT NULL,
   `id_sekolah` int(11) NOT NULL,
   `judul` varchar(20) DEFAULT NULL,
   `keterangan` text DEFAULT NULL,
   `gambar` text NOT NULL,
   `suara` text NOT NULL,
-  `status` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL COMMENT '0 Draft | 1 Disimpan',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `templates`
+--
+
+INSERT INTO `templates` (`id`, `id_sekolah`, `judul`, `keterangan`, `gambar`, `suara`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Template A', '<p>Kamu Siapa</p><p><img src=\"/files/project/templates/1/image/photoGGS.png\" alt=\"photoGGS.png\" data-filename=\"photoGGS.png\" class=\"img-fluid note-float-center\" style=\"width: 50%;\"><br></p>', 'photoGGS.png', '', 1, '2021-07-20 02:11:57', '2021-07-20 11:47:12'),
+(4, 0, NULL, NULL, '', '', 0, '2021-07-20 11:41:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -687,9 +695,9 @@ ALTER TABLE `siswa_kelas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `template`
+-- Indexes for table `templates`
 --
-ALTER TABLE `template`
+ALTER TABLE `templates`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -712,7 +720,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `daftar_project`
 --
 ALTER TABLE `daftar_project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `daftar_project_detail`
@@ -781,10 +789,10 @@ ALTER TABLE `siswa_kelas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `template`
+-- AUTO_INCREMENT for table `templates`
 --
-ALTER TABLE `template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `templates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tes`
