@@ -9,10 +9,13 @@ class Cari extends Render_Controller
     {
         $this->load->model("sekolah/DaftarSekolahModel", 'model');
         $key = $this->input->post('q');
+        $all = $this->input->post('all');
         // jika inputan ada
         if ($key) {
+            $result = $this->model->cari($key);
+            $result = $all ? array_merge([['id' => '', 'text' => 'Semua Sekolah']], $result) : $result;
             $this->output_json([
-                "results" => $this->model->cari($key)
+                "results" => $result
             ]);
         } else {
             $this->output_json([
@@ -26,10 +29,13 @@ class Cari extends Render_Controller
     {
         $this->load->model("sekolah/guruModel", 'model');
         $id = $this->input->get("id_sekolah");
+        $all = $this->input->post('all');
         // jika inputan ada
         if ($id) {
+            $result = $this->model->getKelas($id);
+            $result = $all ? array_merge([['id' => '', 'text' => 'Semua Kelas']], $result) : $result;
             $this->output_json([
-                "results" => $this->model->getKelas($id)
+                "results" => $result
             ]);
         } else {
             $this->output_json([

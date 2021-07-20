@@ -80,13 +80,12 @@ class TemplateModel extends Render_Model
 
             // by sekolah
             if ($filter['id_sekolah'] != '') {
-                $this->db->where('e.id', $filter['id_sekolah']);
+                $this->db->where('b.id', $filter['id_sekolah']);
             }
-
-            // by status
-            if ($filter['status'] != '') {
-                $this->db->where('a.status', $filter['status']);
-            }
+            // // by status
+            // if ($filter['status'] != '') {
+            //     $this->db->where('a.status', $filter['status']);
+            // }
         }
 
         // pencarian

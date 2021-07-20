@@ -22,6 +22,7 @@ class Template extends Render_Controller
 
         // Administrator
         if ($this->level == 'Administrator') {
+            $this->plugins = array_merge($this->plugins, ['select2']);
             $this->content = 'project/template/admin/list';
         }
 
@@ -105,9 +106,11 @@ class Template extends Render_Controller
         } else {
             $_cari = null;
         }
+        // cek filter
+        $filter = $this->input->post("filter");
 
-        $data = $this->model->getAllData($draw, $length, $start, $_cari, $order)->result_array();
-        $count = $this->model->getAllData(null, null, null, $_cari, $order, null)->num_rows();
+        $data = $this->model->getAllData($draw, $length, $start, $_cari, $order, $filter)->result_array();
+        $count = $this->model->getAllData(null,    null,   null, $_cari, $order, $filter)->num_rows();
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 

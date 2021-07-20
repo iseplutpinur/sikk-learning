@@ -52,6 +52,24 @@ $(function () {
     }
     dynamic();
 
+    // initial filter
+    $('#filter-sekolah').select2({
+        ajax: {
+            url: '<?= base_url() ?>sekolah/cari',
+            dataType: 'json',
+            method: 'post',
+            data: function (params) {
+                console.log(params);
+                return {
+                    q: params.term,
+                    all: true
+                };
+            },
+        },
+        minimumInputLength: 1,
+        dropdownParent: $("#filter")
+    })
+
     // hapus
     $('#OkCheck').click(() => {
         let id = $("#idCheck").val()
@@ -78,6 +96,16 @@ $(function () {
             $.LoadingOverlay("hide");
         })
     })
+
+    // filter
+    $("#btn-filter").click(() => {
+        const id_sekolah = $('#filter-sekolah').select2('data')[0].id;
+        const nama_sekolah = $('#filter-sekolah').select2('data')[0].text;
+        const status = $("#filter-aktif").val();
+        const kata_kunci = $("#filter-key").val();
+        dynamic(id_sekolah, status, kata_kunci);
+        $("#table-title").html(`List Template Project ${nama_sekolah != 'Semua Sekolah' ? ' Sekolah <b>' + nama_sekolah + '</b>' : ''}`);
+    });
 })
 
 // Click Hapus

@@ -1,3 +1,34 @@
+<div class="card card-info card-outline" id="filter">
+    <div class="card-header">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-end  align-items-star w-100 flex-md-row flex-column">
+                <h3 class="card-title align-self-center">Filter Guru: </h3>
+                <div class="form-group  mb-lg-0 ml-lg-2">
+                    <select class="form-control" id="filter-sekolah" name="filter-sekolah" style="min-width: 100px;">
+                        <option value="" selected>Semua Sekolah</option>
+                    </select>
+                </div>
+
+                <!-- <div class="form-group  mb-lg-0 ml-lg-2">
+                    <select class="form-control" id="filter-aktif" name="filter-aktif">
+                        <option value="">Status</option>
+                        <option value="1">Aktif</option>
+                        <option value="2">Tidak Aktif</option>
+                    </select>
+                </div> -->
+
+                <div class="form-group  mb-lg-0 ml-lg-2">
+                    <input type="text" class="form-control" id="filter-key" name="filter-key" placeholder="Kata Kunci" required />
+                </div>
+
+                <div class=" ml-lg-2">
+                    <button type="button" class="btn btn-info btn" id="btn-filter" style="min-width: 72px;"><i class="fas fa-search"></i></i> Cari</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between w-100">
