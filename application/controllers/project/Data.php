@@ -388,10 +388,7 @@ class Data extends Render_Controller
         if ($this->level != 'Guru' && $this->level != 'Administrator' && $this->level != 'Guru Administrator') {
             redirect('my404', 'refresh');
         }
-        if ($this->level == 'Guru' ||  $this->level == 'Guru Administrator') {
-            $this->load->model("sekolah/DaftarSekolahModel", 'sekolah');
-        }
-
+        $this->load->model("sekolah/DaftarSekolahModel", 'sekolah');
         $this->load->model("project/DataModel", 'model');
         $this->default_template = 'templates/dashboard';
         $this->load->library('plugin');

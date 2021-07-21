@@ -30,7 +30,7 @@ $(function () {
         data.append("tipe", tipe);
         data.append("id_project", $("#id_project").val());
         $.ajax({
-            url: "<?= base_url() ?>/project/data/upload",
+            url: "<?= base_url() ?>project/data/upload",
             cache: false,
             contentType: false,
             processData: false,
@@ -94,7 +94,7 @@ $(function () {
 
         $.LoadingOverlay("show");
         $.ajax({
-            url: "<?= base_url() ?>/project/data/insert",
+            url: "<?= base_url() ?>project/data/insert",
             data: {
                 jumlah_aktifitas: $("#jumlah_aktifitas").val(),
                 id_project: $("#id_project").val(),
