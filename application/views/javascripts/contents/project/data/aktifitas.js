@@ -1,32 +1,4 @@
 $(function () {
-    // card handeler
-    $(".remove").click(function () {
-        const card = $(this).parents()[2];
-        Swal.fire({
-            title: 'Apakah anda yakin ingin akan menhapus aktifitas ini ?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes'
-        }).then((result) => {
-            const el_jml_aktifitas = $("#jml_aktifitas");
-            if (Number(el_jml_aktifitas.text()) == 1) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Project minimal mempunayi 1 aktifitas'
-                })
-                return;
-            }
-            if (result.isConfirmed) {
-                $(card).CardWidget('remove')
-                // set jumlah aktifitas
-                el_jml_aktifitas.html(Number(el_jml_aktifitas.text()) - 1);
-                $(card).remove();
-            }
-        })
-    });
-
     // set nama
     $("input[name=judul]").change(function () {
         const card = $($(this).parents()[4]);
@@ -36,7 +8,7 @@ $(function () {
     // tambah aktifitas
     // get id_terbaru
     $("#btn-tambah-aktifitas").click(() => {
-        $.LoadingOverlay("show");
+        $("#btn-tambah-aktifitas").LoadingOverlay("show");
         $.ajax({
             url: "<?= base_url() ?>project/aktifitas/tambahAktifitas",
             data: {
@@ -121,6 +93,7 @@ $(function () {
                 // set jumlah aktifitas
                 const el_jml_aktifitas = $("#jml_aktifitas");
                 el_jml_aktifitas.html(Number(el_jml_aktifitas.text()) + 1);
+                summernoteInit();
             },
             error: function (data) {
                 Toast.fire({
@@ -129,7 +102,7 @@ $(function () {
                 })
             },
             complete: function () {
-                $.LoadingOverlay("hide");
+                $("#btn-tambah-aktifitas").LoadingOverlay("hide");
             }
         });
     });
@@ -137,28 +110,57 @@ $(function () {
 
     // upload handeler
     // Summernote
-    $('.summernote').summernote({
-        toolbar: [
-            ['fontsize', ['fontsize']], ['fontname', ['fontname']], ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-            ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']], ['color', ['color']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']], ['table', ['table']], ['insert', ['link', 'unlink', 'picture', 'video', 'audio', 'hr']], ['mybutton', ['myVideo']], ['view', ['fullscreen', 'codeview']], ['help', ['help']]],
-        height: (300),
-        callbacks: {
-            onImageUpload: function (image) {
-                uploadFile(image[0], $(this), 'image');
+    function summernoteInit() {
+        $('.summernote').summernote({
+            toolbar: [
+                ['fontsize', ['fontsize']], ['fontname', ['fontname']], ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+                ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']], ['color', ['color']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']], ['table', ['table']], ['insert', ['link', 'unlink', 'picture', 'video', 'audio', 'hr']], ['mybutton', ['myVideo']], ['view', ['fullscreen', 'codeview']], ['help', ['help']]],
+            height: (300),
+            callbacks: {
+                onImageUpload: function (image) {
+                    uploadFile(image[0], $(this), 'image');
+                },
+                onAudioUpload: function (audio) {
+                    uploadFile(audio[0], $(this), 'audio');
+                }
             },
-            onAudioUpload: function (audio) {
-                uploadFile(audio[0], $(this), 'audio');
-            }
-        },
-        // 10 MB
-        maximumAudioFileSize: 10483870.967741936,
-        maximumImageFileSize: 10483870.967741936
-    })
+            // 10 MB
+            maximumAudioFileSize: 10483870.967741936,
+            maximumImageFileSize: 10483870.967741936
+        })
+
+        $(".remove").click(function () {
+            const card = $(this).parents()[2];
+            Swal.fire({
+                title: 'Apakah anda yakin ingin akan menhapus aktifitas ini ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                const el_jml_aktifitas = $("#jml_aktifitas");
+                if (Number(el_jml_aktifitas.text()) == 1) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Project minimal mempunayi 1 aktifitas'
+                    })
+                    return;
+                }
+                if (result.isConfirmed) {
+                    $(card).CardWidget('remove')
+                    // set jumlah aktifitas
+                    el_jml_aktifitas.html(Number(el_jml_aktifitas.text()) - 1);
+                    $(card).remove();
+                }
+            })
+        });
+    }
+    summernoteInit();
 
     // upload image summernote
     function uploadFile(image, id, tipe) {
-        console.log(id);
-        $.LoadingOverlay("show", {
+        $(id).parent().LoadingOverlay("show", {
             image: "",
             progress: true,
             text: '0%'
@@ -197,10 +199,10 @@ $(function () {
                         var percentComplete = evt.loaded / evt.total;
                         var percentCompleteReal = percentComplete * 100;
                         percentComplete = parseInt(percentComplete * 100);
-                        $.LoadingOverlay("progress", percentComplete);
-                        $.LoadingOverlay("text", percentCompleteReal.toFixed(2) + "%");
+                        $(id).parent().LoadingOverlay("progress", percentComplete);
+                        $(id).parent().LoadingOverlay("text", percentCompleteReal.toFixed(2) + "%");
                         if (percentComplete == "100") {
-                            $.LoadingOverlay("hide");
+                            $(id).parent().LoadingOverlay("hide");
                         }
                     }
                 }, false);
@@ -211,7 +213,7 @@ $(function () {
                 setToast({ title: "Gagal", body: data.responseJSON.message, class: "bg-danger" });
             },
             complete: function () {
-                $.LoadingOverlay("hide");
+                $(id).parent().LoadingOverlay("hide");
             }
         });
     }

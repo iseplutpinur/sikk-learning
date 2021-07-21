@@ -43,7 +43,7 @@ $(document).ready(function () {
             $(element).removeClass('is-invalid');
         },
         submitHandler: function (form) {
-            $.LoadingOverlay("show");
+            $("button[type=submit]").LoadingOverlay("show");
             $.ajax({
                 method: 'post',
                 url: '<?= base_url() ?>login/doLogin',
@@ -81,7 +81,7 @@ $(document).ready(function () {
                     alert(textStatus, errorThrown);
                 },
                 complete: function () {
-                    $.LoadingOverlay("hide");
+                    $("button[type=submit]").LoadingOverlay("hide");
                 }
             })
         }

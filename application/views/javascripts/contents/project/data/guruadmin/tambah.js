@@ -61,7 +61,7 @@ $(function () {
 
     // upload image summernote
     function uploadFile(image, id, tipe) {
-        $.LoadingOverlay("show", {
+        $(id).parent().LoadingOverlay("show", {
             image: "",
             progress: true,
             text: '0%'
@@ -100,10 +100,10 @@ $(function () {
                         var percentComplete = evt.loaded / evt.total;
                         var percentCompleteReal = percentComplete * 100;
                         percentComplete = parseInt(percentComplete * 100);
-                        $.LoadingOverlay("progress", percentComplete);
-                        $.LoadingOverlay("text", percentCompleteReal.toFixed(2) + "%");
+                        $(id).parent().LoadingOverlay("progress", percentComplete);
+                        $(id).parent().LoadingOverlay("text", percentCompleteReal.toFixed(2) + "%");
                         if (percentComplete == "100") {
-                            $.LoadingOverlay("hide");
+                            $(id).parent().LoadingOverlay("hide");
                         }
                     }
                 }, false);
@@ -118,7 +118,7 @@ $(function () {
                 }
             },
             complete: function () {
-                $.LoadingOverlay("hide");
+                $(id).parent().LoadingOverlay("hide");
             }
         });
     }

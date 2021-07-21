@@ -42,7 +42,7 @@ $(function () {
                 {
                     "data": "id", render(data, type, full, meta) {
                         return `<div class="pull-right">
-                                    <button class="btn btn-info btn-xs" onclick="Info('${data}')">
+                                    <button class="btn btn-info btn-xs" data-id="${data}" onclick="Info(this)">
                                         <i class="fa fa-info"></i> Lihat
                                     </button>
                                     <a href="<?php base_url() ?>data/perbaiki/${data}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Perbaiki</a>
@@ -176,13 +176,13 @@ const Hapus = (id) => {
     $('#ModalCheck').modal('toggle')
 }
 
-function Info(id) {
-    $.LoadingOverlay("show");
+function Info(data) {
+    $(data).LoadingOverlay("show");
     $.ajax({
         method: 'get',
         url: '<?= base_url() ?>project/data/getProject',
         data: {
-            id: id
+            id: data.dataset.id
         }
     }).done((data) => {
         if (data.data) {
@@ -212,6 +212,6 @@ function Info(id) {
             title: 'Gagal mendapatkan data.'
         })
     }).always(() => {
-        $.LoadingOverlay("hide");
+        $(data).LoadingOverlay("hide");
     })
 }
