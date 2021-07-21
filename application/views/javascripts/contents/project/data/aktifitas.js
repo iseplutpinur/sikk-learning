@@ -22,6 +22,7 @@ $(function () {
                 $(card).CardWidget('remove')
                 // set jumlah aktifitas
                 el_jml_aktifitas.html(Number(el_jml_aktifitas.text()) - 1);
+                $(card).remove();
             }
         })
     });
@@ -156,6 +157,7 @@ $(function () {
 
     // upload image summernote
     function uploadFile(image, id, tipe) {
+        console.log(id);
         $.LoadingOverlay("show", {
             image: "",
             progress: true,
