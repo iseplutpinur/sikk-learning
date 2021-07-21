@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2021 at 07:32 PM
+-- Generation Time: Jul 21, 2021 at 10:16 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -44,12 +44,15 @@ CREATE TABLE `daftar_project` (
 --
 
 INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `judul`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status`, `gambar`, `suara`, `created_at`, `updated_at`) VALUES
-(17, 1, 1, 'guru', 'Testing', '<p>Pendahuluan</p>', '<p>Deskripsi</p>', '<p>Tujuan</p>', '<p>Link</p>', 5, 1, '', '', '2021-07-19 18:38:52', '2021-07-20 17:25:40'),
+(17, 1, 1, 'guru', 'Testing', '<p>Pendahuluan</p>', '<p><br></p>', '<p>Tujuan</p>', '<p>Link</p>', 5, 1, '', '', '2021-07-19 18:38:52', '2021-07-20 18:11:15'),
 (19, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 00:50:28', NULL),
 (20, 3, 18, 'guruadmin', 'Tes Guru Administrator', '<p>Pendahuluan ubah</p>', '<p>Deskripsi ubah</p>', '<p>Tujuan ubah</p>', '<p>Link Sumber ubah</p>', 5, 1, '', '', '2021-07-20 16:38:55', '2021-07-20 16:57:20'),
-(23, 0, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 14:41:08', NULL),
-(25, 3, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 17:07:24', NULL),
-(27, 1, 1, 'guru', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-20 17:22:46', NULL);
+(23, 3, 17, 'guru5', 'Project Administrator', '<p>Pendahuluan<img src=\"/files/project/data/23/image/4674155-Get-It-Done-Quote-STAY.jpg\" alt=\"4674155-Get-It-Done-Quote-STAY.jpg\" data-filename=\"4674155-Get-It-Done-Quote-STAY.jpg\" class=\"img-fluid note-float-center\" style=\"width: 50%;\"></p>', '<p>Deskripsi</p><p><audio src=\"/files/project/data/23/audio/Aci_Cahaya_-_Ana_Uhibbuka_Fillah___Official_Music_Video.mp3\" data-filename=\"Aci_Cahaya_-_Ana_Uhibbuka_Fillah___Official_Music_Video.mp3\" controls=\"controls\" class=\"note-audio-clip\"></audio></p>', '<p>Tujuan</p>', '<p>Link Sumber</p>', 4, 1, '4674155-Get-It-Done-Quote-STAY.jpg', 'Aci_Cahaya_-_Ana_Uhibbuka_Fillah___Official_Music_Video.mp3', '2021-07-21 06:02:21', '2021-07-21 06:03:16'),
+(25, 3, 18, 'guru3', 'Tes Guru Administrator 123', '<p>123<img src=\"/files/project/data/25/image/bg.png\" alt=\"bg.png\" data-filename=\"bg.png\" class=\"img-fluid note-float-center\" style=\"width: 50%;\"></p>', '<p><br></p><p><audio src=\"/files/project/data/25/audio/Achik-_Nana_Resipi_Berkasih.mp3\" data-filename=\"Achik-_Nana_Resipi_Berkasih.mp3\" controls=\"controls\" class=\"note-audio-clip\"></audio></p>', '<p><br></p>', '<p><br></p>', 3, 1, 'bg.png', 'Achik-_Nana_Resipi_Berkasih.mp3', '2021-07-21 06:07:12', NULL),
+(27, 1, 1, 'guru', 'Guru Testing', '<p><img src=\"/files/project/data/27/image/photoGGS.png\" alt=\"photoGGS.png\" data-filename=\"photoGGS.png\" class=\"img-fluid note-float-center\" style=\"width: 50%;\"><br></p>', '<p><br></p><p><audio src=\"/files/project/data/27/audio/Cintai_Aku_Karena_Allah_(Lirik)_Novi_Ayla_Caka.mp3\" data-filename=\"Cintai_Aku_Karena_Allah_(Lirik)_Novi_Ayla_Caka.mp3\" controls=\"controls\" class=\"note-audio-clip\"></audio></p>', '<p><br></p>', '<p><br></p>', 3, 1, 'photoGGS.png', 'Cintai_Aku_Karena_Allah_(Lirik)_Novi_Ayla_Caka.mp3', '2021-07-21 06:04:46', NULL),
+(28, 0, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-21 06:02:24', NULL),
+(29, 1, 1, 'guru', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-21 06:04:49', NULL),
+(30, 3, 0, '0', '', NULL, NULL, NULL, NULL, NULL, 0, '', '', '2021-07-21 06:07:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -61,17 +64,44 @@ CREATE TABLE `daftar_project_detail` (
   `id` int(11) NOT NULL,
   `id_daftar_project` int(11) DEFAULT NULL,
   `id_template` int(11) DEFAULT NULL,
+  `judul` varchar(255) DEFAULT NULL,
   `naskah` text DEFAULT NULL,
   `detail` text DEFAULT NULL,
   `lembar_kerja` text DEFAULT NULL,
   `jenis_upload` varchar(100) DEFAULT NULL,
   `nilai` int(11) NOT NULL,
-  `status` int(11) DEFAULT NULL,
   `gambar` text DEFAULT NULL,
-  `suara` text NOT NULL,
+  `suara` text DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `daftar_project_detail`
+--
+
+INSERT INTO `daftar_project_detail` (`id`, `id_daftar_project`, `id_template`, `judul`, `naskah`, `detail`, `lembar_kerja`, `jenis_upload`, `nilai`, `gambar`, `suara`, `status`, `created_at`, `updated_at`) VALUES
+(26, 17, 1, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, 'photoGGS1.png', '', 1, '2021-07-21 08:12:49', NULL),
+(27, 17, 1, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, 'photoGGS1.png', '', 1, '2021-07-21 08:12:49', NULL),
+(28, 17, 1, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, 'photoGGS1.png', '', 1, '2021-07-21 08:12:49', NULL),
+(29, 17, 1, '', '<p><br></p>', '<p><br></p>', '<p><img src=\"/files/project/data/17/aktifitas/image/photoGGS1.png\" alt=\"photoGGS1.png\" data-filename=\"photoGGS1.png\" class=\"img-fluid\"><br></p>', '', 0, 'photoGGS1.png', '', 1, '2021-07-21 08:12:49', NULL),
+(30, 17, 1, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, 'photoGGS1.png', '', 1, '2021-07-21 08:12:49', NULL),
+(38, 20, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:02', NULL),
+(39, 20, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:02', NULL),
+(40, 20, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:02', NULL),
+(41, 20, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:02', NULL),
+(42, 20, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:02', NULL),
+(43, 23, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:14:12', NULL),
+(44, 23, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:14:12', NULL),
+(45, 23, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:14:12', NULL),
+(46, 25, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:20', NULL),
+(47, 25, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:20', NULL),
+(48, 25, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:20', NULL),
+(49, 27, 1, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:24', NULL),
+(50, 27, 1, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:24', NULL),
+(51, 27, 1, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:13:24', NULL),
+(52, 23, 4, '', '<p><br></p>', '<p><br></p>', '<p><br></p>', '', 0, '', '', 1, '2021-07-21 08:14:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -726,13 +756,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `daftar_project`
 --
 ALTER TABLE `daftar_project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `daftar_project_detail`
 --
 ALTER TABLE `daftar_project_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `guru_kelas`
