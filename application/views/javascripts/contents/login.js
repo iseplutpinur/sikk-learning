@@ -43,7 +43,7 @@ $(document).ready(function () {
             $(element).removeClass('is-invalid');
         },
         submitHandler: function (form) {
-            $("button[type=submit]").LoadingOverlay("show");
+            setBtnLoading('button[type=submit]', 'Masuk')
             $.ajax({
                 method: 'post',
                 url: '<?= base_url() ?>login/doLogin',
@@ -81,7 +81,7 @@ $(document).ready(function () {
                     alert(textStatus, errorThrown);
                 },
                 complete: function () {
-                    $("button[type=submit]").LoadingOverlay("hide");
+                    setBtnLoading('button[type=submit]', '<i class="fas fa-sign-in-alt"></i> Masuk', false);
                 }
             })
         }
@@ -95,4 +95,15 @@ function setToast(data) {
         body: data.body
     })
     setTimeout(() => $("#toastsContainerTopRight").remove(), 5000);
+}
+
+function setBtnLoading(element, text, status = true) {
+    const el = $(element);
+    if (status) {
+        el.attr("disabled", "");
+        el.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ${text}`);
+    } else {
+        el.removeAttr("disabled");
+        el.html(text);
+    }
 }

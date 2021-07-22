@@ -8,7 +8,7 @@ $(function () {
     // tambah aktifitas
     // get id_terbaru
     $("#btn-tambah-aktifitas").click(() => {
-        $("#btn-tambah-aktifitas").LoadingOverlay("show");
+        setBtnLoading('#btn-tambah-aktifitas', 'Tambah Aktifitas')
         $.ajax({
             url: "<?= base_url() ?>project/aktifitas/tambahAktifitas",
             data: {
@@ -94,6 +94,10 @@ $(function () {
                 const el_jml_aktifitas = $("#jml_aktifitas");
                 el_jml_aktifitas.html(Number(el_jml_aktifitas.text()) + 1);
                 summernoteInit();
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Aktifitas ditambahkan'
+                })
             },
             error: function (data) {
                 Toast.fire({
@@ -102,7 +106,7 @@ $(function () {
                 })
             },
             complete: function () {
-                $("#btn-tambah-aktifitas").LoadingOverlay("hide");
+                setBtnLoading('#btn-tambah-aktifitas', '<i class="fa fa-plus"></i> Tambah Aktifitas', false)
             }
         });
     });

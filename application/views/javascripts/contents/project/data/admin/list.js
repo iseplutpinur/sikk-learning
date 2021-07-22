@@ -177,7 +177,7 @@ const Hapus = (id) => {
 }
 
 function Info(data) {
-    $(data).LoadingOverlay("show");
+    setBtnLoading(data, 'Lihat');
     $.ajax({
         method: 'get',
         url: '<?= base_url() ?>project/data/getProject',
@@ -212,6 +212,6 @@ function Info(data) {
             title: 'Gagal mendapatkan data.'
         })
     }).always(() => {
-        $(data).LoadingOverlay("hide");
+        setBtnLoading(data, '<i class="fa fa-info"></i> Lihat', false);
     })
 }
