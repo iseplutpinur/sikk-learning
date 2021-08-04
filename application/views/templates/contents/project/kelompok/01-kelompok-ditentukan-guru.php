@@ -1,11 +1,18 @@
+<div class="card card-purple card-outline" id="filter">
+    <div class="card-header">
+        <div class="d-flex justify-content-end  align-items-star w-100 flex-md-row flex-column">
+            <button type="button" class="btn btn-info btn-sm" onclick="KunciKelompok('<?= $detail['id'] ?>')"><i class="fas fa-key"></i></i> Simpan Dan Kunci Kelompok</button>
+        </div>
+    </div>
+</div>
 <input type="hidden" id="id_project" value="<?= $detail['id'] ?>">
 <input type="hidden" id="id_sekolah" value="<?= $detail['id_sekolah'] ?>">
 
-<div class="card">
+<div class="card  card-info card-outline">
     <div class="card-header">
         <div class="d-flex justify-content-between w-100">
             <h3 class="card-title">List Kelompok</h3>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" id="btn-tambah"><i class="fa fa-plus"></i> Tambah</button>
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" id="btn-tambah"><i class="fa fa-plus"></i> Tambah</button>
         </div>
     </div>
     <!-- /.card-header -->
@@ -22,12 +29,12 @@
     </div>
     <!-- /.card-body -->
 </div>
-<div class="card" id="card-anggota" style="display: none;">
+<div class="card  card-primary card-outline" id="card-anggota" style="display: none;">
     <div class="card-header">
         <div class="d-flex justify-content-between w-100">
             <h3 class="card-title" id="title-card-anggota">List Anggota</h3>
             <input type="hidden" id="id-card-anggota">
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalTambahAnggotaKelompok" id="btn-tambah-anggota-kelompok"><i class="fa fa-plus"></i> Tambah</button>
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalTambahAnggotaKelompok" id="btn-tambah-anggota-kelompok"><i class="fa fa-plus"></i> Tambah</button>
         </div>
     </div>
     <!-- /.card-header -->
@@ -37,8 +44,9 @@
                 <tr>
                     <td>NISN</td>
                     <td>Nama</td>
+                    <td>Kelas</td>
                     <td>Ketetrangan</td>
-                    <td>Kelompok</td>
+                    <td>Aksi</td>
                 </tr>
             </thead>
         </table>

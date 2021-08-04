@@ -106,6 +106,7 @@ class KelompokModel extends Render_Model
             ->get()->result_array();
         return $result;
     }
+
     // Dipakai Administrator
     // 01 Kelompok Ditentukan Guru
     public function getDataListKelompok($id_projct, $draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
@@ -117,6 +118,11 @@ class KelompokModel extends Render_Model
         ");
 
         $this->db->from('siswa_kelompok a');
+        if ($cari != null) {
+            $this->db->join('siswa_kelompok_detail b', 'a.id = b.id_kelompok', 'left');
+            $this->db->join('siswa c', 'b.nisn_siswa = c.nisn', 'left');
+            $this->db->join('kelas d', 'd.id = c.id_kelas', 'left');
+        }
         $this->db->where('a.id_project', $id_projct);
 
         // order by
@@ -157,7 +163,12 @@ class KelompokModel extends Render_Model
         // pencarian
         if ($cari != null) {
             $this->db->where("(
+                b.nama LIKE '%$cari%' or
+                b.keterangan LIKE '%$cari%' or
+                b.nisn_siswa LIKE '%$cari%' or
                 a.nama LIKE '%$cari%' or
+                d.nama LIKE '%$cari%' or
+                c.nisn LIKE '%$cari%'
                 )");
         }
 
@@ -170,18 +181,16 @@ class KelompokModel extends Render_Model
         return $result;
     }
 
+    // Dipakai Administrator
     // 01 Kelompok Ditentukan Guru
-    public function getListSiswaProject($id_projct, $draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
+    public function getListSiswaProject($id_kelompok, $draw = null, $show = null, $start = null, $cari = null, $order = null, $filter = null)
     {
-        // get id kelas
-        $id_kelas = $this->db->select('a.id_kelas')->from('daftar_project a')->where('id', $id_projct)->get()->row_array();
-        $id_kelas = $id_kelas == null ? 0 : $id_kelas['id_kelas'];
-
         // select tabel
-        $this->db->select("*");
+        $this->db->select("a.id, a.nisn_siswa as nisn, a.keterangan, a.nama, c.nama as nama_kelas");
         $this->db->from("siswa_kelompok_detail a");
         $this->db->join('siswa b', 'a.nisn_siswa = b.nisn', 'left');
         $this->db->join('kelas c', 'c.id = b.id_kelas', 'left');
+        $this->db->where('a.id_kelompok', $id_kelompok);
 
         // order by
         if ($order['order'] != null) {
@@ -192,8 +201,16 @@ class KelompokModel extends Render_Model
             $order_colum = $columns['data'];
 
             switch ($order_colum) {
-                case 'id':
-                    $order_colum = 'a.id';
+                case 'nama_kelas':
+                    $order_colum = 'c.nama';
+                    break;
+
+                case 'nisn':
+                    $order_colum = 'a.nisn_siswa';
+                    break;
+
+                default:
+                    $order_colum = 'a.' . $order_colum;
                     break;
             }
 
@@ -220,6 +237,9 @@ class KelompokModel extends Render_Model
         if ($cari != null) {
             $this->db->where("(
                 a.nama LIKE '%$cari%' or
+                a.keterangan LIKE '%$cari%' or
+                a.nisn_siswa LIKE '%$cari%' or
+                c.nama LIKE '%$cari%'
                 )");
         }
 
@@ -233,12 +253,29 @@ class KelompokModel extends Render_Model
         return $result;
     }
 
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
+    public function tambahAnggotaKelompok($id_kelompok, $nisn, $nama, $keterangan)
+    {
+        $data['id_kelompok'] = $id_kelompok;
+        $data['nisn_siswa'] = $nisn == '' ? null : $nisn;
+        $data['nama'] = $nama;
+        $data['keterangan'] = $keterangan;
+        $data['status'] = 1;
+        $result = $this->db->insert('siswa_kelompok_detail', $data);
+        return $result;
+    }
+
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
     public function createKelompok($id_projct, $nama)
     {
         $result = $this->db->insert('siswa_kelompok', ['id_project' => $id_projct, 'nama' => $nama]);
         return $result;
     }
 
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
     public function updateKelompok($id, $nama)
     {
         $this->db->where('id', $id);
@@ -246,10 +283,33 @@ class KelompokModel extends Render_Model
         return $result;
     }
 
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
     public function deleteKelompok($id)
     {
         $this->db->where('id', $id);
         $result = $this->db->delete('siswa_kelompok');
+        return $result;
+    }
+
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
+    public function deleteAnggota($id)
+    {
+        $this->db->where('id', $id);
+        $result = $this->db->delete('siswa_kelompok_detail');
+        return $result;
+    }
+
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
+    public function kunciKelompok($id_projcet)
+    {
+        $this->db->where('id', $id_projcet);
+        $result = $this->db->update('daftar_project', [
+            'status_kelompok' => 99,
+            'updated_at' => Date("Y-m-d H:i:s", time())
+        ]);
         return $result;
     }
 

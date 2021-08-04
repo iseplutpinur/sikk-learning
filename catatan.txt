@@ -84,3 +84,11 @@ dalam edit user cari tahu filed apa saja yang berubah seperti jika mengubah data
 ================== Status kelas saat registrasi dan saat menambahkan guru serta siswa di administrator
 
 
+contoh set value select2
+$('#siswa-anggota')
+    .empty()
+    .append($("<option/>")
+        .val('123456789')
+        .text(nama_siswa))
+    .val('123456789')
+    .trigger("change");

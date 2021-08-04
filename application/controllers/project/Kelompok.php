@@ -120,6 +120,19 @@ class Kelompok extends Render_Controller
     }
 
     // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
+    public function tambahAnggotaKelompok()
+    {
+        $id_kelompok = $this->input->post('id_kelompok');
+        $nisn = $this->input->post('nisn');
+        $nama = $this->input->post('nama');
+        $keterangan = $this->input->post('keterangan');
+        $result = $this->model->tambahAnggotaKelompok($id_kelompok, $nisn, $nama, $keterangan);
+        $this->output_json($result);
+    }
+
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
     public function ajax_data_list_siswa_project()
     {
         $order = ['order' => $this->input->post('order'), 'columns' => $this->input->post('columns')];
@@ -128,7 +141,7 @@ class Kelompok extends Render_Controller
         $draw = $draw == null ? 1 : $draw;
         $length = $this->input->post('length');
         $cari = $this->input->post('search');
-        $id_project = $this->input->post("id_projcet");
+        $id_kelompok = $this->input->post("id_kelompok");
 
         if (isset($cari['value'])) {
             $_cari = $cari['value'];
@@ -138,12 +151,13 @@ class Kelompok extends Render_Controller
         // cek filter
         $filter = $this->input->post('filter');
 
-        $data = $this->model->getListSiswaProject($id_project, $draw, $length, $start, $_cari, $order, $filter)->result_array();
-        $count = $this->model->getListSiswaProject($id_project, null,    null,   null, $_cari, $order, null)->num_rows();
+        $data = $this->model->getListSiswaProject($id_kelompok, $draw, $length, $start, $_cari, $order, $filter)->result_array();
+        $count = $this->model->getListSiswaProject($id_kelompok, null,    null,   null, $_cari, $order, null)->num_rows();
         $this->output_json(['recordsTotal' => $count, 'recordsFiltered' => $count, 'draw' => $draw, 'search' => $_cari, 'data' => $data]);
     }
 
     // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
     public function insertKelompok()
     {
         $id_project = $this->input->post("id_project");
@@ -153,6 +167,7 @@ class Kelompok extends Render_Controller
     }
 
     // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
     public function updateKelompok()
     {
         $id = $this->input->post("id");
@@ -162,10 +177,27 @@ class Kelompok extends Render_Controller
     }
 
     // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
     public function deleteKelompok()
     {
         $id = $this->input->post("id");
         $result = $this->model->deleteKelompok($id);
+        $this->output_json($result);
+    }
+
+    // Dipakai Administrator
+    // 01 Kelompok Ditentukan Guru
+    public function deleteAnggota()
+    {
+        $id = $this->input->post("id");
+        $result = $this->model->deleteAnggota($id);
+        $this->output_json($result);
+    }
+
+    public function kunciKelompok()
+    {
+        $id_project = $this->input->post("id");
+        $result = $this->model->kunciKelompok($id_project);
         $this->output_json($result);
     }
 

@@ -309,7 +309,10 @@
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
 					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes'
+					confirmButtonText: 'Yes',
+					inputAttributes: {
+						id: "txt-note",
+					},
 				}).then((result) => {
 					if (result.isConfirmed) {
 						window.location.href = "<?= base_url() ?>login/logout";

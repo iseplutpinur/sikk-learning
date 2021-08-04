@@ -31,11 +31,11 @@ $(function () {
                 { "data": "nama_guru" },
                 { "data": "judul" },
                 { "data": "jumlah_aktifitas" },
-                {
-                    "data": "status", render(data, type, full, meta) {
-                        return data == '1' ? "Aktif" : 'Tidak Aktif'
-                    }
-                },
+                // {
+                //     "data": "status", render(data, type, full, meta) {
+                //         return data == '1' ? "Aktif" : 'Tidak Aktif'
+                //     }
+                // },
                 { "data": "created_at" },
                 { "data": "updated_at" },
                 {

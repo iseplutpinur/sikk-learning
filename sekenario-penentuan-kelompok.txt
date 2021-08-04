@@ -40,4 +40,3 @@ daftar_project status_kelompok
 
 98 Kelompok Ditutup |
 99 Kelompok Dikunci
-

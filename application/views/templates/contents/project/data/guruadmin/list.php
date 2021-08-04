@@ -53,7 +53,7 @@
                     <td>Guru</td>
                     <td>Judul</td>
                     <td>Jml. Aktifitas</td>
-                    <td>Status</td>
+                    <!-- <td>Status</td> -->
                     <td>Tgl. Dibuat</td>
                     <td>Tgl. Diubah</td>
                     <td>Aksi</td>

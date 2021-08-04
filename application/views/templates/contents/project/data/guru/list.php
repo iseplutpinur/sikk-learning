@@ -12,7 +12,7 @@
                 <tr>
                     <td>Judul</td>
                     <td>Jumlah Aktifitas</td>
-                    <td>Status</td>
+                    <!-- <td>Status</td> -->
                     <td>Tgl. Dibuat</td>
                     <td>Tgl. Diubah</td>
                     <td>Aksi</td>
