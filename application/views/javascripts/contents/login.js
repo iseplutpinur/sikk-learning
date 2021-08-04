@@ -1,6 +1,6 @@
-$(document).ready(function () {
+$(document).ready(function() {
     $("#loader").LoadingOverlay('progress');
-    $('#password-visibility').change(function () {
+    $('#password-visibility').change(function() {
         const password = $('#password')
 
         // password toggle
@@ -32,17 +32,17 @@ $(document).ready(function () {
             }
         },
         errorElement: 'span',
-        errorPlacement: function (error, element) {
+        errorPlacement: function(error, element) {
             error.addClass('invalid-feedback');
             element.closest('.form-group').append(error);
         },
-        highlight: function (element, errorClass, validClass) {
+        highlight: function(element, errorClass, validClass) {
             $(element).addClass('is-invalid');
         },
-        unhighlight: function (element, errorClass, validClass) {
+        unhighlight: function(element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
         },
-        submitHandler: function (form) {
+        submitHandler: function(form) {
             setBtnLoading('button[type=submit]', 'Masuk')
             $.ajax({
                 method: 'post',
@@ -51,7 +51,7 @@ $(document).ready(function () {
                     email: form.email.value,
                     password: form.password.value
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response.status == 1) {
                         setToast({ title: "Gagal", body: "Maaf. Password yang anda masukan salah.", class: "bg-warning" });
                         $('#password').val('')
@@ -69,18 +69,16 @@ $(document).ready(function () {
                         setToast({ title: "Gagal", body: "Maaf. Akun anda belum dikonfirmasi", class: "bg-info" });
                     } else if (response.status == 0) {
                         setToast({ title: "Berhasil", body: "Login Sukses", class: "bg-primary" });
-                        setInterval(() => {
-                            window.location.href = base_url + 'dashboard'
-                        }, 1000)
+                        window.location.href = base_url + 'dashboard';
                     } else {
                         setToast({ title: "Gagal", body: "Koneksi buruk.", class: "bg-warning" });
                     }
 
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
                     alert(textStatus, errorThrown);
                 },
-                complete: function () {
+                complete: function() {
                     setBtnLoading('button[type=submit]', '<i class="fas fa-sign-in-alt"></i> Masuk', false);
                 }
             })

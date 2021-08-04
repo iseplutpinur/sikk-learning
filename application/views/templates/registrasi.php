@@ -57,7 +57,7 @@
                 <?php if (file_exists(VIEWPATH . "templates/contents/{$content}.php")) : ?>
                     <?php $this->load->view("templates/contents/{$content}.php"); ?>
                 <?php endif; ?>
-                <a href="./login" class="text-center">Saya sudah mempunyai akun</a>
+                <a href="/login" class="text-center">Saya sudah mempunyai akun</a>
             </div>
             <!-- /.form-box -->
         </div><!-- /.card -->

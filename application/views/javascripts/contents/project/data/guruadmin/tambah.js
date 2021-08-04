@@ -168,9 +168,7 @@ $(function () {
                     icon: 'success',
                     title: 'Berhasil Disimpan.'
                 })
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
+                window.location.href = '<?= base_url() ?>project/data';
             },
             error: function (data) {
                 Toast.fire({

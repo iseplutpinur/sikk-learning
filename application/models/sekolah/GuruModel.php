@@ -289,13 +289,23 @@ class GuruModel extends Render_Model
     // dipakai Administrator |
     public function updateGuruKelas($id, $nip, $id_kelas, $status)
     {
-        $this->db->where('id', $id);
-        $result = $this->db->update('guru_kelas', [
-            'nip' => $nip,
-            'id_kelas' => $id_kelas,
-            'status' => $status,
-            'updated_at' => Date("Y-m-d H:i:s", time())
-        ]);
+        $get = $this->db->select("id")->from("guru_kelas")->where("id", $id)->get()->num_rows();
+        if ($get > 0) {
+            $this->db->where('id', $id);
+            $result = $this->db->update('guru_kelas', [
+                'nip' => $nip,
+                'id_kelas' => $id_kelas,
+                'status' => $status,
+                'updated_at' => Date("Y-m-d H:i:s", time())
+            ]);
+        }else{
+            $result = $this->db->insert("guru_kelas", [
+                'nip' => $nip,
+                'id_kelas' => $id_kelas,
+                'status' => $status,
+                'updated_at' => Date("Y-m-d H:i:s", time())
+            ]);
+        }
         return $result;
     }
 

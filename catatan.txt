@@ -72,3 +72,15 @@ $("#sekolah").select2({
     - Jumlah Kelas
     - Aksi
         - Detail
+
+================= Tambahan
+- Setiap tabel mempunyai colom dimana updated_at oleh id users dan created_at oleh id users sehingga nanti terdeteksi
+jika ada perubahan dan penamahan
+
+- Tabel sekolah atribut nya di lengkapi
+
+dalam edit user cari tahu filed apa saja yang berubah seperti jika mengubah data guru maka filed dalam project akan berubah
+
+================== Status kelas saat registrasi dan saat menambahkan guru serta siswa di administrator
+
+

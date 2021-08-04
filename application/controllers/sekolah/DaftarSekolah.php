@@ -57,13 +57,23 @@ class DaftarSekolah extends Render_Controller
     }
 
     // dipakai Administrator |
+    public function getSekolahDetail()
+    {
+        $id = $this->input->get("id");
+        $result = $this->model->getSekolahDetail($id);
+        $code = $result ? 200 : 500;
+        $this->output_json(["data" => $result], $code);
+    }
+
+    // dipakai Administrator |
     public function insert()
     {
-        $nama = $this->input->post("nama");
-        $alamat = $this->input->post("alamat");
-        $no_telepon = $this->input->post("no_telepon");
-        $status = $this->input->post("status");
-        $result = $this->model->insert($nama, $alamat, $no_telepon, $status);
+        $npsn = trim($this->input->post("npsn"));
+        $nama = trim($this->input->post("nama"));
+        $alamat = trim($this->input->post("alamat"));
+        $no_telepon = trim($this->input->post("no_telepon"));
+        $status = trim($this->input->post("status"));
+        $result = $this->model->insert($npsn, $nama, $alamat, $no_telepon, $status);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
@@ -72,11 +82,12 @@ class DaftarSekolah extends Render_Controller
     public function update()
     {
         $id = $this->input->post("id");
-        $nama = $this->input->post("nama");
-        $alamat = $this->input->post("alamat");
-        $no_telepon = $this->input->post("no_telepon");
-        $status = $this->input->post("status");
-        $result = $this->model->update($id, $nama, $alamat, $no_telepon, $status);
+        $npsn = trim($this->input->post("npsn"));
+        $nama = trim($this->input->post("nama"));
+        $alamat = trim($this->input->post("alamat"));
+        $no_telepon = trim($this->input->post("no_telepon"));
+        $status = trim($this->input->post("status"));
+        $result = $this->model->update($id, $npsn, $nama, $alamat, $no_telepon, $status);
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
@@ -104,6 +115,14 @@ class DaftarSekolah extends Render_Controller
                 "results" => []
             ]);
         }
+    }
+
+    // dipakai administrator |
+    public function cekNpsn()
+    {
+        $npsn = $this->input->post('npsn');
+        $result = $this->model->cekNpsn($npsn);
+        $this->output_json($result);
     }
 
     function __construct()

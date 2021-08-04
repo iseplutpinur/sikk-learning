@@ -34,7 +34,7 @@ $(function () {
                 {
                     "data": "id", render(data, type, full, meta) {
                         return `<div class="pull-right">
-									<button class="btn btn-primary btn-xs" onclick="Ubah(${data})">
+									<button class="btn btn-primary btn-xs" data-id="${data}" onclick="Ubah(this)">
 										<i class="fa fa-edit"></i> Ubah
 									</button>
 									<button class="btn btn-danger btn-xs" onclick="Hapus(${data})">
@@ -67,7 +67,7 @@ $(function () {
     // tambah dan ubah
     $("#form").submit(function (ev) {
         ev.preventDefault();
-        $.LoadingOverlay("show");
+        setBtnLoading('button[type=submit]', 'Submit');
         $.ajax({
             method: 'post',
             url: '<?= base_url() ?>sekolah/kelas/' + ($("#id").val() == "" ? 'insert' : 'update'),
@@ -89,7 +89,7 @@ $(function () {
                 title: 'Data gagal disimpan'
             })
         }).always(() => {
-            $.LoadingOverlay("hide");
+            setBtnLoading('button[type=submit]', 'Submit', false);
             $('#myModal').modal('toggle')
         })
     });
@@ -143,8 +143,9 @@ const Hapus = (id) => {
 
 
 // Click Ubah
-const Ubah = (id) => {
-    $.LoadingOverlay("show");
+const Ubah = (data) => {
+    setBtnLoading(data, 'Ubah');
+    const id = data.dataset.id;
     $.ajax({
         method: 'get',
         url: '<?= base_url() ?>sekolah/kelas/getKelas',
@@ -172,7 +173,7 @@ const Ubah = (id) => {
             title: 'Gagal mendapatkan data.'
         })
     }).always(() => {
-        $.LoadingOverlay("hide");
+        setBtnLoading(data, '<i class="fa fa-edit"></i> Ubah', false);
     })
 
 }

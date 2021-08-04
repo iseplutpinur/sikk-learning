@@ -43,12 +43,12 @@
         <span class="h5">Sekolah Indonesia Kota Kinabalu<br>Learning Management System</span>
       </div>
       <div class="card-body">
-        <form action="" method="post" id="form-login">
+        <form action="" method="post" autocomplete="off" id="form-login">
           <div class="form-group">
-            <input type="text" name="email" class="form-control" id="email" placeholder="NISN/NIP/Username">
+            <input type="text" name="email" autocomplete="off" class="form-control" id="email" placeholder="NISN/NIP/Username">
           </div>
           <div class="form-group">
-            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" name="password" autocomplete="off" class="form-control" id="password" placeholder="Password">
           </div>
           <div class="d-flex justify-content-between">
             <div class="icheck-primary">

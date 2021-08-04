@@ -23,11 +23,12 @@ class KelasModel extends Render_Model
         a.id_sekolah,
         a.nama,
         b.nama as nama_sekolah,
-        (select count(*) from siswa_kelas c where c.id_kelas = a.id) as jml_murid,
+        (select count(*) from siswa c where c.id_kelas = a.id) as jml_murid,
         a.status,
         IF(a.status = '0' , 'Tidak Aktif', IF(a.status = '1' , 'Aktif', 'Tidak Diketahui')) as status_str");
 
         $this->db->from('kelas a');
+        $this->db->order_by('a.nama');
         $this->db->join('sekolah b', 'a.id_sekolah = b.id');
 
         // Jika level Guru Administrator
@@ -73,7 +74,7 @@ class KelasModel extends Render_Model
                 a.id_sekolah LIKE '%$cari%' or
                 a.nama LIKE '%$cari%' or
                 b.nama LIKE '%$cari%' or
-                (select count(*) from siswa_kelas c where c.id_kelas = a.id) LIKE '%$cari%' or
+                (select count(*) from siswa c where c.id_kelas = a.id) LIKE '%$cari%' or
                 IF(a.status = '0' , 'Tidak Aktif', IF(a.status = '1' , 'Aktif', 'Tidak Diketahui')) LIKE '%$cari%')");
         }
 

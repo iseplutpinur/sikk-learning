@@ -211,6 +211,7 @@ $(function () {
                     icon: 'success',
                     title: 'Berhasil Disimpan.'
                 })
+                window.location.href = '<?= base_url() ?>project/data';
             },
             error: function (data) {
                 Toast.fire({

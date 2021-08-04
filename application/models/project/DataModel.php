@@ -35,6 +35,17 @@ class DataModel extends Render_Model
             $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
         }
 
+        // jika level Siswa get kelas
+        if ($this->level == 'Siswa') {
+            $id_sekolah = $this->db->select('c.id')
+                ->from('siswa a')
+                ->join('kelas b', 'a.id_kelas = b.id', 'left')
+                ->join('sekolah c', 'b.id_sekolah = c.id', 'left')
+                ->where('a.id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id'] : null;
+        }
 
         // select tabel
         $this->db->select("
@@ -67,6 +78,11 @@ class DataModel extends Render_Model
         if ($this->level == 'Guru') {
             $this->db->where('c.id', $id_kelas);
             $this->db->where('b.nip', $nip_guru);
+        }
+
+        // Jika level Siswa by kelas
+        if ($this->level == 'Siswa') {
+            $this->db->where('d.id', $id_sekolah);
         }
 
         // order by
@@ -173,7 +189,7 @@ class DataModel extends Render_Model
     }
 
     // Dipkakai Administrator | Guru Administrator | Guru
-    public function tambahProject($id_sekolah = 0, $id_kelas = 0, $nip_guru = 0)
+    public function tambahProject($id_sekolah = null, $id_kelas = null, $nip_guru = null)
     {
         // get darft
         $row = $this->db
@@ -231,7 +247,7 @@ class DataModel extends Render_Model
         return $result;
     }
 
-    // Dipkakai Administrator | Guru Administrator | Guru
+    // Dipkakai Administrator | Guru Administrator | Guru | Siswa
     public function getProject($id)
     {
         // jika level Guru Administrator get sekolah
@@ -259,6 +275,18 @@ class DataModel extends Render_Model
                 ->row_array();
             $nip_guru = $id_kelas != null ? $id_kelas['nip'] : null;
             $id_kelas = $id_kelas != null ? $id_kelas['id_kelas'] : null;
+        }
+
+        // jika level Siswa get kelas
+        if ($this->level == 'Siswa') {
+            $id_sekolah = $this->db->select('c.id')
+                ->from('siswa a')
+                ->join('kelas b', 'a.id_kelas = b.id', 'left')
+                ->join('sekolah c', 'b.id_sekolah = c.id', 'left')
+                ->where('a.id_user', $this->id_user)
+                ->get()
+                ->row_array();
+            $id_sekolah = $id_sekolah != null ? $id_sekolah['id'] : null;
         }
 
         // select tabel
@@ -298,6 +326,11 @@ class DataModel extends Render_Model
             $this->db->where('b.nip', $nip_guru);
         }
 
+        // Jika level Siswa by kelas
+        if ($this->level == 'Siswa') {
+            $this->db->where('d.id', $id_sekolah);
+        }
+
         $result = $this->db->get()->row_array();
         return $result;
     }
@@ -313,7 +346,8 @@ class DataModel extends Render_Model
     public function delete($id)
     {
         $result = $this->db->delete('daftar_project', ['id' => $id]);
-        return $result;
+        $result1 = $this->db->delete('daftar_project_detail', ['id_daftar_project' => $id]);
+        return $result && $result1;
     }
 
     function __construct()

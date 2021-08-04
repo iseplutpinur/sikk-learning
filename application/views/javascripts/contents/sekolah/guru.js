@@ -45,7 +45,7 @@ $(function () {
                         let btn_konfirmasi = '';
                         if (full.status == '2') {
                             btn_konfirmasi = `
-                                <button class="btn btn-secondary btn-xs" onclick="Konfirmasi('${data}')">
+                                <button class="btn btn-secondary btn-xs" data-id="${data}" onclick="Konfirmasi(this)">
                                     <i class="fa fa-check"></i> Konfirmasi
                                 </button>
                             `;
@@ -53,7 +53,7 @@ $(function () {
 
                         if (full.status != '2') {
                             btn_konfirmasi = `
-                                <button class="btn btn-info btn-xs" onclick="Info('${data}')">
+                                <button class="btn btn-info btn-xs"  data-id="${data}" onclick="Info(this)">
                                     <i class="fa fa-info"></i> Detail
                                 </button>
                             `;
@@ -61,7 +61,7 @@ $(function () {
 
                         return `<div class="pull-right">
                                     ${btn_konfirmasi}
-									<button class="btn btn-primary btn-xs" onclick="Ubah('${data}')">
+									<button class="btn btn-primary btn-xs"  data-id="${data}" onclick="Ubah(this)">
 										<i class="fa fa-edit"></i> Ubah
 									</button>
 									<button class="btn btn-danger btn-xs" onclick="Hapus('${data}')">
@@ -162,7 +162,7 @@ $(function () {
         }
 
         // return;
-        $.LoadingOverlay("show");
+        setBtnLoading('button[type=submit]', 'Submit');
         $.ajax({
             method: 'post',
             url: '<?= base_url() ?>sekolah/guru/' + ($("#id").val() == "" ? 'insert' : 'update'),
@@ -192,7 +192,7 @@ $(function () {
                 title: 'Data gagal disimpan'
             })
         }).always(() => {
-            $.LoadingOverlay("hide");
+            setBtnLoading('button[type=submit]', 'Submit', false);
             $('#myModal').modal('toggle')
         })
     });
@@ -267,8 +267,9 @@ const Hapus = (id) => {
 
 
 // Click Ubah
-const Ubah = (id) => {
-    $.LoadingOverlay("show");
+const Ubah = (data) => {
+    setBtnLoading(data, 'Ubah');
+    const id = data.dataset.id;
     $.ajax({
         method: 'get',
         url: '<?= base_url() ?>sekolah/guru/getGuru',
@@ -303,7 +304,7 @@ const Ubah = (id) => {
             title: 'Gagal mendapatkan data.'
         })
     }).always(() => {
-        $.LoadingOverlay("hide");
+        setBtnLoading(data, '<i class="fa fa-edit"></i> Ubah', false);
     })
 }
 
@@ -338,8 +339,9 @@ function setKelas(id_sekolah, id_kelas = false, kelas = { id: 'kelas', parent: '
     })
 }
 
-function Info(id) {
-    $.LoadingOverlay("show");
+function Info(data) {
+    setBtnLoading(data, 'Detail');
+    const id = data.dataset.id;
     $.ajax({
         method: 'get',
         url: '<?= base_url() ?>sekolah/guru/getGuru',
@@ -375,7 +377,7 @@ function Info(id) {
             title: 'Gagal mendapatkan data.'
         })
     }).always(() => {
-        $.LoadingOverlay("hide");
+        setBtnLoading(data, '<i class="fa fa-info"></i> Detail', false);
     })
 }
 
@@ -394,8 +396,9 @@ function setTitle() {
     $("#table-title").html(`List Guru ${detail}`);
 }
 
-function Konfirmasi(id) {
-    $.LoadingOverlay("show");
+function Konfirmasi(data) {
+    setBtnLoading(data, 'Konfirmasi');
+    const id = data.dataset.id;
     $.ajax({
         method: 'get',
         url: '<?= base_url() ?>sekolah/guru/getGuru',
@@ -431,6 +434,6 @@ function Konfirmasi(id) {
             title: 'Gagal mendapatkan data.'
         })
     }).always(() => {
-        $.LoadingOverlay("hide");
+        setBtnLoading(data, '<i class="fa fa-check"></i> Konfirmasi', false);
     })
 }

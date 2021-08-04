@@ -1,0 +1,34 @@
+Registrasi (Nama sekolah beserta npsn)
+    Siswa prosedur tambah user [sudah]
+    Guru prosedur tambah user [sudah]
+
+Sekolah
+    Daftar Sekolah
+        - Datatable [sudah]
+        - Tambah cek npsn [sudah]
+        - hapus [sudah]
+        - tambah detail [sudah]
+
+    Kelas
+        - List
+        - Filter
+        - Tambah Struktur tabel baru
+        - Hapus Struktur tabel baru
+    Guru
+        - List
+        - Filter
+        - Tambah Struktur tabel baru
+        - Hapus Struktur tabel baru
+
+    Siswa
+        - List
+        - Filter
+        - Tambah Struktur tabel baru
+        - Hapus Struktur tabel baru
+
+Lain - Lain
+    Select2 sekolah pure
+
+
+=== Catatan fitur belum
+ketika konfirmasi selesai maka reload datatable harus dengan filter semula

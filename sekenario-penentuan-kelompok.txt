@@ -1,0 +1,43 @@
+Sekenario pemilihan kelompok (Di tabel project ditambahkan reset kelompok)
+1. Dipilih Langsung oleh guru (Seluruh kelompok dan jumlah maksimal kelompok ditentukan oleh guru)
+    Jenis Kelompok = 0
+    Prosedur:
+        1. Guru Memilih Pilihan (Kelompok beserta anggota kelompok ditentukan langsung oleh guru.) [halaman utama]
+        2. Membuat Kelompok [halaman 1]
+        3. Memasukan Siswa [halaman modal tambah]
+        4. Mengunci Kelompok
+    Halaman:
+        Datatable List Kelompok
+            Collumn
+                Nama
+                Jumlah Siswa
+                Aksi
+                    1. Detail
+                    2. Tambah
+                    3. Hapus
+        Modal:
+            1. Detail
+            2. Tambah (Pake checkbox)
+            3. Hapus (Pake checkbox)
+        Tombol Reset
+
+
+
+
+2. Siswa Memilih Teman
+    Jenis Kelompok = 1
+    Prosedur:
+        1. Guru Memilih Pilihan (Siswa membuat kelompok dengan mengundang temanya.)
+        2. Menentukan jumlah kelompok dan maksimal siswa per kelompok.
+        3. Siswa saat masuk ke
+
+
+daftar_project status_kelompok
+0 Kelompok belum ditentukan |
+1 Kelompok Dan Anggota-nya Ditentukan Guru
+2 Kelompok Ditentukan Guru Dan Siswa Memilih Kelompok
+3 Siswa Membuat Kelompok Dan Disetujui Guru
+
+98 Kelompok Ditutup |
+99 Kelompok Dikunci
+

@@ -42,23 +42,22 @@ class SiswaModel extends Render_Model
         a.jenis_kelamin,
         a.alamat,
         a.status,
-        e.nama as nama_sekolah,
-        d.nama as nama_kelas");
+        d.nama as nama_sekolah,
+        c.nama as nama_kelas");
 
         $this->db->from('siswa a');
         $this->db->join('users b', 'b.user_id = a.id_user', 'left');
-        $this->db->join('siswa_kelas c', 'a.nisn = c.nisn', 'left');
-        $this->db->join('kelas d', 'c.id_kelas = d.id', 'left');
-        $this->db->join('sekolah e', 'e.id = d.id_sekolah', 'left');
+        $this->db->join('kelas c', 'a.id_kelas = c.id', 'left');
+        $this->db->join('sekolah d', 'd.id = c.id_sekolah', 'left');
 
         // Jika level Guru Administrator by sekolah
         if ($this->level == 'Guru Administrator') {
-            $this->db->where('e.id', $id_sekolah);
+            $this->db->where('d.id', $id_sekolah);
         }
 
         // Jika level Guru by kelas
         if ($this->level == 'Guru') {
-            $this->db->where('d.id', $id_kelas);
+            $this->db->where('c.id', $id_kelas);
         }
 
         // order by
@@ -77,10 +76,10 @@ class SiswaModel extends Render_Model
                     $order_colum = 'a.nama';
                     break;
                 case 'nama_sekolah':
-                    $order_colum = 'e.nama';
+                    $order_colum = 'd.nama';
                     break;
                 case 'nama_kelas':
-                    $order_colum = 'd.nama';
+                    $order_colum = 'c.nama';
                     break;
                 case 'jenis_kelamin':
                     $order_colum = 'a.jenis_kelamin';
@@ -105,7 +104,7 @@ class SiswaModel extends Render_Model
 
             // by sekolah
             if ($filter['id_sekolah'] != '') {
-                $this->db->where('e.id', $filter['id_sekolah']);
+                $this->db->where('d.id', $filter['id_sekolah']);
             }
 
             // by kelas
@@ -125,7 +124,7 @@ class SiswaModel extends Render_Model
                 a.nisn LIKE '%$cari%' or
                 a.nama LIKE '%$cari%' or
                 a.jenis_kelamin LIKE '%$cari%' or
-                e.nama LIKE '%$cari%' or
+                a.nama LIKE '%$cari%' or
                 d.nama LIKE '%$cari%' or
                 a.alamat LIKE '%$cari%' or
                 a.jenis_kelamin LIKE '%$cari%'
@@ -191,9 +190,8 @@ class SiswaModel extends Render_Model
     // dipakai Administrator | Guru Administrator | Guru
     public function getUsers($nisn)
     {
-        $result = $this->db->select('a.id_user, b.id as id_siswa_kelas')
+        $result = $this->db->select('a.id_user')
             ->from('siswa a')
-            ->join('siswa_kelas b', 'a.nisn = b.nisn', 'left')
             ->where('a.nisn', $nisn)
             ->get()
             ->row_array();
@@ -220,8 +218,7 @@ class SiswaModel extends Render_Model
             b.updated_at")
             ->from('siswa a')
             ->join('users b', 'b.user_id = a.id_user', 'left')
-            ->join('siswa_kelas c', 'a.nisn = c.nisn', 'left')
-            ->join('kelas d', 'c.id_kelas = d.id', 'left')
+            ->join('kelas d', 'a.id_kelas = d.id', 'left')
             ->join('sekolah e', 'e.id = d.id_sekolah', 'left')
             ->where('a.nisn', $nisn)
             ->get()
@@ -231,27 +228,16 @@ class SiswaModel extends Render_Model
 
     // insert ==========================================================================================================
     // dipakai Administrator | Guru Administrator | Guru | Registrasi
-    public function insertSiswa($nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
+    public function insertSiswa($nisn, $id_user, $id_kelas, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
     {
         $result = $this->db->insert("siswa", [
             'nisn' => $nisn,
             'id_user' => $id_user,
+            'id_kelas' => $id_kelas,
             'nama' => $nama,
             'tanggal_lahir' => $tanggal_lahir,
             'jenis_kelamin' => $jenis_kelamin,
             'alamat' => $alamat,
-            'status' => $status,
-        ]);
-
-        return $result;
-    }
-
-    // dipakai Administrator | Guru Administrator | Guru | Registrasi
-    public function insertSiswaKelas($nisn, $id_kelas, $status)
-    {
-        $result = $this->db->insert("siswa_kelas", [
-            'nisn' => $nisn,
-            'id_kelas' => $id_kelas,
             'status' => $status,
         ]);
 
@@ -260,12 +246,13 @@ class SiswaModel extends Render_Model
 
     // update ==========================================================================================================
     // dipakai Administrator | Guru Administrator | Guru
-    public function updateSiswa($id, $nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
+    public function updateSiswa($id, $nisn, $id_user, $id_kelas, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status)
     {
         $this->db->where('nisn', $id);
         $result = $this->db->update("siswa", [
             'nisn' => $nisn,
             'id_user' => $id_user,
+            'id_kelas' => $id_kelas,
             'nama' => $nama,
             'tanggal_lahir' => $tanggal_lahir,
             'jenis_kelamin' => $jenis_kelamin,
@@ -274,19 +261,6 @@ class SiswaModel extends Render_Model
             'updated_at' => Date("Y-m-d H:i:s", time())
         ]);
 
-        return $result;
-    }
-
-    // dipakai Administrator | Guru Administrator | Guru
-    public function updateSiswaKelas($id, $nisn, $id_kelas, $status)
-    {
-        $this->db->where('id', $id);
-        $result = $this->db->update('siswa_kelas', [
-            'nisn' => $nisn,
-            'id_kelas' => $id_kelas,
-            'status' => $status,
-            'updated_at' => Date("Y-m-d H:i:s", time())
-        ]);
         return $result;
     }
 
@@ -300,12 +274,6 @@ class SiswaModel extends Render_Model
             'updated_at' => Date("Y-m-d H:i:s", time())
         ]);
 
-        $this->db->where('nisn', $nisn);
-        $siswa_kelas = $this->db->update('siswa_kelas', [
-            'status' => 1,
-            'updated_at' => Date("Y-m-d H:i:s", time())
-        ]);
-
         $this->db->where('user_email', $nisn);
         $users = $this->db->update('users', [
             'user_status' => 1,
@@ -315,7 +283,7 @@ class SiswaModel extends Render_Model
         // simpan transaksi
         $this->db->trans_complete();
 
-        return $siswa && $siswa_kelas && $users;
+        return $siswa && $users;
     }
 
     // delete ==========================================================================================================
@@ -323,13 +291,6 @@ class SiswaModel extends Render_Model
     public function deleteSiswa($id)
     {
         $result = $this->db->delete('siswa', ['nisn' => $id]);
-        return $result;
-    }
-
-    // dipakai Administrator | Guru Administrator | Guru
-    public function deleteSiswaKelas($id)
-    {
-        $result = $this->db->delete('siswa_kelas', ['id' => $id]);
         return $result;
     }
 

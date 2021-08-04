@@ -41,17 +41,18 @@ $(function () {
                 { "data": "updated_at" },
                 {
                     "data": "id", render(data, type, full, meta) {
-                        return `<div class="pull-right">
+                        return `<div style="min-width:150px">
                                     <button class="btn btn-info btn-xs" data-id="${data}" onclick="Info(this)">
                                         <i class="fa fa-info"></i> Lihat
                                     </button>
                                     <a href="<?php base_url() ?>data/perbaiki/${data}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Perbaiki</a>
                                     <a href="<?php base_url() ?>aktifitas/detail/${data}" class="btn btn-secondary btn-xs"><i class="fa fa-list"></i> Aktifitas</a>
+                                    <a href="<?php base_url() ?>kelompok/detail/${data}" class="btn btn-warning btn-xs"><i class="fa fa-users"></i> Kelompok</a>
 									<button class="btn btn-danger btn-xs" onclick="Hapus('${data}')">
 										<i class="fa fa-trash"></i> Hapus
 									</button>
 								</div>`
-                    }, className: "nowrap"
+                    }
                 }
             ],
         });

@@ -15,6 +15,7 @@ class Dashboard extends Render_Controller
 		$this->breadcrumb_1 = 'Dashboard';
 		$this->breadcrumb_1_url = '#';
 
+		$this->content = 'dashboard/admin';
 		// Send data to view
 		$this->render();
 	}

@@ -7,12 +7,6 @@ class Aktifitas extends Render_Controller
     public function detail($id)
     {
 
-        // 1. Get jml aktifitas project [sudah]
-        // 2. Get aktifitas project jika kurang maka buat.[sudah]
-        // 3. buat upload handeler
-        // 4. buat display
-        // 5. simpan
-
         // Page Settings
         $this->title = 'Aktifitas Project';
         $this->title_show = false;
@@ -57,26 +51,8 @@ class Aktifitas extends Render_Controller
         $id_project = $this->input->post('id_project');
         $path = "/files/$this->path/$id_project/aktifitas/$tipe";
 
-        // cek directory
-        if (!is_dir('.' . $path)) {
-            mkdir('.' . $path, 0755, TRUE);
-        }
+        $result = $this->files_summernote->upload($path, $tipe);
 
-        $config['upload_path']          = '.' . $path;
-        if ($tipe == "image") {
-            $config['allowed_types']        = 'gif|jpg|png|jpeg|JPG|PNG|JPEG';
-        } else if ($tipe == "audio") {
-            $config['allowed_types']        = 'opus|flac|webm|weba|wav|ogg|m4a|mp3|oga|mid|amr|aiff|wma|au|aac|OPUS|FLAC|WEBM|WEBA|WAV|OGG|M4A|MP3|OGA|MID|AMR|AIFF|WMA|AU|AAC';
-        }
-        $megabit = 1024;
-        $maxmb   = 10; // max file upload 10 mb
-        $maxsize = $megabit * $maxmb;
-
-        $config['overwrite']            = false;
-        $config['max_size']             = $maxsize;
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);
-        $result = $this->upload->do_upload($tipe);
         if ($result) {
             $file_name = $this->upload->data("file_name");
             $this->output_json([
@@ -100,17 +76,11 @@ class Aktifitas extends Render_Controller
         $images                     = $images == null ? [] : $images;
         $audios                     = $this->input->post("audio");
         $audios                     = $audios == null ? [] : $audios;
+        // bersihkan file yang tidak terpakai ==========================================================================
+        $id_project = $this->input->post('id_project');
+        $simpan = $this->files_summernote->simpanData("/files/$this->path/$id_project/aktifitas", $images, $audios);
+
         // Simpan ke database ==========================================================================================
-        $simpan_image = '';
-        foreach ($images as $image) {
-            $simpan_image .= ($simpan_image == '') ? $image : ('|' . $image);
-        }
-
-        $simpan_audio = '';
-        foreach ($audios as $audio) {
-            $simpan_audio .= ($simpan_audio == '') ? $audio : ('|' . $audio);
-        }
-
         $list_aktifitas = json_decode($this->input->post('aktifitas', false), true);
         $result = true;
         $simpan_hapus_aktifitas = true;
@@ -127,7 +97,7 @@ class Aktifitas extends Render_Controller
             $detail = $aktifitas['detail'];
             $lembar_kerja = $aktifitas['lembar_kerja'];
 
-            $exe = $this->model->simpanData($id_aktifitas, $judul, $jenis_upload, $nilai, $template, $naskah, $detail, $lembar_kerja, $simpan_audio, $simpan_image);
+            $exe = $this->model->simpanData($id_aktifitas, $judul, $jenis_upload, $nilai, $template, $naskah, $detail, $lembar_kerja, $simpan['audio'], $simpan['image']);
             if (!$exe) {
                 $result = false;
             }
@@ -147,57 +117,7 @@ class Aktifitas extends Render_Controller
 
         $this->db->trans_complete();
         // =============================================================================================================
-
-
-        // clear file ==================================================================================================
-        // list file in dir
-        $this->load->helper('directory');
-        $id_project = $this->input->post('id_project');
-        $path = "/files/$this->path/$id_project/aktifitas";
-
-        $images_dir = directory_map(".$path/image", FALSE, TRUE);
-        $audios_dir = directory_map(".$path/audio", FALSE, TRUE);
-
-        // delete file tidak terpakai
-        if ($images_dir) {
-            foreach ($images_dir as $file) {
-                if (!in_array($file, $images)) {
-                    $this->deleteFile(".$path/image/" . $file);
-                }
-            }
-        }
-
-        if ($audios_dir) {
-            foreach ($audios_dir as $file) {
-                if (!in_array($file, $audios)) {
-                    $this->deleteFile(".$path/audio/" . $file);
-                }
-            }
-        }
-
-        // jika tidak ada file maka folder akan dihapus
-        if ($images_dir == false || $images == false) {
-            if (is_dir(".$path/image")) {
-                rmdir(".$path/image");
-            }
-        }
-
-        if ($audios_dir == false || $audios == false) {
-            if (is_dir(".$path/audio")) {
-                rmdir(".$path/audio");
-            }
-        }
-        // =============================================================================================================
         $this->output_json(["status" => $result && $simpan_hapus_aktifitas && $simpan_jumlah]);
-    }
-
-    private function deleteFile($path)
-    {
-        $result = false;
-        if (file_exists($path)) {
-            $result = unlink($path);
-        }
-        return $result;
     }
 
     function __construct()

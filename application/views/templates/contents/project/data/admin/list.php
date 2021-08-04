@@ -21,11 +21,11 @@
 
                 <!-- <div class="form-group  mb-lg-0 ml-lg-2">
                     <select class="form-control" id="filter-aktif" name="filter-aktif">
-                        <option value="">Status</option>
-                        <option value="1">Aktif</option>
-                        <option value="2">Tidak Aktif</option>
+                    <option value="">Status</option>
+                    <option value="1">Aktif</option>
+                    <option value="2">Tidak Aktif</option>
                     </select>
-                </div> -->
+                    </div> -->
 
                 <div class="form-group  mb-lg-0 ml-lg-2">
                     <input type="text" class="form-control" id="filter-key" name="filter-key" placeholder="Kata Kunci" required />
@@ -78,37 +78,37 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <h5 class="card-title">Judul:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Judul:</span>
                     <p class="card-text" id="detail-judul"></p>
 
-                    <h5 class="card-title">Sekolah:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Sekolah:</span>
                     <p class="card-text" id="detail-sekolah"></p>
 
-                    <h5 class="card-title">Kelas:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Kelas:</span>
                     <p class="card-text" id="detail-kelas"></p>
 
-                    <h5 class="card-title">Guru:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Guru:</span>
                     <p class="card-text" id="detail-guru"></p>
 
-                    <h5 class="card-title">Pendahuluan:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Pendahuluan:</span>
                     <p class="card-text" id="detail-pendahuluan"></p>
 
-                    <h5 class="card-title">Deskripsi:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Deskripsi:</span>
                     <p class="card-text" id="detail-deskripsi"></p>
 
-                    <h5 class="card-title">Tujuan:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Tujuan:</span>
                     <p class="card-text" id="detail-tujuan"></p>
 
-                    <h5 class="card-title">Link Sumber:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Link Sumber:</span>
                     <p class="card-text" id="detail-link_sumber"></p>
 
-                    <h5 class="card-title">Jumlah Aktifitas:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Jumlah Aktifitas:</span>
                     <p class="card-text" id="detail-jumlah_aktifitas"></p>
 
-                    <h5 class="card-title">Tanggal Ditambahkan:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Tanggal Ditambahkan:</span>
                     <p class="card-text" id="detail-created_at"></p>
 
-                    <h5 class="card-title">Tanggal Diubah:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Tanggal Diubah:</span>
                     <p class="card-text" id="detail-updated_at"></p>
                 </div>
             </div>

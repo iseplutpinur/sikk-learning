@@ -46,6 +46,15 @@
 		.nowrap {
 			white-space: nowrap;
 		}
+
+		.note-float-center {
+			display: block;
+			margin: 0 auto;
+		}
+
+		.note-icon-float-center:before {
+			content: "\2680"
+		}
 	</style>
 </head>
 

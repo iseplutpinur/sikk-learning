@@ -65,22 +65,22 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <h5 class="card-title">Judul:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Judul:</span>
                     <p class="card-text" id="detail-judul"></p>
 
-                    <h5 class="card-title">Sekolah:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Sekolah:</span>
                     <p class="card-text" id="detail-sekolah"></p>
 
-                    <h5 class="card-title">Keterangan:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Keterangan:</span>
                     <p class="card-text" id="detail-keterangan"></p>
 
-                    <h5 class="card-title">Status:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Status:</span>
                     <p class="card-text" id="detail-status"></p>
 
-                    <h5 class="card-title">Tanggal Ditambahkan:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Tanggal Ditambahkan:</span>
                     <p class="card-text" id="detail-created_at"></p>
 
-                    <h5 class="card-title">Tanggal Diubah:</h5>
+                    <span class="shadow-md p-1 mb-1 bg-info rounded">Tanggal Diubah:</span>
                     <p class="card-text" id="detail-updated_at"></p>
                 </div>
             </div>

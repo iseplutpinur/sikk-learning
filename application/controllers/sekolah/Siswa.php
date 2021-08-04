@@ -95,15 +95,12 @@ class Siswa extends Render_Controller
         $nisn = $this->input->post("nisn");
         $jenis_kelamin = $this->input->post("jenis_kelamin");
         $alamat = $this->input->post("alamat");
-        $siswa = $this->model->insertSiswa($nisn, $id_user, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status);
-
-        // insert siswa_kelas
         $id_kelas = $this->input->post("id_kelas");
-        $siswa_kelas = $this->model->insertSiswaKelas($nisn, $id_kelas, $status);
+        $siswa = $this->model->insertSiswa($nisn, $id_user, $id_kelas, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status);
 
         // simpan transaksi
         $this->db->trans_complete();
-        $result = $user && $siswa && $siswa_kelas;
+        $result = $user && $siswa;
 
         // kirim output
         $code = $result ? 200 : 500;
@@ -128,23 +125,20 @@ class Siswa extends Render_Controller
         $username = $this->input->post("nisn");
         $password = $this->input->post("password");
         $user_detail = $this->model->getUsers($id);
-
-        $user = $this->pengguna->update($user_detail['id_user'], $level, $nama, $no_telpon, $username, $password, $status);
+        $id_user = $user_detail['id_user'];
+        $user = $this->pengguna->update($id_user, $level, $nama, $no_telpon, $username, $password, $status);
 
         // insert siswa
         $tanggal_lahir = $this->input->post("tanggal_lahir");
         $nisn = $this->input->post("nisn");
         $jenis_kelamin = $this->input->post("jenis_kelamin");
         $alamat = $this->input->post("alamat");
-        $siswa = $this->model->updateSiswa($id, $nisn, $user_detail['id_user'], $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status);
-
-        // insert siswa_kelas
         $id_kelas = $this->input->post("id_kelas");
-        $siswa_kelas = $this->model->updateSiswaKelas($user_detail['id_siswa_kelas'], $nisn, $id_kelas, $status);
+        $siswa = $this->model->updateSiswa($id, $nisn, $id_user, $id_kelas, $nama, $tanggal_lahir, $jenis_kelamin, $alamat, $status);
 
         // simpan transaksi
         $this->db->trans_complete();
-        $result = $user && $siswa && $siswa_kelas;
+        $result = $user && $siswa;
 
         // kirim output
         $code = $result ? 200 : 500;
@@ -167,12 +161,9 @@ class Siswa extends Render_Controller
         // delete siswa
         $siswa = $this->model->deleteSiswa($id);
 
-        // delete siswa kelas
-        $siswa_kelas = $this->model->deleteSiswaKelas($user_detail['id_siswa_kelas']);
-
         // simpan transaksi
         $this->db->trans_complete();
-        $result = $user && $siswa && $siswa_kelas;
+        $result = $user && $siswa;
         $code = $result ? 200 : 500;
         $this->output_json(["data" => $result], $code);
     }
