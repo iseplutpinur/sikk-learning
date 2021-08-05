@@ -38,16 +38,20 @@ class Kelompok extends Render_Controller
                 case '1':
                     // Kelompok Dan Anggota-nya Ditentukan Guru
                     $this->plugins = array_merge($this->plugins, ['select2']);
-                    $this->content = 'project/kelompok/01-kelompok-ditentukan-guru';
+                    $this->content = 'project/kelompok/11-kelompok-ditentukan-guru';
                     break;
 
                 case '2':
-                    // Kelompok Ditentukan Guru Dan Siswa Memilih Kelompok
-                    $this->content = 'project/kelompok/metode-pemilihan-kelompok';
+                    // Siswa Membuat Kelompok Dan Disetujui Guru
+                    if ($this->level != 'Siswa') {
+                        $this->content = 'project/kelompok/21-siswa-membuat-kelompok-dan-disetujui-guru-siswa';
+                    } else {
+                        $this->content = 'project/kelompok/22-siswa-membuat-kelompok-dan-disetujui-guru-admin';
+                    }
                     break;
 
                 case '3':
-                    // Siswa Membuat Kelompok Dan Disetujui Guru
+                    // Kelompok Ditentukan Guru Dan Siswa Memilih Kelompok
                     $this->content = 'project/kelompok/metode-pemilihan-kelompok';
                     break;
             }

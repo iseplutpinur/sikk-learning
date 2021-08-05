@@ -126,7 +126,7 @@
                             <div class="callout callout-primary">
                                 <h6>Nilai</h6>
                                 <div>
-                                    <?= $aktifitas['nilaiqq'] ?>
+                                    <?= $aktifitas['nilai'] ?>
                                 </div>
                             </div>
                         </div>

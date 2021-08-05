@@ -35,8 +35,8 @@ Sekenario pemilihan kelompok (Di tabel project ditambahkan reset kelompok)
 daftar_project status_kelompok
 0 Kelompok belum ditentukan |
 1 Kelompok Dan Anggota-nya Ditentukan Guru
+2 Siswa Membuat Kelompok Dan Disetujui Guru
 2 Kelompok Ditentukan Guru Dan Siswa Memilih Kelompok
-3 Siswa Membuat Kelompok Dan Disetujui Guru
 
 98 Kelompok Ditutup |
 99 Kelompok Dikunci

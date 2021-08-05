@@ -86,6 +86,16 @@ $(document).ready(function () {
                 initDelete();
             }
         });
+
+        table_html.on('draw.dt', function () {
+            console.log(this);
+
+            //Number the first column
+            // page_dt.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            //     cell.innerHTML = i + 1;
+            // });
+        });
+
     }
 
     dt_kelompok();
@@ -114,6 +124,7 @@ $(document).ready(function () {
                 })
                 dt_siswa();
                 dt_kelompok();
+                $("#nama").val('');
             },
             error: function (data) {
                 Toast.fire({

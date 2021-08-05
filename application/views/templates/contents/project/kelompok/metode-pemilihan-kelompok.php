@@ -30,12 +30,12 @@
                             <label for="kelompok_dan_anggota_ditentukan_guru" class="custom-control-label">Kelompok Dan Anggota-nya Ditentukan Guru</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="kelompok_ditentukan_guru" name="kelompok" value="2" disabled>
-                            <label for="kelompok_ditentukan_guru" class="custom-control-label">Kelompok Ditentukan Guru Dan Siswa Memilih Kelompok</label>
+                            <input class="custom-control-input" type="radio" id="siswa_membuat_kelompok" name="kelompok" value="2">
+                            <label for="siswa_membuat_kelompok" class="custom-control-label">Siswa Membuat Kelompok Dan Disetujui Guru</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="siswa_membuat_kelompok" name="kelompok" value="3" disabled>
-                            <label for="siswa_membuat_kelompok" class="custom-control-label">Siswa Membuat Kelompok Dan Disetujui Guru</label>
+                            <input class="custom-control-input" type="radio" id="kelompok_ditentukan_guru" name="kelompok" value="3" disabled>
+                            <label for="kelompok_ditentukan_guru" class="custom-control-label">Kelompok Ditentukan Guru Dan Siswa Memilih Kelompok</label>
                         </div>
                     </div>
                 </div>
