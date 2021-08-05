@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 04, 2021 at 07:02 PM
+-- Generation Time: Aug 05, 2021 at 07:23 AM
 -- Server version: 10.5.10-MariaDB-0ubuntu0.21.04.1
 -- PHP Version: 7.4.16
 
@@ -47,7 +47,7 @@ CREATE TABLE `daftar_project` (
 --
 
 INSERT INTO `daftar_project` (`id`, `id_sekolah`, `id_kelas`, `nip_guru`, `judul`, `pendahuluan`, `deskripsi`, `tujuan`, `link_sumber`, `jumlah_aktifitas`, `status_kelompok`, `jumlah_max_siswa_per_kelompok`, `jumlah_kelompok`, `status`, `gambar`, `suara`, `created_at`, `updated_at`) VALUES
-(30, 3, 17, 'guru5', 'Project Guru Admin Testing', 'Testing', '<p><br></p>', '<p><br></p>', '<p><br></p>', 3, 1, 5, 2, 1, '', '', '2021-07-21 22:54:00', NULL),
+(30, 3, 17, 'guru5', 'Project Guru Admin Testing', 'Testing', '<p><br></p>', '<p><br></p>', '<p><br></p>', 3, 99, 5, 2, 1, '', '', '2021-07-21 22:54:00', '2021-08-04 22:32:56'),
 (34, 1, 4, '987321', 'Pembuatan  Origami', '<p><br></p>', '<p><br></p>', '<p><br></p>', '<p><br></p>', 3, 0, 0, 0, 1, '', '', '2021-07-24 17:53:42', NULL),
 (35, 2, 7, '12345678', '123', '<p><img src=\"/files/project/data/35/image/09047477-ef52-4dc4-a5dd-a4995c363e78.jpg\" alt=\"09047477-ef52-4dc4-a5dd-a4995c363e78.jpg\" data-filename=\"09047477-ef52-4dc4-a5dd-a4995c363e78.jpg\" class=\"img-fluid\" style=\"width: 50%;\"><br></p>', '<p><img src=\"/files/project/data/35/image/myIMG.png\" alt=\"myIMG.png\" data-filename=\"myIMG.png\" class=\"img-fluid\"><br></p>', '<p><br></p>', '<p><br></p>', 3, 0, 0, 0, 1, '09047477-ef52-4dc4-a5dd-a4995c363e78.jpg|myIMG.png', '', '2021-08-01 12:27:27', NULL),
 (36, 1, 1, 'guru', 'Testing Buat Project Guru', '<p><img src=\"/files/project/data/36/image/AlbumArt_00000000-0000-0000-0000-000000000000_Small.jpg\" alt=\"AlbumArt_00000000-0000-0000-0000-000000000000_Small.jpg\" data-filename=\"AlbumArt_00000000-0000-0000-0000-000000000000_Small.jpg\" class=\"img-fluid\"><br></p>', '<p><br></p>', '<p><br></p>', '<p><br></p>', 3, 0, 0, 0, 1, 'AlbumArt_00000000-0000-0000-0000-000000000000_Small.jpg', '', '2021-07-24 18:45:50', '2021-07-31 11:59:37'),
@@ -381,7 +381,9 @@ INSERT INTO `menu` (`menu_id`, `menu_menu_id`, `menu_nama`, `menu_keterangan`, `
 (39, 24, 'Project Siswa', 'Daftar project siswa', 2, 'far fa-circle', 'project/siswa', 'Aktif', '2021-07-16 06:26:01'),
 (40, 2, 'Registrasi', 'Mengatur halaman registrasi', 5, 'far fa-circle', 'pengaturan/registrasi', 'Aktif', '2021-07-18 20:44:14'),
 (41, 24, 'Template', '-', 3, 'far fa-circle', 'project/template', 'Aktif', '2021-07-19 14:04:08'),
-(42, 0, 'Daftar Project', 'Daftar project siswa', 2, 'fas fa-clipboard-list', 'project/siswa', 'Aktif', '2021-07-23 08:46:52');
+(42, 0, 'Daftar Project', 'Daftar project siswa', 2, 'fas fa-clipboard-list', 'project/siswa', 'Aktif', '2021-07-23 08:46:52'),
+(43, 0, 'Game', '-', 7, 'fas fa-gamepad', '3', 'Aktif', '2021-08-04 22:42:57'),
+(44, 43, 'Memory Game', '-', 1, 'far fa-circle', 'game/memoryGame', 'Aktif', '2021-08-04 22:44:06');
 
 -- --------------------------------------------------------
 
@@ -479,7 +481,15 @@ INSERT INTO `role_aplikasi` (`rola_id`, `rola_menu_id`, `rola_lev_id`, `created_
 (67, 40, 1, '2021-07-18 20:44:36'),
 (68, 41, 1, '2021-07-19 14:04:13'),
 (69, 41, 3, '2021-07-20 12:35:36'),
-(70, 42, 5, '2021-07-23 08:47:05');
+(70, 42, 5, '2021-07-23 08:47:05'),
+(71, 43, 1, '2021-08-04 22:44:17'),
+(72, 44, 1, '2021-08-04 22:44:19'),
+(73, 43, 4, '2021-08-05 00:20:41'),
+(74, 44, 4, '2021-08-05 00:20:42'),
+(75, 43, 3, '2021-08-05 00:20:45'),
+(76, 44, 3, '2021-08-05 00:20:47'),
+(77, 43, 5, '2021-08-05 00:20:49'),
+(78, 44, 5, '2021-08-05 00:20:50');
 
 -- --------------------------------------------------------
 
@@ -637,7 +647,7 @@ CREATE TABLE `siswa_kelompok` (
 
 INSERT INTO `siswa_kelompok` (`id`, `id_project`, `nama`, `status`, `created_at`, `updated_at`) VALUES
 (6, 30, 'Kelompok 1', 0, '2021-08-04 17:23:37', NULL),
-(7, 30, 'Kelompok 3', 0, '2021-08-04 17:37:40', NULL);
+(8, 30, 'Kelompok 2', 0, '2021-08-05 05:20:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -652,9 +662,17 @@ CREATE TABLE `siswa_kelompok_detail` (
   `nama` varchar(200) DEFAULT NULL,
   `Keterangan` varchar(300) DEFAULT NULL,
   `status` int(1) NOT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `siswa_kelompok_detail`
+--
+
+INSERT INTO `siswa_kelompok_detail` (`id`, `id_kelompok`, `nisn_siswa`, `nama`, `Keterangan`, `status`, `created_at`, `updated_at`) VALUES
+(8, 6, NULL, 'Mamah', 'Orang Tua Siswa', 1, '2021-08-05 04:41:46', '0000-00-00 00:00:00'),
+(9, 8, '2113191079', 'Isep Lutpi Nur 5', 'Siswa Kelas VI', 1, '2021-08-05 05:20:11', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -836,6 +854,7 @@ ALTER TABLE `siswa_kelompok`
 -- Indexes for table `siswa_kelompok_detail`
 --
 ALTER TABLE `siswa_kelompok_detail`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_kelompok` (`id_kelompok`),
   ADD KEY `nisn_siswa` (`nisn_siswa`);
 
@@ -890,7 +909,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `pengaturan_registrasi`
@@ -902,7 +921,7 @@ ALTER TABLE `pengaturan_registrasi`
 -- AUTO_INCREMENT for table `role_aplikasi`
 --
 ALTER TABLE `role_aplikasi`
-  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `rola_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `role_users`
@@ -920,7 +939,13 @@ ALTER TABLE `sekolah`
 -- AUTO_INCREMENT for table `siswa_kelompok`
 --
 ALTER TABLE `siswa_kelompok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `siswa_kelompok_detail`
+--
+ALTER TABLE `siswa_kelompok_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `templates`
