@@ -54,6 +54,11 @@ class Kelompok extends Render_Controller
                     // Kelompok Ditentukan Guru Dan Siswa Memilih Kelompok
                     $this->content = 'project/kelompok/metode-pemilihan-kelompok';
                     break;
+
+                case '99':
+                    // Kelompok sudah di kunci
+                    $this->content = 'project/kelompok/99-kelompok-dikunci';
+                    break;
             }
 
             if ($detail['status_kelompok'] == 0) {
